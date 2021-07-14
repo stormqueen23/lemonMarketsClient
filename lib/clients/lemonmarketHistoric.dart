@@ -1,5 +1,6 @@
 import 'package:lemon_market_client/data/accessToken.dart';
 import 'package:lemon_market_client/data/ohlc.dart';
+import 'package:lemon_market_client/data/ohlcList.dart';
 import 'package:lemon_market_client/exception/lemonMarketDecodeException.dart';
 import 'package:lemon_market_client/exception/lemonMarketJsonException.dart';
 import 'package:lemon_market_client/clients/lemonClient.dart';
@@ -15,24 +16,13 @@ class LemonMarketHistoric {
 
   LemonMarketHistoric(this._client);
 
-  Future<List<OHLC>> getOHLC(AccessToken token, String isin, String mic, OHLCType type, DateTime? from, DateTime? until, bool? reverseOrdering) async {
-    List<OHLC> result = [];
-
-    List<String> queryParamList = _getOHLCQueryParams(from, until, reverseOrdering);
-    String query = LemonClient.generateQueryParams(queryParamList);
-
-    String typeAsString = LemonMarketConverter.convertOHLCType(type) ?? 'h1';
-    String url = LemonMarketURL.BASE_URL +
-        '/trading-venues/' + mic + '/instruments/' + isin + '/data/ohlc/'+typeAsString+'/'+query;
+  Future<OHLCList?> getOHLCFromUrl(AccessToken token, String url) async {
+    OHLCList? result;
 
     Map<String, dynamic> decoded = {};
     try {
       decoded = await _client.sendGet(url, token);
-      List<dynamic> all = decoded['results'];
-      all.forEach((element) {
-        OHLC i = OHLC.fromJson(element);
-        result.add(i);
-      });
+      result = OHLCList.fromJson(decoded);
     } on LemonMarketDecodeException {
       rethrow;
     } catch (e) {
@@ -40,6 +30,17 @@ class LemonMarketHistoric {
       throw LemonMarketJsonException(url, "", e.toString(), decoded.toString());
     }
     return result;
+  }
+
+  Future<OHLCList?> getOHLC(AccessToken token, String isin, String mic, OHLCType type, DateTime? from, DateTime? until, bool? reverseOrdering) async {
+    List<String> queryParamList = _getOHLCQueryParams(from, until, reverseOrdering);
+    String query = LemonClient.generateQueryParams(queryParamList);
+
+    String typeAsString = LemonMarketConverter.convertOHLCType(type) ?? 'h1';
+    String url = LemonMarketURL.BASE_URL +
+        '/trading-venues/' + mic + '/instruments/' + isin + '/data/ohlc/'+typeAsString+'/'+query;
+
+    return getOHLCFromUrl(token, url);
   }
 
   List<String> _getOHLCQueryParams(DateTime? from, DateTime? until, bool? reverseOrdering) {

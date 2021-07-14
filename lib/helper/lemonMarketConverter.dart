@@ -36,7 +36,7 @@ class LemonMarketConverter {
 
   static String? convertOrderStatus(OrderStatus value) {
     if (OrderStatus.active == value) {
-      return 'active';
+      return 'active'; //activated?
     } else if (OrderStatus.inactive == value) {
       return 'inactive';
     } else if (OrderStatus.in_progress == value) {

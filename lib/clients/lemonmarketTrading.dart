@@ -114,11 +114,7 @@ class LemonMarketTrading {
     return false;
   }
 
-  Future<List<ExistingOrder>> getAllOrders(AccessToken token, String spaceUuid) async {
-    return getOrders(token, spaceUuid, null, null, null, null, null, null, null);
-  }
-
-  Future<List<ExistingOrder>> getOrders(AccessToken token, String spaceUuid,
+ Future<List<ExistingOrder>> getOrders(AccessToken token, String spaceUuid,
       int? createdAtUntil, int? createdAtFrom, OrderSide? side, OrderType? type,
       OrderStatus? status, int? limit, int? offset) async {
     List<ExistingOrder> result = [];

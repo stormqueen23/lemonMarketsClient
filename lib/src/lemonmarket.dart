@@ -7,6 +7,7 @@ import 'package:lemon_market_client/data/instrument.dart';
 import 'package:lemon_market_client/data/latestQuote.dart';
 import 'package:lemon_market_client/data/latestTrade.dart';
 import 'package:lemon_market_client/data/ohlc.dart';
+import 'package:lemon_market_client/data/ohlcList.dart';
 import 'package:lemon_market_client/data/portfolioItem.dart';
 import 'package:lemon_market_client/data/space.dart';
 import 'package:lemon_market_client/data/spaceState.dart';
@@ -118,13 +119,11 @@ class LemonMarket {
     }
   }
 
-  Future <List<ExistingOrder>> getAllOrders(AccessToken token, String spaceUuid) async {
-    return _tradingClient.getAllOrders(token, spaceUuid);
-  }
-
-  Future <List<ExistingOrder>> getOrders(AccessToken token, String spaceUuid, OrderSide side, OrderStatus status) async {
+  Future <List<ExistingOrder>> getOrders(AccessToken token, String spaceUuid,
+    {int? createdAtUntil, int? createdAtFrom, OrderSide? side, OrderType? type,
+      OrderStatus? status, int? limit, int? offset}) async {
     //isin as query parameter would be nice
-    return _tradingClient.getAllOrders(token, spaceUuid);
+    return _tradingClient.getOrders(token, spaceUuid, createdAtUntil, createdAtFrom, side, type, status, limit, offset);
   }
 
   Future<LatestTrade?> getLatestTrade(AccessToken token, String isin) async {
@@ -157,8 +156,12 @@ class LemonMarket {
     return _portfolioClient.getPortfolioItems(token, spaceUuid);
   }
 
-  Future<List<OHLC>> getOHLC(AccessToken token, String isin, OHLCType type, DateTime? from, DateTime? until, bool? reverseOrdering) async {
+  Future<OHLCList?> getOHLC(AccessToken token, String isin, OHLCType type, DateTime? from, DateTime? until, bool? reverseOrdering) async {
     String mic = 'XMUN';
     return _historicClient.getOHLC(token, isin, mic, type, from, until, reverseOrdering);
+  }
+
+  Future<OHLCList?> getOHLCFromUrl(AccessToken token, String url) async {
+    return _historicClient.getOHLCFromUrl(token, url);
   }
 }
