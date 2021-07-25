@@ -2,29 +2,21 @@ import 'package:lemon_market_client/data/accessToken.dart';
 import 'package:lemon_market_client/data/createdOrder.dart';
 import 'package:lemon_market_client/data/existingOrder.dart';
 import 'package:lemon_market_client/data/instrument.dart';
-import 'package:lemon_market_client/exception/lemonMarketDecodeException.dart';
-import 'package:lemon_market_client/exception/lemonMarketJsonException.dart';
-import 'package:lemon_market_client/clients/lemonClient.dart';
-import 'package:lemon_market_client/helper/lemonMarketConverter.dart';
-import 'package:lemon_market_client/src/lemonmarket.dart';
-import 'package:lemon_market_client/helper/lemonmarketURLs.dart';
+import 'package:lemon_market_client/exception/lemonMarketsConvertException.dart';
+import 'package:lemon_market_client/clients/lemonMarketsHttpClient.dart';
+import 'package:lemon_market_client/helper/lemonMarketsConverter.dart';
+import 'package:lemon_market_client/src/lemonmarkets.dart';
+import 'package:lemon_market_client/helper/lemonMarketsURLs.dart';
 import 'package:logging/logging.dart';
 
-class LemonMarketTrading {
-  final log = Logger('LemonMarketTrading');
-  LemonClient _client;
+class LemonMarketsTrading {
+  final log = Logger('LemonMarketsTrading');
+  LemonMarketsHttpClient _client;
 
-  LemonMarketTrading(this._client);
-
-  String _convertType(SearchType type) {
-    String result = "";
-    result = "type="+LemonMarketConverter.convertSearchType(type);
-    return result;
-  }
+  LemonMarketsTrading(this._client);
 
   Future<List<Instrument>> searchInstruments(AccessToken token, String? query, SearchType type) async {
-    List<Instrument> result = [];
-    String URL = LemonMarketURL.BASE_URL + '/instruments/';
+    String URL = LemonMarketsURL.BASE_URL + '/instruments/';
     String appendType = _convertType(type);
     String appendSearch = "";
     if (query != null && query.trim().isNotEmpty) {
@@ -39,23 +31,26 @@ class LemonMarketTrading {
     } else if (appendSearch.isNotEmpty) {
       url = url + '?' + appendSearch;
     }
-
+    LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
-      Map<String, dynamic> decoded = await _client.sendGet(url, token);
-      List<dynamic> all = decoded['results'];
+      //TODO: ListWrapper for results with next&previous -> see OHLCList
+      List<Instrument> result = [];
+      List<dynamic> all = response.decodedBody['results'];
       all.forEach((element) {
         Instrument i = Instrument.fromJson(element);
         result.add(i);
       });
+      return result;
     } catch (e) {
       log.warning(e.toString());
+      throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString());
     }
-    return result;
+
   }
 
-  Future<CreatedOrder?> placeOrder(
+  Future<CreatedOrder> placeOrder(
       AccessToken token, String spaceUuid, String isin, double validUntil, String side, int quantity, double? stopPrice, double? limitPrice) async {
-    String url = LemonMarketURL.BASE_URL + '/spaces/' + spaceUuid + '/orders/';
+    String url = LemonMarketsURL.BASE_URL + '/spaces/' + spaceUuid + '/orders/';
     Map<String, dynamic> data = {};
     data['isin'] = isin;
     data['side'] = side;
@@ -68,27 +63,25 @@ class LemonMarketTrading {
       data['stop_price'] = stopPrice.toString();
     }
     log.fine('place order data: $data');
-    Map<String, dynamic> decoded = {};
+
+    LemonMarketsClientResponse response = await _client.sendPost(url, token, data);
     try {
-      decoded = await _client.sendPost(url, token, data);
-      return CreatedOrder.fromJson(decoded);
-    } on LemonMarketDecodeException {
-      rethrow;
+      CreatedOrder result = CreatedOrder.fromJson(response.decodedBody);
+      return result;
     } catch (e) {
       log.warning(e.toString());
-      throw LemonMarketJsonException(url, "", e.toString(), decoded.toString());
+      throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString());
     }
   }
 
   Future<bool> activateOrder(AccessToken token, String spaceUuid, String orderUuid) async {
-    String url = LemonMarketURL.BASE_URL + '/spaces/' + spaceUuid + '/orders/' + orderUuid + '/activate/';
+    String url = LemonMarketsURL.BASE_URL + '/spaces/' + spaceUuid + '/orders/' + orderUuid + '/activate/';
+    LemonMarketsClientResponse response = await _client.sendPut(url, token);
     try {
-      Map<String, dynamic> decoded = await _client.sendPut(url, token);
-      String status = decoded['status'];
+      String status = response.decodedBody['status'];
       log.fine('status for orderActivation: $status');
-      return 'activated'.compareTo(status) == 0 ? true : false;
-    } on LemonMarketDecodeException {
-      rethrow;
+      //TODO: better handling in case of no success
+      return 'activated'.compareTo(status) == 0 && response.statusCode == 200 ? true : false;
     } catch (e) {
       log.warning(e.toString());
     }
@@ -96,17 +89,16 @@ class LemonMarketTrading {
   }
 
   Future<bool> deleteOrder(AccessToken token, String spaceUuid, String orderUuid) async {
-    String url = LemonMarketURL.BASE_URL + '/spaces/' + spaceUuid + '/orders/' + orderUuid + '';
+    String url = LemonMarketsURL.BASE_URL + '/spaces/' + spaceUuid + '/orders/' + orderUuid + '';
+    LemonMarketsClientResponse response =  await _client.sendDelete(url, token);
     try {
-      Map<String, dynamic> decoded = await _client.sendDelete(url, token);
-      log.fine('response from delete order: $decoded');
-      if (decoded.isEmpty) {
+      log.fine('response from delete order: ${response.decodedBody}');
+      if (response.decodedBody.isEmpty && response.statusCode == 204) {
         return true;
       } else {
+        //TODO: better handling in case of no success
         return false;
       }
-    } on LemonMarketDecodeException {
-      rethrow;
     } catch (e) {
       log.warning(e.toString());
       //throw LemonMarketJsonException(decoded.toString(), decoded.toString());
@@ -117,23 +109,24 @@ class LemonMarketTrading {
  Future<List<ExistingOrder>> getOrders(AccessToken token, String spaceUuid,
       int? createdAtUntil, int? createdAtFrom, OrderSide? side, OrderType? type,
       OrderStatus? status, int? limit, int? offset) async {
-    List<ExistingOrder> result = [];
     List<String> params = _getOrderQueryParams(createdAtUntil, createdAtFrom, side, type, status, limit, offset);
-    String queryParams = LemonClient.generateQueryParams(params);
-    String url = LemonMarketURL.BASE_URL + '/spaces/' + spaceUuid + '/orders/'+queryParams;
+    String queryParams = LemonMarketsHttpClient.generateQueryParams(params);
+    String url = LemonMarketsURL.BASE_URL + '/spaces/' + spaceUuid + '/orders/'+queryParams;
+    LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
-      Map<String, dynamic> decoded = await _client.sendGet(url, token);
-      List<dynamic> all = decoded['results'];
+      //TODO: ListWrapper for results with next&previous -> see OHLCList
+      List<ExistingOrder> result = [];
+      List<dynamic> all = response.decodedBody['results'];
       all.forEach((element) {
         ExistingOrder i = ExistingOrder.fromJson(element);
         result.add(i);
       });
+      return result;
     } catch (e) {
       log.warning(e.toString());
+      throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString());
     }
-
-    return result;
-  }
+}
 
   List<String> _getOrderQueryParams(int? createdAtUntil, int? createdAtFrom, OrderSide? side, OrderType? type,
       OrderStatus? status, int? limit, int? offset) {
@@ -145,17 +138,17 @@ class LemonMarketTrading {
       result.add('created_at_from='+createdAtFrom.toString());
     }
     if (side != null) {
-      String? sideString = LemonMarketConverter.convertSide(side);
+      String? sideString = LemonMarketsConverter.convertSide(side);
       if (sideString != null)
       result.add('side='+sideString);
     }
     if (type != null) {
-      String? typeString = LemonMarketConverter.convertOrderType(type);
+      String? typeString = LemonMarketsConverter.convertOrderType(type);
       if (typeString != null)
         result.add('type='+typeString);
     }
     if (status != null) {
-      String? statusString = LemonMarketConverter.convertOrderStatus(status);
+      String? statusString = LemonMarketsConverter.convertOrderStatus(status);
       if (statusString != null)
         result.add('status='+statusString);
     }
@@ -166,6 +159,12 @@ class LemonMarketTrading {
       result.add('offset='+offset.toString());
     }
     return result;
-
   }
+
+  String _convertType(SearchType type) {
+    String result = "";
+    result = "type="+LemonMarketsConverter.convertSearchType(type);
+    return result;
+  }
+
 }

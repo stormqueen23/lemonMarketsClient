@@ -1,9 +1,14 @@
 library lemon_market_client;
 
-export 'package:lemon_market_client/src/lemonmarket.dart';
-export 'package:lemon_market_client/exception/lemonMarketDecodeException.dart';
-export 'package:lemon_market_client/exception/lemonMarketJsonException.dart';
-export 'package:lemon_market_client/helper/lemonMarketTimeConverter.dart';
+export 'package:lemon_market_client/src/lemonmarkets.dart';
+
+export 'package:lemon_market_client/exception/lemonMarketsDecodeException.dart';
+export 'package:lemon_market_client/exception/lemonMarketsConvertException.dart';
+export 'package:lemon_market_client/exception/lemonMarketsStatusCodeException.dart';
+export 'package:lemon_market_client/exception/lemonMarketsAuthException.dart';
+export 'package:lemon_market_client/exception/lemonMarketsException.dart';
+
+export 'package:lemon_market_client/helper/lemonMarketsTimeConverter.dart';
 
 export 'package:lemon_market_client/data/accessToken.dart';
 export 'package:lemon_market_client/data/createdOrder.dart';

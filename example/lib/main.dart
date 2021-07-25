@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lemon_market_client/lemon_market_client.dart';
+import 'package:lemon_market_client/lemon_markets_client.dart';
 import 'package:logging/logging.dart';
 
 void main() {
@@ -9,18 +9,18 @@ void main() {
     print('${record.loggerName} [${record.level.name}]: ${record.time}: ${record.message}');
   });
 
-  runApp(LemonMarketExample());
+  runApp(LemonMarketsExample());
 }
 
-class LemonMarketExample extends StatefulWidget {
-  LemonMarketExample({Key? key}) : super(key: key);
+class LemonMarketsExample extends StatefulWidget {
+  LemonMarketsExample({Key? key}) : super(key: key);
 
   @override
-  _LemonMarketExampleState createState() => _LemonMarketExampleState();
+  _LemonMarketsExampleState createState() => _LemonMarketsExampleState();
 }
 
-class _LemonMarketExampleState extends State<LemonMarketExample> {
-  final LemonMarket market = LemonMarket(failSilent: false);
+class _LemonMarketsExampleState extends State<LemonMarketsExample> {
+  final LemonMarkets lm = LemonMarkets();
 
   final String clientId = "XXX";
   final String clientSecret = "YYY";
@@ -34,14 +34,14 @@ class _LemonMarketExampleState extends State<LemonMarketExample> {
 
   Future<void> requestToken() async {
     try {
-      token = await market.requestToken(clientId, clientSecret);
-    } on LemonMarketJsonException catch (e) {
-      errorMessageToken = e.responseMap.toString();
+      token = await lm.requestToken(clientId, clientSecret);
+    } on LemonMarketsException catch (e) {
+      errorMessageToken = e.toString();
     }
   }
 
-  Future<void> requestSpace() async {
-    stateInfo = await market.getSpaceInfo(token!);
+  Future<void> requestStateInfo() async {
+    stateInfo = await lm.getStateInfo(token!);
   }
 
   @override

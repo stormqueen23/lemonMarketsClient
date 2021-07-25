@@ -1,6 +1,6 @@
-import 'package:lemon_market_client/src/lemonmarket.dart';
+import 'package:lemon_market_client/src/lemonmarkets.dart';
 
-class LemonMarketConverter {
+class LemonMarketsConverter {
 
   static String? convertOHLCType(OHLCType type) {
     if (OHLCType.d1 == type) {

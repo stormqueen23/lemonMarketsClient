@@ -1,4 +1,4 @@
-class LemonMarketTimeConverter {
+class LemonMarketsTimeConverter {
 
   static DateTime getDateTimeForLemonMarket(double time) {
     return DateTime.fromMillisecondsSinceEpoch((time * 1000).ceil());
