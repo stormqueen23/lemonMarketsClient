@@ -8,11 +8,17 @@ Currently the lemon market api is in beta and you can join the waitlist to get a
 If you have your credentials for the lemon market API you can request an access token:
 
 ```dart
+import 'package:lemon_market_client/lemon_markets_client.dart';
+...
 final String clientId = "XXX";
 final String clientSecret = "YYY";
 
 final LemonMarkets lm = LemonMarkets();
-AccessToken token = await lm.requestToken(clientId, clientSecret);
+try {
+  AccessToken token = await lm.requestToken(clientId, clientSecret);
+} on LemonMarketsException catch (e) {
+       debugPrint(e.toString());
+     }
 ```
 
 ## Search for instrument
