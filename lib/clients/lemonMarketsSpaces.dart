@@ -1,10 +1,10 @@
-import 'package:lemon_market_client/data/accessToken.dart';
-import 'package:lemon_market_client/data/space.dart';
-import 'package:lemon_market_client/data/spaceState.dart';
-import 'package:lemon_market_client/data/stateInfo.dart';
-import 'package:lemon_market_client/clients/lemonMarketsHttpClient.dart';
-import 'package:lemon_market_client/exception/lemonMarketsConvertException.dart';
-import 'package:lemon_market_client/helper/lemonMarketsURLs.dart';
+import 'package:lemon_markets_client/data/accessToken.dart';
+import 'package:lemon_markets_client/data/space.dart';
+import 'package:lemon_markets_client/data/spaceState.dart';
+import 'package:lemon_markets_client/data/stateInfo.dart';
+import 'package:lemon_markets_client/clients/lemonMarketsHttpClient.dart';
+import 'package:lemon_markets_client/exception/lemonMarketsConvertException.dart';
+import 'package:lemon_markets_client/helper/lemonMarketsURLs.dart';
 import 'package:logging/logging.dart';
 
 class LemonMarketsSpaces {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lemon_market_client/lemon_markets_client.dart';
+import 'package:lemon_markets_client/lemon_markets_client.dart';
 import 'package:logging/logging.dart';
 
 void main() {
@@ -49,7 +49,7 @@ class _LemonMarketsExampleState extends State<LemonMarketsExample> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Lemon Market Demo'),
+          title: Text('Lemon Markets Demo'),
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:lemon_market_client/data/accessToken.dart';
-import 'package:lemon_market_client/exception/lemonMarketsAuthException.dart';
-import 'package:lemon_market_client/exception/lemonMarketsDecodeException.dart';
+import 'package:lemon_markets_client/data/accessToken.dart';
+import 'package:lemon_markets_client/exception/lemonMarketsAuthException.dart';
+import 'package:lemon_markets_client/exception/lemonMarketsDecodeException.dart';
 import 'package:logging/logging.dart';
 
 class LemonMarketsClientResponse {

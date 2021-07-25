@@ -1,24 +1,24 @@
 import 'dart:async';
 
-import 'package:lemon_market_client/data/accessToken.dart';
-import 'package:lemon_market_client/data/createdOrder.dart';
-import 'package:lemon_market_client/data/existingOrder.dart';
-import 'package:lemon_market_client/data/instrument.dart';
-import 'package:lemon_market_client/data/latestQuote.dart';
-import 'package:lemon_market_client/data/latestTrade.dart';
-import 'package:lemon_market_client/data/ohlcList.dart';
-import 'package:lemon_market_client/data/portfolioItem.dart';
-import 'package:lemon_market_client/data/space.dart';
-import 'package:lemon_market_client/data/spaceState.dart';
-import 'package:lemon_market_client/data/stateInfo.dart';
-import 'package:lemon_market_client/clients/lemonMarketsHttpClient.dart';
-import 'package:lemon_market_client/clients/lemonMarketsAuth.dart';
-import 'package:lemon_market_client/clients/lemonMarketsHistoric.dart';
-import 'package:lemon_market_client/clients/lemonMarketsMarketData.dart';
-import 'package:lemon_market_client/clients/lemonMarketsPortfolio.dart';
-import 'package:lemon_market_client/clients/lemonMarketsSpaces.dart';
-import 'package:lemon_market_client/clients/lemonMarketsTrading.dart';
-import 'package:lemon_market_client/helper/lemonMarketsURLs.dart';
+import 'package:lemon_markets_client/data/accessToken.dart';
+import 'package:lemon_markets_client/data/createdOrder.dart';
+import 'package:lemon_markets_client/data/existingOrder.dart';
+import 'package:lemon_markets_client/data/instrument.dart';
+import 'package:lemon_markets_client/data/latestQuote.dart';
+import 'package:lemon_markets_client/data/latestTrade.dart';
+import 'package:lemon_markets_client/data/ohlcList.dart';
+import 'package:lemon_markets_client/data/portfolioItem.dart';
+import 'package:lemon_markets_client/data/space.dart';
+import 'package:lemon_markets_client/data/spaceState.dart';
+import 'package:lemon_markets_client/data/stateInfo.dart';
+import 'package:lemon_markets_client/clients/lemonMarketsHttpClient.dart';
+import 'package:lemon_markets_client/clients/lemonMarketsAuth.dart';
+import 'package:lemon_markets_client/clients/lemonMarketsHistoric.dart';
+import 'package:lemon_markets_client/clients/lemonMarketsMarketData.dart';
+import 'package:lemon_markets_client/clients/lemonMarketsPortfolio.dart';
+import 'package:lemon_markets_client/clients/lemonMarketsSpaces.dart';
+import 'package:lemon_markets_client/clients/lemonMarketsTrading.dart';
+import 'package:lemon_markets_client/helper/lemonMarketsURLs.dart';
 import 'package:logging/logging.dart';
 
 //Alle, Aktie, Anleihe, Fond, ETF, Optionsschein

@@ -1,4 +1,4 @@
-import 'package:lemon_market_client/exception/lemonMarketsException.dart';
+import 'package:lemon_markets_client/exception/lemonMarketsException.dart';
 
 ///This exception is thrown if something went wrong with decoding the body to json
 class LemonMarketsDecodeException extends LemonMarketsException {

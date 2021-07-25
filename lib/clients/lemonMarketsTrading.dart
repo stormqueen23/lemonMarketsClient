@@ -1,12 +1,12 @@
-import 'package:lemon_market_client/data/accessToken.dart';
-import 'package:lemon_market_client/data/createdOrder.dart';
-import 'package:lemon_market_client/data/existingOrder.dart';
-import 'package:lemon_market_client/data/instrument.dart';
-import 'package:lemon_market_client/exception/lemonMarketsConvertException.dart';
-import 'package:lemon_market_client/clients/lemonMarketsHttpClient.dart';
-import 'package:lemon_market_client/helper/lemonMarketsConverter.dart';
-import 'package:lemon_market_client/src/lemonmarkets.dart';
-import 'package:lemon_market_client/helper/lemonMarketsURLs.dart';
+import 'package:lemon_markets_client/data/accessToken.dart';
+import 'package:lemon_markets_client/data/createdOrder.dart';
+import 'package:lemon_markets_client/data/existingOrder.dart';
+import 'package:lemon_markets_client/data/instrument.dart';
+import 'package:lemon_markets_client/exception/lemonMarketsConvertException.dart';
+import 'package:lemon_markets_client/clients/lemonMarketsHttpClient.dart';
+import 'package:lemon_markets_client/helper/lemonMarketsConverter.dart';
+import 'package:lemon_markets_client/src/lemonmarkets.dart';
+import 'package:lemon_markets_client/helper/lemonMarketsURLs.dart';
 import 'package:logging/logging.dart';
 
 class LemonMarketsTrading {

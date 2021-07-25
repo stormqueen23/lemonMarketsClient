@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:lemon_market_client/data/orderInstrument.dart';
+import 'package:lemon_markets_client/data/orderInstrument.dart';
 
 part 'existingOrder.g.dart';
 

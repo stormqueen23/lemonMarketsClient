@@ -1,4 +1,4 @@
-import 'package:lemon_market_client/src/lemonmarkets.dart';
+import 'package:lemon_markets_client/src/lemonmarkets.dart';
 
 class LemonMarketsConverter {
 
