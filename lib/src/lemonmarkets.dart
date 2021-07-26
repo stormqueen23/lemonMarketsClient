@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:lemon_markets_client/clients/lemonMarketsTransactions.dart';
 import 'package:lemon_markets_client/data/accessToken.dart';
 import 'package:lemon_markets_client/data/createdOrder.dart';
 import 'package:lemon_markets_client/data/existingOrder.dart';
@@ -18,6 +19,8 @@ import 'package:lemon_markets_client/clients/lemonMarketsMarketData.dart';
 import 'package:lemon_markets_client/clients/lemonMarketsPortfolio.dart';
 import 'package:lemon_markets_client/clients/lemonMarketsSpaces.dart';
 import 'package:lemon_markets_client/clients/lemonMarketsTrading.dart';
+import 'package:lemon_markets_client/data/transaction.dart';
+import 'package:lemon_markets_client/data/transactionList.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsURLs.dart';
 import 'package:logging/logging.dart';
 
@@ -37,6 +40,7 @@ class LemonMarkets {
   late LemonMarketsTrading _tradingClient;
   late LemonMarketsMarketData _marketClient;
   late LemonMarketsHistoric _historicClient;
+  late LemonMarketsTransaction _transactionClient;
 
   LemonMarkets() {
     LemonMarketsHttpClient client = LemonMarketsHttpClient();
@@ -46,6 +50,7 @@ class LemonMarkets {
     _marketClient = LemonMarketsMarketData(client);
     _portfolioClient = LemonMarketsPortfolio(client);
     _historicClient = LemonMarketsHistoric(client);
+    _transactionClient = LemonMarketsTransaction(client);
   }
 
   Future<AccessToken> requestToken(String clientId, String clientSecret) async {
@@ -122,5 +127,14 @@ class LemonMarkets {
 
   Future<OHLCList> getOHLCFromUrl(AccessToken token, String url) async {
     return _historicClient.getOHLCFromUrl(token, url);
+  }
+
+  Future<TransactionList> getTransactionsForSpace(AccessToken token, String spaceUuid,
+      {int? createdAtUntil, int? createdAtFrom, int? limit, int? offset}) async {
+    return _transactionClient.getTransactionsForSpace(token, spaceUuid, createdAtFrom: createdAtFrom, createdAtUntil: createdAtUntil, limit: limit, offset: offset);
+  }
+
+  Future<Transaction> getTransactionForSpace(AccessToken token, String spaceUuid, String transactionUuid) async {
+    return _transactionClient.getTransactionForSpace(token, spaceUuid, transactionUuid);
   }
 }

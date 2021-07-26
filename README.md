@@ -24,3 +24,19 @@ try {
 ## Search for instrument
 
 ## Create order
+
+##Open endpoints
+
+/spaces/{space_uuid}/orders/{order_uuid}
+
+/spaces/{space_uuid}/portfolio/transactions/
+
+
+/trading-venues/{mic}/instruments/
+/trading-venues/{mic}/instruments/{isin}/
+/trading-venues/{mic}/instruments/{isin}/warrants/
+
+##Building this plugin
+To generate the *.g.dart classes run:\
+flutter packages pub run build_runner build --delete-conflicting-outputs
+ 

@@ -6,9 +6,9 @@ part 'ohlcList.g.dart';
 @JsonSerializable()
 class OHLCList {
   @JsonKey(name: 'next')
-  String next;
+  String? next;
   @JsonKey(name: 'previous')
-  String previous;
+  String? previous;
   @JsonKey(name: 'results')
   List<OHLC> result;
 

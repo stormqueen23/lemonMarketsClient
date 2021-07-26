@@ -49,7 +49,8 @@ class LemonMarketsTrading {
   }
 
   Future<CreatedOrder> placeOrder(
-      AccessToken token, String spaceUuid, String isin, double validUntil, String side, int quantity, double? stopPrice, double? limitPrice) async {
+      AccessToken token, String spaceUuid, String isin, double validUntil, String side,
+      int quantity, double? stopPrice, double? limitPrice) async {
     String url = LemonMarketsURL.BASE_URL + '/spaces/' + spaceUuid + '/orders/';
     Map<String, dynamic> data = {};
     data['isin'] = isin;
@@ -106,7 +107,9 @@ class LemonMarketsTrading {
     return false;
   }
 
- Future<List<ExistingOrder>> getOrders(AccessToken token, String spaceUuid,
+  //TODO: /spaces/{space_uuid}/orders/{order_uuid}
+
+  Future<List<ExistingOrder>> getOrders(AccessToken token, String spaceUuid,
       int? createdAtUntil, int? createdAtFrom, OrderSide? side, OrderType? type,
       OrderStatus? status, int? limit, int? offset) async {
     List<String> params = _getOrderQueryParams(createdAtUntil, createdAtFrom, side, type, status, limit, offset);

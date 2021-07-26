@@ -8,8 +8,8 @@ part of 'ohlcList.dart';
 
 OHLCList _$OHLCListFromJson(Map<String, dynamic> json) {
   return OHLCList(
-    json['next'] as String,
-    json['previous'] as String,
+    json['next'] as String?,
+    json['previous'] as String?,
     (json['results'] as List<dynamic>)
         .map((e) => OHLC.fromJson(e as Map<String, dynamic>))
         .toList(),
