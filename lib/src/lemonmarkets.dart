@@ -9,6 +9,7 @@ import 'package:lemon_markets_client/data/latestQuote.dart';
 import 'package:lemon_markets_client/data/latestTrade.dart';
 import 'package:lemon_markets_client/data/ohlcList.dart';
 import 'package:lemon_markets_client/data/portfolioItem.dart';
+import 'package:lemon_markets_client/data/portfolioTransactionList.dart';
 import 'package:lemon_markets_client/data/space.dart';
 import 'package:lemon_markets_client/data/spaceState.dart';
 import 'package:lemon_markets_client/data/stateInfo.dart';
@@ -127,6 +128,15 @@ class LemonMarkets {
 
   Future<OHLCList> getOHLCFromUrl(AccessToken token, String url) async {
     return _historicClient.getOHLCFromUrl(token, url);
+  }
+
+  Future<PortfolioTransactionList> getTransactionsForPortfolio(AccessToken token, String spaceUuid,
+      {int? createdAtUntil, int? createdAtFrom, int? limit, int? offset}) async {
+    return _transactionClient.getTransactionsForPortfolio(token, spaceUuid, createdAtFrom: createdAtFrom, createdAtUntil: createdAtUntil, limit: limit, offset: offset);
+  }
+
+  Future<TransactionList> getTransactionsFromURL(AccessToken token, String url) async {
+    return _transactionClient.getTransactionsFromUrl(token, url);
   }
 
   Future<TransactionList> getTransactionsForSpace(AccessToken token, String spaceUuid,
