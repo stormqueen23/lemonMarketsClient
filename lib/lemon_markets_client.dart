@@ -22,7 +22,14 @@ export 'package:lemon_markets_client/data/orderInstrument.dart';
 export 'package:lemon_markets_client/data/orderTradingVenue.dart';
 export 'package:lemon_markets_client/data/portfolioInstrument.dart';
 export 'package:lemon_markets_client/data/portfolioItem.dart';
+export 'package:lemon_markets_client/data/portfolioTransaction.dart';
+export 'package:lemon_markets_client/data/portfolioTransactionList.dart';
 export 'package:lemon_markets_client/data/space.dart';
 export 'package:lemon_markets_client/data/spaceState.dart';
 export 'package:lemon_markets_client/data/stateDetailInfo.dart';
 export 'package:lemon_markets_client/data/stateInfo.dart';
+export 'package:lemon_markets_client/data/transaction.dart';
+export 'package:lemon_markets_client/data/transactionList.dart';
+export 'package:lemon_markets_client/data/transactionOrder.dart';
+export 'package:lemon_markets_client/data/transactionOrderInstrument.dart';
+
