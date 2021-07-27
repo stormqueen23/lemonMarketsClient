@@ -9,6 +9,6 @@ class LemonMarketsException implements Exception {
 
   @override
   String toString() {
-    return 'LemonMarketsException{url: $url, responseCode: $responseCode, responseMap: $responseMap, rootCause: $rootCause}';
+    return '${this.runtimeType}{url: $url, responseCode: $responseCode, responseMap: $responseMap, rootCause: $rootCause}';
   }
 }
