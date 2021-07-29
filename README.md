@@ -10,22 +10,67 @@ If you have your credentials for the lemon market API you can request an access 
 ```dart
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 ...
-final String clientId = "XXX";
-final String clientSecret = "YYY";
+final String clientId = "YOUR_CLIENT_ID";
+final String clientSecret = "YOUR_CLIENT_SECRET";
 
-final LemonMarkets lm = LemonMarkets();
+final LemonMarkets lemonMarkets = LemonMarkets();
 try {
-    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    AccessToken token = await lemonMarkets.requestToken(clientId, clientSecret);
+} on LemonMarketsException catch (e) {
+    debugPrint(e.toString());
+}
+```
+## Information for all endpoints
+You always need an instance of LemonMarkets and an Access Token for calling an endpoint. 
+```dart
+final LemonMarkets lemonMarkets = LemonMarkets();
+AccessToken token = await lemonMarkets.requestToken('YOUR_CLIENT_ID', 'YOUR_CLIENT_SECRET');
+```
+## Search for instrument
+One-liner:
+```dart
+  ResultList<Instrument> result = await lemonMarkets.searchInstruments(token, search: 'Tesla');
+```
+
+Complete example: 
+
+```dart
+import 'package:lemon_markets_client/lemon_markets_client.dart';
+...
+final String clientId = "YOUR_CLIENT_ID";
+final String clientSecret = "YOUR_CLIENT_SECRET";
+
+final LemonMarkets lemonMarkets = LemonMarkets();
+try {
+    AccessToken token = await lemonMarkets.requestToken(clientId, clientSecret);
+    ResultList<Instrument> result = await lemonMarkets.searchInstruments(token, search: searchString)
 } on LemonMarketsException catch (e) {
     debugPrint(e.toString());
 }
 ```
 
-## Search for instrument
+## Create and activate an order
+If you want to buy or sell an instrument you need two steps to do that.
+First you must create an order and second you need to activate this order
+(More details for working with orders: https://docs.lemon.markets/working-with-orders)
 
-## Create order
+Short example for BUY:
+```dart
+  CreatedOrder result = await lemonMarkets.placeOrder(token, 'SPACE_UUID', 'US88160R1014', false, 5);
+  String orderUuid = result.uuid;
+  bool success =  lemonMarkets.activateOrder(token, 'SPACE_UUID', orderUuid);  
+```
+Short example for SELL:
+```dart
+  CreatedOrder result = await lemonMarkets.placeOrder(token, 'SPACE_UUID', 'US88160R1014', true, 5);
+  String orderUuid = result.uuid;
+  bool success =  lemonMarkets.activateOrder(token, 'SPACE_UUID', orderUuid);
+```
 
-## Open endpoints
+
+
+## TODO
+### Not implemented endpoints:
 
 /spaces/{space_uuid}/orders/{order_uuid}
 
@@ -40,7 +85,7 @@ flutter packages pub run build_runner build --delete-conflicting-outputs
  ```
 
 ## Running the example app
-If you want to run the example app, you need to create an asset folder with  a file 'credentials.json'\ 
+If you want to run the example app, you need to create an asset folder with  a file 'credentials.json' 
 (example\assets\credentials.json)
 ```
 {

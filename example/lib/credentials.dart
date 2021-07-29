@@ -15,6 +15,9 @@ class Credentials {
       clientSecret = jsonMap['clientSecret'];
       spaceUuid = jsonMap['spaceUuid'];
     } on FlutterError catch (e) {
+      clientId = "";
+      clientSecret = "";
+      spaceUuid = "";
       debugPrint(e.toString());
     }
   }
