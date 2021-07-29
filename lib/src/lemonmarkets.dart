@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:lemon_markets_client/clients/lemonMarketsTradingVenue.dart';
 import 'package:lemon_markets_client/clients/lemonMarketsTransactions.dart';
 import 'package:lemon_markets_client/data/accessToken.dart';
 import 'package:lemon_markets_client/data/createdOrder.dart';
@@ -8,6 +9,7 @@ import 'package:lemon_markets_client/data/instrument.dart';
 import 'package:lemon_markets_client/data/latestQuote.dart';
 import 'package:lemon_markets_client/data/latestTrade.dart';
 import 'package:lemon_markets_client/data/ohlcList.dart';
+import 'package:lemon_markets_client/data/openingDaysList.dart';
 import 'package:lemon_markets_client/data/portfolioItem.dart';
 import 'package:lemon_markets_client/data/portfolioTransactionList.dart';
 import 'package:lemon_markets_client/data/space.dart';
@@ -20,6 +22,8 @@ import 'package:lemon_markets_client/clients/lemonMarketsMarketData.dart';
 import 'package:lemon_markets_client/clients/lemonMarketsPortfolio.dart';
 import 'package:lemon_markets_client/clients/lemonMarketsSpaces.dart';
 import 'package:lemon_markets_client/clients/lemonMarketsTrading.dart';
+import 'package:lemon_markets_client/data/tradingVenue.dart';
+import 'package:lemon_markets_client/data/tradingVenueList.dart';
 import 'package:lemon_markets_client/data/transaction.dart';
 import 'package:lemon_markets_client/data/transactionList.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsURLs.dart';
@@ -42,6 +46,7 @@ class LemonMarkets {
   late LemonMarketsMarketData _marketClient;
   late LemonMarketsHistoric _historicClient;
   late LemonMarketsTransaction _transactionClient;
+  late LemonMarketsTradingVenue _tradingVenueClient;
 
   LemonMarkets() {
     LemonMarketsHttpClient client = LemonMarketsHttpClient();
@@ -52,6 +57,7 @@ class LemonMarkets {
     _portfolioClient = LemonMarketsPortfolio(client);
     _historicClient = LemonMarketsHistoric(client);
     _transactionClient = LemonMarketsTransaction(client);
+    _tradingVenueClient = LemonMarketsTradingVenue(client);
   }
 
   Future<AccessToken> requestToken(String clientId, String clientSecret) async {
@@ -146,5 +152,17 @@ class LemonMarkets {
 
   Future<Transaction> getTransactionForSpace(AccessToken token, String spaceUuid, String transactionUuid) async {
     return _transactionClient.getTransactionForSpace(token, spaceUuid, transactionUuid);
+  }
+
+  Future<TradingVenueList> getTradingVenues(AccessToken token) async {
+    return _tradingVenueClient.getTradingVenues(token);
+  }
+
+  Future<TradingVenue> getTradingVenue(AccessToken token, String mic) async {
+    return _tradingVenueClient.getTradingVenue(token, mic);
+  }
+
+  Future<OpeningDaysList> getTradingVenueOpeningDays(AccessToken token, String mic) async {
+    return _tradingVenueClient.getOpeningDays(token, mic);
   }
 }

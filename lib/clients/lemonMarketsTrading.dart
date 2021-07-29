@@ -15,6 +15,11 @@ class LemonMarketsTrading {
 
   LemonMarketsTrading(this._client);
 
+  /// /trading-venues/{mic}/instruments/
+  /// /trading-venues/{mic}/instruments/{isin}/
+  /// /trading-venues/{mic}/instruments/{isin}/warrants/
+
+
   Future<List<Instrument>> searchInstruments(AccessToken token, String? query, SearchType type) async {
     String URL = LemonMarketsURL.BASE_URL + '/instruments/';
     String appendType = _convertType(type);

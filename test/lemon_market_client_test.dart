@@ -7,7 +7,6 @@ import 'package:lemon_markets_client/lemon_markets_client.dart';
 
 import 'credentials.dart';
 
-
 String clientId = Credentials.clientId;
 String clientSecret = Credentials.clientSecret;
 String spaceUuid = Credentials.spaceUuid;
@@ -16,6 +15,11 @@ String transactionUuidPayIn = Credentials.transactionUuidPayIn;
 final LemonMarkets lm = LemonMarkets();
 
 void main() {
+  test('requestToken', () async {
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    expect(token, isNotNull);
+  });
+
   test('getSpaces', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
     List<Space> spaces = await lm.getSpaces(token);
@@ -59,5 +63,26 @@ void main() {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
     Transaction transaction = await lm.getTransactionForSpace(token, spaceUuid, transactionUuidPayIn);
     expect(transaction.order, null);
+  });
+
+  test('getTradingVenues', () async {
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    TradingVenueList tradingVenues = await lm.getTradingVenues(token);
+    debugPrint(tradingVenues.result.first.mic);
+    expect(tradingVenues.result, isNotEmpty);
+  });
+
+  test('getXMUNTradingVenue', () async {
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    String mic = 'XMUN';
+    TradingVenue tradingVenue = await lm.getTradingVenue(token, mic);
+    expect(tradingVenue.mic, mic);
+  });
+
+  test('getXMUNOpeningDays', () async {
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    String mic = 'XMUN';
+    OpeningDaysList openingDays = await lm.getTradingVenueOpeningDays(token, mic);
+    expect(openingDays.result, isNotEmpty);
   });
 }

@@ -29,12 +29,22 @@ try {
 
 /spaces/{space_uuid}/orders/{order_uuid}
 
-/trading-venues/{mic}/instruments/
-/trading-venues/{mic}/instruments/{isin}/
-/trading-venues/{mic}/instruments/{isin}/warrants/
+/trading-venues/{mic}/instruments/ \
+/trading-venues/{mic}/instruments/{isin}/ \
+/trading-venues/{mic}/instruments/{isin}/warrants/ 
 
 ## Building this plugin
 To generate the missing *.g.dart classes run:\
 ```
 flutter packages pub run build_runner build --delete-conflicting-outputs
  ```
+
+## Running the example app
+If you want to run the example app, you need to create an asset folder with  a file 'credentials.json' (example\assets\credentials.json)
+```
+{
+  "clientId": "YOUR_CLIENT_ID",
+  "clientSecret": "YOUR_CLIENT_SECRET",
+  "spaceUuid": "SPACE_UUID_FOR_CLIENT_ID"
+}
+```

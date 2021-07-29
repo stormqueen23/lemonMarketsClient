@@ -18,6 +18,8 @@ export 'package:lemon_markets_client/data/latestQuote.dart';
 export 'package:lemon_markets_client/data/latestTrade.dart';
 export 'package:lemon_markets_client/data/ohlc.dart';
 export 'package:lemon_markets_client/data/ohlcList.dart';
+export 'package:lemon_markets_client/data/openingDay.dart';
+export 'package:lemon_markets_client/data/openingDaysList.dart';
 export 'package:lemon_markets_client/data/orderInstrument.dart';
 export 'package:lemon_markets_client/data/orderTradingVenue.dart';
 export 'package:lemon_markets_client/data/portfolioInstrument.dart';
@@ -32,4 +34,6 @@ export 'package:lemon_markets_client/data/transaction.dart';
 export 'package:lemon_markets_client/data/transactionList.dart';
 export 'package:lemon_markets_client/data/transactionOrder.dart';
 export 'package:lemon_markets_client/data/transactionOrderInstrument.dart';
+export 'package:lemon_markets_client/data/tradingVenue.dart';
+export 'package:lemon_markets_client/data/tradingVenueList.dart';
 
