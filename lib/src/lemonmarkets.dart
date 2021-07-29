@@ -12,6 +12,7 @@ import 'package:lemon_markets_client/data/ohlcList.dart';
 import 'package:lemon_markets_client/data/openingDaysList.dart';
 import 'package:lemon_markets_client/data/portfolioItem.dart';
 import 'package:lemon_markets_client/data/portfolioTransactionList.dart';
+import 'package:lemon_markets_client/data/resultList.dart';
 import 'package:lemon_markets_client/data/space.dart';
 import 'package:lemon_markets_client/data/spaceState.dart';
 import 'package:lemon_markets_client/data/stateInfo.dart';
@@ -113,7 +114,7 @@ class LemonMarkets {
     return _marketClient.getLatestQuote(token, isin, mic);
   }
 
-  Future<List<Space>> getSpaces(AccessToken token) async {
+  Future<ResultList<Space>> getSpaces(AccessToken token) async {
     return _spacesClient.getSpaces(token);
   }
 
@@ -129,7 +130,7 @@ class LemonMarkets {
     return _spacesClient.getStateInfo(token);
   }
 
-  Future<List<PortfolioItem>> getPortfolioItems(AccessToken token, String spaceUuid) async {
+  Future<ResultList<PortfolioItem>> getPortfolioItems(AccessToken token, String spaceUuid) async {
     return _portfolioClient.getPortfolioItems(token, spaceUuid);
   }
 

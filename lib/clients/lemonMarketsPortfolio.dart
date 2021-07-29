@@ -1,6 +1,7 @@
 import 'package:lemon_markets_client/data/accessToken.dart';
 import 'package:lemon_markets_client/data/portfolioItem.dart';
 import 'package:lemon_markets_client/clients/lemonMarketsHttpClient.dart';
+import 'package:lemon_markets_client/data/resultList.dart';
 import 'package:lemon_markets_client/exception/lemonMarketsConvertException.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsURLs.dart';
 import 'package:logging/logging.dart';
@@ -11,17 +12,11 @@ class LemonMarketsPortfolio {
 
   LemonMarketsPortfolio(this._client);
 
-  Future<List<PortfolioItem>> getPortfolioItems(AccessToken token, String spaceUuid) async {
+  Future<ResultList<PortfolioItem>> getPortfolioItems(AccessToken token, String spaceUuid) async {
     String url = LemonMarketsURL.BASE_URL+'/spaces/'+spaceUuid+'/portfolio/';
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
-      //TODO: ListWrapper for results with next&previous -> see OHLCList
-      List<PortfolioItem> result = [];
-      List<dynamic> all = response.decodedBody['results'];
-      all.forEach((element) {
-        PortfolioItem i = PortfolioItem.fromJson(element);
-        result.add(i);
-      });
+      ResultList<PortfolioItem> result = ResultList<PortfolioItem>.fromJson(response.decodedBody);
       return result;
     } catch (e) {
       log.warning(e.toString());

@@ -1,4 +1,5 @@
 import 'package:lemon_markets_client/data/accessToken.dart';
+import 'package:lemon_markets_client/data/resultList.dart';
 import 'package:lemon_markets_client/data/space.dart';
 import 'package:lemon_markets_client/data/spaceState.dart';
 import 'package:lemon_markets_client/data/stateInfo.dart';
@@ -13,17 +14,11 @@ class LemonMarketsSpaces {
 
   LemonMarketsSpaces(this._client);
 
-  Future<List<Space>> getSpaces(AccessToken token) async {
+  Future<ResultList<Space>> getSpaces(AccessToken token) async {
     String url = LemonMarketsURL.BASE_URL+'/spaces/';
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
-      //TODO: ListWrapper for results with next&previous -> see OHLCList
-      List<Space> result = [];
-      List<dynamic> all = response.decodedBody['results'];
-      all.forEach((element) {
-        Space i = Space.fromJson(element);
-        result.add(i);
-      });
+      ResultList<Space> result = ResultList<Space>.fromJson(response.decodedBody);
       return result;
     } catch (e) {
       log.warning(e.toString());

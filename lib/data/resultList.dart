@@ -1,4 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:lemon_markets_client/data/existingOrder.dart';
+import 'package:lemon_markets_client/data/portfolioItem.dart';
+import 'package:lemon_markets_client/data/space.dart';
 
 part 'resultList.g.dart';
 
@@ -17,11 +21,14 @@ class ResultList<T> {
 
   static T _dataFromJson<T>(Object? json) {
     if (json != null && json is Map<String, dynamic>) {
-      //TODO: how to distinguish between different types?? Lots of try/catch??
       //example from plugin:
       //https://github.com/google/json_serializable.dart/blob/master/example/lib/generic_response_class_example.dart
+      if (T == Space) {
+       return Space.fromJson(json) as T;
+      } else if (T == PortfolioItem) {
+        return PortfolioItem.fromJson(json) as T;
+      }
 
-      //return ExistingOrder.fromJson(json) as T;
 
     }
     throw ArgumentError.value(

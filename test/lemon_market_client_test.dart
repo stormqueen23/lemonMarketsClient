@@ -1,9 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lemon_markets_client/data/existingOrderList.dart';
 import 'package:lemon_markets_client/data/portfolioTransactionList.dart';
+import 'package:lemon_markets_client/data/resultList.dart';
 import 'package:lemon_markets_client/data/transaction.dart';
 import 'package:lemon_markets_client/data/transactionList.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
+import 'package:logging/logging.dart';
 
 import 'credentials.dart';
 
@@ -15,6 +17,15 @@ String transactionUuidPayIn = Credentials.transactionUuidPayIn;
 final LemonMarkets lm = LemonMarkets();
 
 void main() {
+  setUp(() {
+    //logging
+    Logger.root.level = Level.ALL; // defaults to Level.INFO
+    Logger.root.onRecord.listen((record) {
+      print('${record.loggerName} [${record.level.name}]: ${record.time}: ${record.message}');
+    });
+  }
+  );
+
   test('requestToken', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
     expect(token, isNotNull);
@@ -22,9 +33,9 @@ void main() {
 
   test('getSpaces', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    List<Space> spaces = await lm.getSpaces(token);
-    expect(spaces.length, 1);
-    expect(spaces[0].uuid, spaceUuid);
+    ResultList<Space> spaces = await lm.getSpaces(token);
+    expect(spaces.result.length, 1);
+    expect(spaces.result[0].uuid, spaceUuid);
   });
 
   test('getTransactionsForSpace', () async {
@@ -128,5 +139,11 @@ void main() {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
     ExistingOrderList all = await lm.getOrders(token, Credentials.spaceUuid);
     expect(all.result.length, greaterThan(0));
+  });
+
+  test('getPortfolioItems', () async {
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    ResultList<PortfolioItem> items = await lm.getPortfolioItems(token, Credentials.spaceUuid);
+    expect(items.result.length, greaterThan(0));
   });
 }
