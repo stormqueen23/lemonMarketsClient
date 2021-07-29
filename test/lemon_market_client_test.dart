@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lemon_markets_client/data/existingOrderList.dart';
 import 'package:lemon_markets_client/data/portfolioTransactionList.dart';
 import 'package:lemon_markets_client/data/transaction.dart';
 import 'package:lemon_markets_client/data/transactionList.dart';
@@ -68,7 +68,6 @@ void main() {
   test('getTradingVenues', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
     TradingVenueList tradingVenues = await lm.getTradingVenues(token);
-    debugPrint(tradingVenues.result.first.mic);
     expect(tradingVenues.result, isNotEmpty);
   });
 
@@ -84,5 +83,50 @@ void main() {
     String mic = 'XMUN';
     OpeningDaysList openingDays = await lm.getTradingVenueOpeningDays(token, mic);
     expect(openingDays.result, isNotEmpty);
+  });
+
+  test('searchInstrumentsWithoutParams', () async {
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    InstrumentList all = await lm.searchInstruments(token);
+    expect(all.result.length, greaterThan(0));
+  });
+
+  test('searchInstrumentsWithQuery', () async {
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    InstrumentList all = await lm.searchInstruments(token, search: 'Tesla');
+    expect(all.result.length, greaterThan(0));
+  });
+
+  test('searchInstrumentsWithQueryAndType', () async {
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    InstrumentList all = await lm.searchInstruments(token, search: 'Tesla', type: SearchType.STOCK);
+    expect(all.result.length, greaterThan(0));
+  });
+
+  test('searchInstrumentsWithQueryAndLimit', () async {
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    InstrumentList all = await lm.searchInstruments(token, search: 'Tesla', limit: "2");
+    expect(all.result.length, 2);
+  });
+
+  test('searchInstrumentsWithQueryAndLimitAndOffset', () async {
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    InstrumentList prev = await lm.searchInstruments(token, search: 'Tesla', limit: "1", offset: 0);
+    InstrumentList all = await lm.searchInstruments(token, search: 'Tesla', limit: "1", offset: 1);
+    expect(prev.result.length, 1);
+    expect(all.result.length, 1);
+    expect(all.result.first.isin, isNot(prev.result.first.isin));
+  });
+
+  test('searchInstrumentsWithQueryAndCurrency', () async {
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    InstrumentList all = await lm.searchInstruments(token, search: 'Tesla', currency: 'USD');
+    expect(all.result.length, greaterThan(0));
+  });
+
+  test('getOrders', () async {
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    ExistingOrderList all = await lm.getOrders(token, Credentials.spaceUuid);
+    expect(all.result.length, greaterThan(0));
   });
 }

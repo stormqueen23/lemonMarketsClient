@@ -118,9 +118,9 @@ class AccessTokenInfoWidget extends StatelessWidget {
         Divider(),
         _createRow('Scope: ', token.scope),
         Divider(),
-        _createRow('Expires: ', token.expires_in.toString()),
+        _createRow('Expires: ', token.expiresIn.toString()),
         Divider(),
-        _createRow('Expires (date): ', DateTime.now().add(Duration(seconds: token.expires_in)).toLocal().toString()),
+        _createRow('Expires (date): ', DateTime.now().add(Duration(seconds: token.expiresIn)).toLocal().toString()),
       ],
     );
   }

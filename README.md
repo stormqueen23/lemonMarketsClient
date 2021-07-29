@@ -1,7 +1,7 @@
 # lemon_markets_client
 A simple way to access the lemon markets API (https://www.lemon.markets/)
 
-## Create account for Lemon markets
+## Create account for lemon markets
 Currently the lemon market api is in beta and you can join the waitlist to get access (https://www.lemon.markets/waitlist)
 
 ## Request Access Token
@@ -40,7 +40,8 @@ flutter packages pub run build_runner build --delete-conflicting-outputs
  ```
 
 ## Running the example app
-If you want to run the example app, you need to create an asset folder with  a file 'credentials.json' (example\assets\credentials.json)
+If you want to run the example app, you need to create an asset folder with  a file 'credentials.json'\ 
+(example\assets\credentials.json)
 ```
 {
   "clientId": "YOUR_CLIENT_ID",

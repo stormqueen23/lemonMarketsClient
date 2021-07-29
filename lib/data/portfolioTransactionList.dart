@@ -1,7 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:lemon_markets_client/data/ohlc.dart';
 import 'package:lemon_markets_client/data/portfolioTransaction.dart';
-import 'package:lemon_markets_client/data/transaction.dart';
 
 part 'portfolioTransactionList.g.dart';
 

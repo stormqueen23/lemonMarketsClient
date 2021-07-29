@@ -89,7 +89,7 @@ class LemonMarketsHttpClient {
     } else {
       throw LemonMarketsAuthException(_token.type, "Unknown token type");
     }
-    return {'Authorization': prefix + ' ' + _token.access_token};
+    return {'Authorization': prefix + ' ' + _token.token};
   }
 
   static String generateQueryParams(List<String> params) {
