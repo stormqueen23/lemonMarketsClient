@@ -3,7 +3,6 @@ import 'package:lemon_markets_client/clients/lemonMarketsHttpClient.dart';
 import 'package:lemon_markets_client/data/openingDay.dart';
 import 'package:lemon_markets_client/data/resultList.dart';
 import 'package:lemon_markets_client/data/tradingVenue.dart';
-import 'package:lemon_markets_client/data/tradingVenueList.dart';
 import 'package:lemon_markets_client/exception/lemonMarketsConvertException.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsURLs.dart';
 import 'package:logging/logging.dart';
@@ -14,11 +13,11 @@ class LemonMarketsTradingVenue {
 
   LemonMarketsTradingVenue(this._client);
 
-  Future<TradingVenueList> getTradingVenues(AccessToken token) async {
+  Future<ResultList<TradingVenue>> getTradingVenues(AccessToken token) async {
     String url = LemonMarketsURL.BASE_URL+'/trading-venues/';
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
-      TradingVenueList result = TradingVenueList.fromJson(response.decodedBody);
+      ResultList<TradingVenue> result = ResultList<TradingVenue>.fromJson(response.decodedBody);
       return result;
     } catch (e) {
       log.warning(e.toString());

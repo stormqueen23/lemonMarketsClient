@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:lemon_markets_client/data/portfolioTransactionList.dart';
 import 'package:lemon_markets_client/data/resultList.dart';
 import 'package:lemon_markets_client/data/transaction.dart';
 import 'package:lemon_markets_client/data/transactionList.dart';
@@ -46,7 +45,7 @@ void main() {
 
   test('getTransactionsForPortfolio', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    PortfolioTransactionList list = await lm.getTransactionsForPortfolio(token, spaceUuid);
+    ResultList<PortfolioTransaction> list = await lm.getTransactionsForPortfolio(token, spaceUuid);
     expect(list.result.length, greaterThan(0));
   });
 
@@ -78,7 +77,7 @@ void main() {
 
   test('getTradingVenues', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    TradingVenueList tradingVenues = await lm.getTradingVenues(token);
+    ResultList<TradingVenue> tradingVenues = await lm.getTradingVenues(token);
     expect(tradingVenues.result, isNotEmpty);
   });
 

@@ -11,7 +11,7 @@ import 'package:lemon_markets_client/data/latestTrade.dart';
 import 'package:lemon_markets_client/data/ohlc.dart';
 import 'package:lemon_markets_client/data/openingDay.dart';
 import 'package:lemon_markets_client/data/portfolioItem.dart';
-import 'package:lemon_markets_client/data/portfolioTransactionList.dart';
+import 'package:lemon_markets_client/data/portfolioTransaction.dart';
 import 'package:lemon_markets_client/data/resultList.dart';
 import 'package:lemon_markets_client/data/space.dart';
 import 'package:lemon_markets_client/data/spaceState.dart';
@@ -24,7 +24,6 @@ import 'package:lemon_markets_client/clients/lemonMarketsPortfolio.dart';
 import 'package:lemon_markets_client/clients/lemonMarketsSpaces.dart';
 import 'package:lemon_markets_client/clients/lemonMarketsTrading.dart';
 import 'package:lemon_markets_client/data/tradingVenue.dart';
-import 'package:lemon_markets_client/data/tradingVenueList.dart';
 import 'package:lemon_markets_client/data/transaction.dart';
 import 'package:lemon_markets_client/data/transactionList.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsURLs.dart';
@@ -144,7 +143,7 @@ class LemonMarkets {
     return _historicClient.getOHLCFromUrl(token, url);
   }
 
-  Future<PortfolioTransactionList> getTransactionsForPortfolio(AccessToken token, String spaceUuid,
+  Future<ResultList<PortfolioTransaction>> getTransactionsForPortfolio(AccessToken token, String spaceUuid,
       {int? createdAtUntil, int? createdAtFrom, int? limit, int? offset}) async {
     return _transactionClient.getTransactionsForPortfolio(token, spaceUuid, createdAtFrom: createdAtFrom, createdAtUntil: createdAtUntil, limit: limit, offset: offset);
   }
@@ -162,7 +161,7 @@ class LemonMarkets {
     return _transactionClient.getTransactionForSpace(token, spaceUuid, transactionUuid);
   }
 
-  Future<TradingVenueList> getTradingVenues(AccessToken token) async {
+  Future<ResultList<TradingVenue>> getTradingVenues(AccessToken token) async {
     return _tradingVenueClient.getTradingVenues(token);
   }
 

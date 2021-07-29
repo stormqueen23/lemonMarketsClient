@@ -4,7 +4,9 @@ import 'package:lemon_markets_client/data/existingOrder.dart';
 import 'package:lemon_markets_client/data/ohlc.dart';
 import 'package:lemon_markets_client/data/openingDay.dart';
 import 'package:lemon_markets_client/data/portfolioItem.dart';
+import 'package:lemon_markets_client/data/portfolioTransaction.dart';
 import 'package:lemon_markets_client/data/space.dart';
+import 'package:lemon_markets_client/data/tradingVenue.dart';
 
 import 'instrument.dart';
 
@@ -39,6 +41,10 @@ class ResultList<T> {
         return OHLC.fromJson(json) as T;
       } else if (T == OpeningDay) {
         return OpeningDay.fromJson(json) as T;
+      } else if (T == PortfolioTransaction) {
+        return PortfolioTransaction.fromJson(json) as T;
+      } else if (T == TradingVenue) {
+        return TradingVenue.fromJson(json) as T;
       }
     }
     throw ArgumentError.value(
