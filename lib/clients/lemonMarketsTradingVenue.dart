@@ -1,6 +1,7 @@
 import 'package:lemon_markets_client/data/accessToken.dart';
 import 'package:lemon_markets_client/clients/lemonMarketsHttpClient.dart';
-import 'package:lemon_markets_client/data/openingDaysList.dart';
+import 'package:lemon_markets_client/data/openingDay.dart';
+import 'package:lemon_markets_client/data/resultList.dart';
 import 'package:lemon_markets_client/data/tradingVenue.dart';
 import 'package:lemon_markets_client/data/tradingVenueList.dart';
 import 'package:lemon_markets_client/exception/lemonMarketsConvertException.dart';
@@ -37,11 +38,11 @@ class LemonMarketsTradingVenue {
     }
   }
 
-  Future<OpeningDaysList> getOpeningDays(AccessToken token, String mic) async {
+  Future<ResultList<OpeningDay>> getOpeningDays(AccessToken token, String mic) async {
     String url = LemonMarketsURL.BASE_URL + '/trading-venues/' + mic + '/opening-days';
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
-      OpeningDaysList result = OpeningDaysList.fromJson(response.decodedBody);
+      ResultList<OpeningDay> result = ResultList<OpeningDay>.fromJson(response.decodedBody);
       return result;
     } catch (e) {
       log.warning(e.toString());

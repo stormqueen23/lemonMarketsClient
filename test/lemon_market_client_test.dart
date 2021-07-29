@@ -92,7 +92,7 @@ void main() {
   test('getXMUNOpeningDays', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
     String mic = 'XMUN';
-    OpeningDaysList openingDays = await lm.getTradingVenueOpeningDays(token, mic);
+    ResultList<OpeningDay> openingDays = await lm.getTradingVenueOpeningDays(token, mic);
     expect(openingDays.result, isNotEmpty);
   });
 

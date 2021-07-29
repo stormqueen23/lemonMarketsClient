@@ -9,7 +9,7 @@ import 'package:lemon_markets_client/data/instrument.dart';
 import 'package:lemon_markets_client/data/latestQuote.dart';
 import 'package:lemon_markets_client/data/latestTrade.dart';
 import 'package:lemon_markets_client/data/ohlc.dart';
-import 'package:lemon_markets_client/data/openingDaysList.dart';
+import 'package:lemon_markets_client/data/openingDay.dart';
 import 'package:lemon_markets_client/data/portfolioItem.dart';
 import 'package:lemon_markets_client/data/portfolioTransactionList.dart';
 import 'package:lemon_markets_client/data/resultList.dart';
@@ -170,7 +170,7 @@ class LemonMarkets {
     return _tradingVenueClient.getTradingVenue(token, mic);
   }
 
-  Future<OpeningDaysList> getTradingVenueOpeningDays(AccessToken token, String mic) async {
+  Future<ResultList<OpeningDay>> getTradingVenueOpeningDays(AccessToken token, String mic) async {
     return _tradingVenueClient.getOpeningDays(token, mic);
   }
 }
