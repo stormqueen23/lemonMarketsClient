@@ -1,3 +1,4 @@
+import 'package:example/credentials.dart';
 import 'package:flutter/material.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 import 'package:logging/logging.dart';
@@ -21,9 +22,7 @@ class LemonMarketsExample extends StatefulWidget {
 
 class _LemonMarketsExampleState extends State<LemonMarketsExample> {
   final LemonMarkets lm = LemonMarkets();
-
-  final String clientId = "XXX";
-  final String clientSecret = "YYY";
+  Credentials c = Credentials();
 
   AccessToken? token;
   bool loadingToken = false;
@@ -33,8 +32,11 @@ class _LemonMarketsExampleState extends State<LemonMarketsExample> {
   bool loadingStateInfo = false;
 
   Future<void> requestToken() async {
+    await c.init(context);
+    debugPrint(c.clientId);
+    debugPrint(c.clientSecret);
     try {
-      token = await lm.requestToken(clientId, clientSecret);
+      token = await lm.requestToken(c.clientId, c.clientSecret);
     } on LemonMarketsException catch (e) {
       errorMessageToken = e.toString();
     }
