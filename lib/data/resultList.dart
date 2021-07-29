@@ -4,6 +4,8 @@ import 'package:lemon_markets_client/data/existingOrder.dart';
 import 'package:lemon_markets_client/data/portfolioItem.dart';
 import 'package:lemon_markets_client/data/space.dart';
 
+import 'instrument.dart';
+
 part 'resultList.g.dart';
 
 @JsonSerializable(genericArgumentFactories: true, createToJson: false)
@@ -27,6 +29,8 @@ class ResultList<T> {
        return Space.fromJson(json) as T;
       } else if (T == PortfolioItem) {
         return PortfolioItem.fromJson(json) as T;
+      } else if (T == Instrument) {
+        return Instrument.fromJson(json) as T;
       }
 
 
@@ -34,7 +38,7 @@ class ResultList<T> {
     throw ArgumentError.value(
       json,
       'json',
-      'Cannot convert the provided data.',
+      'Cannot convert the provided data -> unknown type $T',
     );
   }
 }

@@ -98,32 +98,32 @@ void main() {
 
   test('searchInstrumentsWithoutParams', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    InstrumentList all = await lm.searchInstruments(token);
+    ResultList<Instrument> all = await lm.searchInstruments(token);
     expect(all.result.length, greaterThan(0));
   });
 
   test('searchInstrumentsWithQuery', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    InstrumentList all = await lm.searchInstruments(token, search: 'Tesla');
+    ResultList<Instrument> all = await lm.searchInstruments(token, search: 'Tesla');
     expect(all.result.length, greaterThan(0));
   });
 
   test('searchInstrumentsWithQueryAndType', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    InstrumentList all = await lm.searchInstruments(token, search: 'Tesla', type: SearchType.STOCK);
+    ResultList<Instrument> all = await lm.searchInstruments(token, search: 'Tesla', type: SearchType.STOCK);
     expect(all.result.length, greaterThan(0));
   });
 
   test('searchInstrumentsWithQueryAndLimit', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    InstrumentList all = await lm.searchInstruments(token, search: 'Tesla', limit: "2");
+    ResultList<Instrument> all = await lm.searchInstruments(token, search: 'Tesla', limit: "2");
     expect(all.result.length, 2);
   });
 
   test('searchInstrumentsWithQueryAndLimitAndOffset', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    InstrumentList prev = await lm.searchInstruments(token, search: 'Tesla', limit: "1", offset: 0);
-    InstrumentList all = await lm.searchInstruments(token, search: 'Tesla', limit: "1", offset: 1);
+    ResultList<Instrument> prev = await lm.searchInstruments(token, search: 'Tesla', limit: "1", offset: 0);
+    ResultList<Instrument> all = await lm.searchInstruments(token, search: 'Tesla', limit: "1", offset: 1);
     expect(prev.result.length, 1);
     expect(all.result.length, 1);
     expect(all.result.first.isin, isNot(prev.result.first.isin));
@@ -131,7 +131,7 @@ void main() {
 
   test('searchInstrumentsWithQueryAndCurrency', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    InstrumentList all = await lm.searchInstruments(token, search: 'Tesla', currency: 'USD');
+    ResultList<Instrument> all = await lm.searchInstruments(token, search: 'Tesla', currency: 'USD');
     expect(all.result.length, greaterThan(0));
   });
 

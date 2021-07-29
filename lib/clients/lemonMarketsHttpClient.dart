@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:lemon_markets_client/data/accessToken.dart';
 import 'package:lemon_markets_client/exception/lemonMarketsAuthException.dart';
@@ -40,7 +39,6 @@ class LemonMarketsHttpClient {
     Response response =  await _client.get(Uri.parse(url), headers: _getHeader(token),);
     int statusCode = response.statusCode;
     String message = response.body;
-    debugPrint("response: $message with statusCode $statusCode");
     log.fine("response: $message with statusCode $statusCode");
     try {
       Map<String, dynamic> decoded = json.decode(message);

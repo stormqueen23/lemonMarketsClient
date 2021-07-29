@@ -14,7 +14,6 @@ export 'package:lemon_markets_client/data/accessToken.dart';
 export 'package:lemon_markets_client/data/createdOrder.dart';
 export 'package:lemon_markets_client/data/existingOrder.dart';
 export 'package:lemon_markets_client/data/instrument.dart';
-export 'package:lemon_markets_client/data/instrumentList.dart';
 export 'package:lemon_markets_client/data/latestQuote.dart';
 export 'package:lemon_markets_client/data/latestTrade.dart';
 export 'package:lemon_markets_client/data/ohlc.dart';

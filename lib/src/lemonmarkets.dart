@@ -5,7 +5,7 @@ import 'package:lemon_markets_client/clients/lemonMarketsTransactions.dart';
 import 'package:lemon_markets_client/data/accessToken.dart';
 import 'package:lemon_markets_client/data/createdOrder.dart';
 import 'package:lemon_markets_client/data/existingOrderList.dart';
-import 'package:lemon_markets_client/data/instrumentList.dart';
+import 'package:lemon_markets_client/data/instrument.dart';
 import 'package:lemon_markets_client/data/latestQuote.dart';
 import 'package:lemon_markets_client/data/latestTrade.dart';
 import 'package:lemon_markets_client/data/ohlcList.dart';
@@ -66,14 +66,14 @@ class LemonMarkets {
     return token;
   }
 
-  Future<InstrumentList> searchInstruments(AccessToken token,
+  Future<ResultList<Instrument>> searchInstruments(AccessToken token,
       {String? search, SearchType? type, bool? tradable, String? currency, String? limit, int? offset}) async {
-    InstrumentList result = await _tradingClient.searchInstruments(token, search: search, type: type, tradable: tradable, currency: currency, limit: limit, offset: offset);
+    ResultList<Instrument> result = await _tradingClient.searchInstruments(token, search: search, type: type, tradable: tradable, currency: currency, limit: limit, offset: offset);
     return result;
   }
 
-  Future<InstrumentList> searchInstrumentsByUrl(AccessToken token, String url) async {
-    InstrumentList result = await _tradingClient.searchInstrumentsByUrl(token, url);
+  Future<ResultList<Instrument>> searchInstrumentsByUrl(AccessToken token, String url) async {
+    ResultList<Instrument> result = await _tradingClient.searchInstrumentsByUrl(token, url);
     return result;
   }
 

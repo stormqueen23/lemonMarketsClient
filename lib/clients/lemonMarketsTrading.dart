@@ -1,7 +1,8 @@
 import 'package:lemon_markets_client/data/accessToken.dart';
 import 'package:lemon_markets_client/data/createdOrder.dart';
 import 'package:lemon_markets_client/data/existingOrderList.dart';
-import 'package:lemon_markets_client/data/instrumentList.dart';
+import 'package:lemon_markets_client/data/instrument.dart';
+import 'package:lemon_markets_client/data/resultList.dart';
 import 'package:lemon_markets_client/exception/lemonMarketsConvertException.dart';
 import 'package:lemon_markets_client/clients/lemonMarketsHttpClient.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsConverter.dart';
@@ -44,7 +45,7 @@ class LemonMarketsTrading {
     return result;
   }
 
-  Future<InstrumentList> searchInstruments(AccessToken token,
+  Future<ResultList<Instrument>> searchInstruments(AccessToken token,
       {String? search, SearchType? type, bool? tradable, String? currency, String? limit, int? offset}) async {
     String url = LemonMarketsURL.BASE_URL + '/instruments/';
     String appendSearch = _generateInstrumentParamString(offset: offset, limit: limit, type: type, currency: currency, search: search, tradable: tradable);
@@ -52,10 +53,10 @@ class LemonMarketsTrading {
     return searchInstrumentsByUrl(token, url);
   }
 
-  Future<InstrumentList> searchInstrumentsByUrl(AccessToken token, String url) async {
+  Future<ResultList<Instrument>> searchInstrumentsByUrl(AccessToken token, String url) async {
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
-      InstrumentList result = InstrumentList.fromJson(response.decodedBody);
+      ResultList<Instrument> result = ResultList<Instrument>.fromJson(response.decodedBody);
       return result;
     } catch (e) {
       log.warning(e.toString());
