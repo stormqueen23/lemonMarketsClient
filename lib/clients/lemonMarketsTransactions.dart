@@ -3,7 +3,6 @@ import 'package:lemon_markets_client/clients/lemonMarketsHttpClient.dart';
 import 'package:lemon_markets_client/data/portfolioTransaction.dart';
 import 'package:lemon_markets_client/data/resultList.dart';
 import 'package:lemon_markets_client/data/transaction.dart';
-import 'package:lemon_markets_client/data/transactionList.dart';
 import 'package:lemon_markets_client/exception/lemonMarketsConvertException.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsURLs.dart';
 import 'package:logging/logging.dart';
@@ -33,7 +32,7 @@ class LemonMarketsTransaction {
     }
   }
 
-  Future<TransactionList> getTransactionsForSpace(AccessToken token, String spaceUuid,
+  Future<ResultList<Transaction>> getTransactionsForSpace(AccessToken token, String spaceUuid,
       {int? createdAtUntil, int? createdAtFrom, int? limit, int? offset}) async {
     String url = LemonMarketsURL.BASE_URL+'/spaces/'+spaceUuid+'/transactions/';
     String append = _generateParamString(createdAtUntil: createdAtUntil, createdAtFrom: createdAtFrom, limit: limit, offset: offset);
@@ -71,10 +70,10 @@ class LemonMarketsTransaction {
     }
   }
 
-  Future<TransactionList> getTransactionsFromUrl(AccessToken token, String url) async {
+  Future<ResultList<Transaction>> getTransactionsFromUrl(AccessToken token, String url) async {
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
-      TransactionList result = TransactionList.fromJson(response.decodedBody);
+      ResultList<Transaction> result = ResultList<Transaction>.fromJson(response.decodedBody);
       return result;
     } catch (e) {
       log.warning(e.toString());

@@ -7,6 +7,7 @@ import 'package:lemon_markets_client/data/portfolioItem.dart';
 import 'package:lemon_markets_client/data/portfolioTransaction.dart';
 import 'package:lemon_markets_client/data/space.dart';
 import 'package:lemon_markets_client/data/tradingVenue.dart';
+import 'package:lemon_markets_client/data/transaction.dart';
 
 import 'instrument.dart';
 
@@ -45,6 +46,8 @@ class ResultList<T> {
         return PortfolioTransaction.fromJson(json) as T;
       } else if (T == TradingVenue) {
         return TradingVenue.fromJson(json) as T;
+      } else if (T == Transaction) {
+        return Transaction.fromJson(json) as T;
       }
     }
     throw ArgumentError.value(

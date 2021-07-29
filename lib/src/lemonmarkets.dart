@@ -25,7 +25,6 @@ import 'package:lemon_markets_client/clients/lemonMarketsSpaces.dart';
 import 'package:lemon_markets_client/clients/lemonMarketsTrading.dart';
 import 'package:lemon_markets_client/data/tradingVenue.dart';
 import 'package:lemon_markets_client/data/transaction.dart';
-import 'package:lemon_markets_client/data/transactionList.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsURLs.dart';
 import 'package:logging/logging.dart';
 
@@ -148,11 +147,11 @@ class LemonMarkets {
     return _transactionClient.getTransactionsForPortfolio(token, spaceUuid, createdAtFrom: createdAtFrom, createdAtUntil: createdAtUntil, limit: limit, offset: offset);
   }
 
-  Future<TransactionList> getTransactionsFromURL(AccessToken token, String url) async {
+  Future<ResultList<Transaction>> getTransactionsFromURL(AccessToken token, String url) async {
     return _transactionClient.getTransactionsFromUrl(token, url);
   }
 
-  Future<TransactionList> getTransactionsForSpace(AccessToken token, String spaceUuid,
+  Future<ResultList<Transaction>> getTransactionsForSpace(AccessToken token, String spaceUuid,
       {int? createdAtUntil, int? createdAtFrom, int? limit, int? offset}) async {
     return _transactionClient.getTransactionsForSpace(token, spaceUuid, createdAtFrom: createdAtFrom, createdAtUntil: createdAtUntil, limit: limit, offset: offset);
   }
