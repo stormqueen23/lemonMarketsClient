@@ -17,7 +17,6 @@ export 'package:lemon_markets_client/data/instrument.dart';
 export 'package:lemon_markets_client/data/latestQuote.dart';
 export 'package:lemon_markets_client/data/latestTrade.dart';
 export 'package:lemon_markets_client/data/ohlc.dart';
-export 'package:lemon_markets_client/data/ohlcList.dart';
 export 'package:lemon_markets_client/data/openingDay.dart';
 export 'package:lemon_markets_client/data/openingDaysList.dart';
 export 'package:lemon_markets_client/data/orderInstrument.dart';

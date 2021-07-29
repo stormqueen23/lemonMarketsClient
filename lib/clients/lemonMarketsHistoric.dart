@@ -1,5 +1,6 @@
 import 'package:lemon_markets_client/data/accessToken.dart';
-import 'package:lemon_markets_client/data/ohlcList.dart';
+import 'package:lemon_markets_client/data/ohlc.dart';
+import 'package:lemon_markets_client/data/resultList.dart';
 import 'package:lemon_markets_client/exception/lemonMarketsConvertException.dart';
 import 'package:lemon_markets_client/clients/lemonMarketsHttpClient.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsConverter.dart';
@@ -14,10 +15,10 @@ class LemonMarketsHistoric {
 
   LemonMarketsHistoric(this._client);
 
-  Future<OHLCList> getOHLCFromUrl(AccessToken token, String url) async {
+  Future<ResultList<OHLC>> getOHLCFromUrl(AccessToken token, String url) async {
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
-      OHLCList result = OHLCList.fromJson(response.decodedBody);
+      ResultList<OHLC> result = ResultList<OHLC>.fromJson(response.decodedBody);
       return result;
     } catch (e) {
       log.warning(e.toString());
@@ -26,7 +27,7 @@ class LemonMarketsHistoric {
 
   }
 
-  Future<OHLCList> getOHLC(AccessToken token, String isin, String mic, OHLCType type, DateTime? from, DateTime? until, bool? reverseOrdering) async {
+  Future<ResultList<OHLC>> getOHLC(AccessToken token, String isin, String mic, OHLCType type, DateTime? from, DateTime? until, bool? reverseOrdering) async {
     List<String> queryParamList = _getOHLCQueryParams(from, until, reverseOrdering);
     String query = LemonMarketsHttpClient.generateQueryParams(queryParamList);
 

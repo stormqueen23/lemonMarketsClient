@@ -8,7 +8,7 @@ import 'package:lemon_markets_client/data/existingOrder.dart';
 import 'package:lemon_markets_client/data/instrument.dart';
 import 'package:lemon_markets_client/data/latestQuote.dart';
 import 'package:lemon_markets_client/data/latestTrade.dart';
-import 'package:lemon_markets_client/data/ohlcList.dart';
+import 'package:lemon_markets_client/data/ohlc.dart';
 import 'package:lemon_markets_client/data/openingDaysList.dart';
 import 'package:lemon_markets_client/data/portfolioItem.dart';
 import 'package:lemon_markets_client/data/portfolioTransactionList.dart';
@@ -134,12 +134,13 @@ class LemonMarkets {
     return _portfolioClient.getPortfolioItems(token, spaceUuid);
   }
 
-  Future<OHLCList> getOHLC(AccessToken token, String isin, OHLCType type, DateTime? from, DateTime? until, bool? reverseOrdering) async {
+  //TODO: arguments
+  Future<ResultList<OHLC>> getOHLC(AccessToken token, String isin, OHLCType type, DateTime? from, DateTime? until, bool? reverseOrdering) async {
     String mic = 'XMUN';
     return _historicClient.getOHLC(token, isin, mic, type, from, until, reverseOrdering);
   }
 
-  Future<OHLCList> getOHLCFromUrl(AccessToken token, String url) async {
+  Future<ResultList<OHLC>> getOHLCFromUrl(AccessToken token, String url) async {
     return _historicClient.getOHLCFromUrl(token, url);
   }
 

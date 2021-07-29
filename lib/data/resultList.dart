@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lemon_markets_client/data/existingOrder.dart';
+import 'package:lemon_markets_client/data/ohlc.dart';
 import 'package:lemon_markets_client/data/portfolioItem.dart';
 import 'package:lemon_markets_client/data/space.dart';
 
@@ -33,9 +34,9 @@ class ResultList<T> {
         return Instrument.fromJson(json) as T;
       } else if (T == ExistingOrder) {
         return ExistingOrder.fromJson(json) as T;
+      } else if (T == OHLC) {
+        return OHLC.fromJson(json) as T;
       }
-
-
     }
     throw ArgumentError.value(
       json,
