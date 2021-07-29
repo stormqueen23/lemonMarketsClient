@@ -4,7 +4,7 @@ import 'package:lemon_markets_client/clients/lemonMarketsTradingVenue.dart';
 import 'package:lemon_markets_client/clients/lemonMarketsTransactions.dart';
 import 'package:lemon_markets_client/data/accessToken.dart';
 import 'package:lemon_markets_client/data/createdOrder.dart';
-import 'package:lemon_markets_client/data/existingOrderList.dart';
+import 'package:lemon_markets_client/data/existingOrder.dart';
 import 'package:lemon_markets_client/data/instrument.dart';
 import 'package:lemon_markets_client/data/latestQuote.dart';
 import 'package:lemon_markets_client/data/latestTrade.dart';
@@ -98,7 +98,7 @@ class LemonMarkets {
     return result;
   }
 
-  Future<ExistingOrderList> getOrders(AccessToken token, String spaceUuid,
+  Future<ResultList<ExistingOrder>> getOrders(AccessToken token, String spaceUuid,
       {int? createdAtUntil, int? createdAtFrom, OrderSide? side, OrderType? type, OrderStatus? status, int? limit, int? offset}) async {
     //isin as query parameter would be nice
     return _tradingClient.getOrders(token, spaceUuid, createdAtUntil, createdAtFrom, side, type, status, limit, offset);

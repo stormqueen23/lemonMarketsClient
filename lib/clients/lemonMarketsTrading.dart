@@ -1,6 +1,6 @@
 import 'package:lemon_markets_client/data/accessToken.dart';
 import 'package:lemon_markets_client/data/createdOrder.dart';
-import 'package:lemon_markets_client/data/existingOrderList.dart';
+import 'package:lemon_markets_client/data/existingOrder.dart';
 import 'package:lemon_markets_client/data/instrument.dart';
 import 'package:lemon_markets_client/data/resultList.dart';
 import 'package:lemon_markets_client/exception/lemonMarketsConvertException.dart';
@@ -125,7 +125,7 @@ class LemonMarketsTrading {
 
   //TODO: /spaces/{space_uuid}/orders/{order_uuid}
 
-  Future<ExistingOrderList> getOrders(AccessToken token, String spaceUuid,
+  Future<ResultList<ExistingOrder>> getOrders(AccessToken token, String spaceUuid,
       int? createdAtUntil, int? createdAtFrom, OrderSide? side, OrderType? type,
       OrderStatus? status, int? limit, int? offset) async {
     List<String> params = _getOrderQueryParams(createdAtUntil, createdAtFrom, side, type, status, limit, offset);
@@ -133,7 +133,7 @@ class LemonMarketsTrading {
     String url = LemonMarketsURL.BASE_URL + '/spaces/' + spaceUuid + '/orders/'+queryParams;
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
-      ExistingOrderList result =  ExistingOrderList.fromJson(response.decodedBody);
+      ResultList<ExistingOrder> result =  ResultList<ExistingOrder>.fromJson(response.decodedBody);
       return result;
     } catch (e) {
       log.warning(e.toString());

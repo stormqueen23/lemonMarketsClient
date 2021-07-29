@@ -31,6 +31,8 @@ class ResultList<T> {
         return PortfolioItem.fromJson(json) as T;
       } else if (T == Instrument) {
         return Instrument.fromJson(json) as T;
+      } else if (T == ExistingOrder) {
+        return ExistingOrder.fromJson(json) as T;
       }
 
 
@@ -38,7 +40,7 @@ class ResultList<T> {
     throw ArgumentError.value(
       json,
       'json',
-      'Cannot convert the provided data -> unknown type $T',
+      'Unknown type $T: Cannot convert the provided data ',
     );
   }
 }
