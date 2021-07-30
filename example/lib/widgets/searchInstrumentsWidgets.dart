@@ -1,4 +1,5 @@
 import 'package:example/provider/lemonMarketsProvider.dart';
+import 'package:example/screens/instrumentDetailScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:lemon_markets_client/data/resultList.dart';
 import 'package:provider/provider.dart';
@@ -38,6 +39,7 @@ class _SearchInstrumentsAreaState extends State<SearchInstrumentsArea> {
     bool hasToken = context.watch<LemonMarketsProvider>().token != null;
     return Column(
       children: [
+        Text('Instrument search', textScaleFactor: 1.2,),
         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Container(
             width: MediaQuery.of(context).size.width / 1.5,
@@ -107,20 +109,22 @@ class InstrumentListWidget extends StatelessWidget {
         ? ListView(
             shrinkWrap: true,
             physics: BouncingScrollPhysics(),
-            children: _getAllInstruments(),
+            children: _getAllInstruments(context),
           )
         : Container();
   }
 
-  List<Card> _getAllInstruments() {
+  List<Card> _getAllInstruments(BuildContext context) {
     List<Card> result = [];
     instruments!.result.forEach((element) {
       String headerText = element.title.isNotEmpty ? element.title : element.name;
       ListTile tile = ListTile(
-        //leading: Text('${element.name}'),
         title: Text('$headerText'),
         subtitle: Text('${element.isin}'),
-        onTap: null, //() => AppRouter.router.navigateTo(context, 'instrument/${element.isin}'),
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => InstrumentDetailScreen(instrument: element)),
+        ),
       );
       result.add(Card(child: tile));
     });

@@ -50,15 +50,15 @@ try {
 ```
 
 ## Create and activate an order
-If you want to buy or sell an instrument you need two steps to do that.
-First you must create an order and second you need to activate this order
+If you want to buy or sell an instrument you need two steps to do that.\
+First you must create an order and second you need to activate this order.\
 (More details for working with orders: https://docs.lemon.markets/working-with-orders)
 
 Short example for BUY:
 ```dart
   CreatedOrder result = await lemonMarkets.placeOrder(token, 'SPACE_UUID', 'US88160R1014', false, 5);
   String orderUuid = result.uuid;
-  bool success =  lemonMarkets.activateOrder(token, 'SPACE_UUID', orderUuid);  
+  bool success = lemonMarkets.activateOrder(token, 'SPACE_UUID', orderUuid);  
 ```
 Short example for SELL:
 ```dart

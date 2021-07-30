@@ -93,3 +93,27 @@ class AccessTokenInfoWidget extends StatelessWidget {
     );
   }
 }
+
+class AccessTokenRow extends StatelessWidget {
+  const AccessTokenRow({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    bool hasToken = context.watch<LemonMarketsProvider>().token != null;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text('Token: '),
+        hasToken
+            ? Icon(
+          Icons.check_box,
+          color: Colors.green,
+        )
+            : Icon(
+          Icons.not_interested,
+          color: Colors.red,
+        )
+      ],
+    );
+  }
+}
