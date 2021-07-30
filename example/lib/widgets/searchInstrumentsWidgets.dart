@@ -89,7 +89,10 @@ class _SearchInstrumentsAreaState extends State<SearchInstrumentsArea> {
           ),
         ]),
         loadingInstruments
-            ? Center(child: CircularProgressIndicator())
+            ? Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(child: CircularProgressIndicator()),
+            )
             : InstrumentListWidget(
                 instruments: result,
               ),

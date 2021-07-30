@@ -9,27 +9,58 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Lemon Markets Demo'),
-      ),
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              LemonErrorWidget(),
-              AccessTokenRow(),
-              AccessTokenArea(),
-              Divider(thickness: 3,),
-              SpaceDetailRow(),
-              SpacesArea(),
-              Divider(thickness: 3,),
-              SearchInstrumentsArea(),
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Lemon Markets Demo'),
+          bottom: TabBar(
+            tabs: [
+              Tab(
+                text: 'Main',
+              ),
+              Tab(
+                text: 'Search',
+              ),
             ],
           ),
+        ),
+        body: TabBarView(
+          children: [
+            SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    LemonErrorWidget(),
+                    AccessTokenRow(),
+                    AccessTokenArea(),
+                    Divider(
+                      thickness: 3,
+                    ),
+                    SpaceDetailRow(),
+                    SpacesArea(),
+
+                  ],
+                ),
+              ),
+            ),
+            SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      LemonErrorWidget(),
+                      SearchInstrumentsArea(),
+                    ],
+                  ),
+                ),
+            )
+          ],
         ),
       ),
     );
