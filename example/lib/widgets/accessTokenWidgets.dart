@@ -1,4 +1,5 @@
 import 'package:example/provider/lemonMarketsProvider.dart';
+import 'package:example/widgets/commonWidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
@@ -73,47 +74,15 @@ class AccessTokenInfoWidget extends StatelessWidget {
           children: [Text('Token data:')],
         ),
         Divider(),
-        _createRow('Type: ', token.type),
+        AttributeWidget(name: 'Type: ',value: token.type),
         Divider(),
-        _createRow('Scope: ', token.scope),
+        AttributeWidget(name: 'Scope: ',value: token.scope),
         Divider(),
-        _createRow('Expires: ', token.expiresIn.toString()),
+        AttributeWidget(name: 'Expires: ',value: token.expiresIn.toString()),
         Divider(),
-        _createRow('Expires (date): ', DateTime.now().add(Duration(seconds: token.expiresIn)).toLocal().toString()),
+        AttributeWidget(name: 'Expires (date): ',value: DateTime.now().add(Duration(seconds: token.expiresIn)).toLocal().toString()),
       ],
     );
   }
 
-  Row _createRow(String label, String value) {
-    return Row(
-      children: [
-        SizedBox(width: 100, child: Text(label)),
-        Flexible(flex: 4, child: Text(value)),
-      ],
-    );
-  }
-}
-
-class AccessTokenRow extends StatelessWidget {
-  const AccessTokenRow({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    bool hasToken = context.watch<LemonMarketsProvider>().token != null;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text('Token: '),
-        hasToken
-            ? Icon(
-          Icons.check_box,
-          color: Colors.green,
-        )
-            : Icon(
-          Icons.not_interested,
-          color: Colors.red,
-        )
-      ],
-    );
-  }
 }

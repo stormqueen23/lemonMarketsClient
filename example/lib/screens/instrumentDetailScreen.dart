@@ -1,4 +1,8 @@
+import 'package:example/provider/lemonMarketsProvider.dart';
+import 'package:example/screens/orderScreen.dart';
+import 'package:example/widgets/commonWidgets.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 
 class InstrumentDetailScreen extends StatelessWidget {
@@ -8,6 +12,8 @@ class InstrumentDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool hasToken = context.watch<LemonMarketsProvider>().token != null;
+    bool hasSpaceData = context.watch<LemonMarketsProvider>().spaces != null && context.watch<LemonMarketsProvider>().spaces!.result.isNotEmpty;
     return Scaffold(
       appBar: AppBar(
         title: Text(instrument.title),
@@ -16,27 +22,30 @@ class InstrumentDetailScreen extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            _getAttributeRow('Name: ', instrument.name),
-            _getAttributeRow('Type: ', instrument.type),
-            _getAttributeRow('Isin: ', instrument.isin),
-            _getAttributeRow('WKN: ', instrument.wkn),
-            _getAttributeRow('Symbol: ', instrument.symbol),
-            _getAttributeRow('Currency: ', instrument.currency),
-            _getAttributeRow('Tradable: ', instrument.tradable.toString()),
+            AttributeWidget(name: 'Name: ', value: instrument.name),
+            AttributeWidget(name: 'Type: ', value: instrument.type),
+            AttributeWidget(name: 'Isin: ', value: instrument.isin),
+            AttributeWidget(name: 'WKN: ', value: instrument.wkn),
+            AttributeWidget(name: 'Symbol: ', value: instrument.symbol),
+            AttributeWidget(name: 'Currency: ', value: instrument.currency),
+            AttributeWidget(name: 'Tradable: ', value: instrument.tradable.toString()),
+            Container(
+              height: 16,
+            ),
+            !hasToken || !hasSpaceData ? Text('You can only create an order if you have requested space details', textScaleFactor: 0.8,) : Container(),
+            TextButton(
+                onPressed: !instrument.tradable || !hasToken || !hasSpaceData
+                    ? null
+                    : () {
+                        context.read<LemonMarketsProvider>().orderCreated = false;
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => OrderScreen(instrument: instrument, sell: false)),
+                        );
+                      },
+                child: Text('Create buy order'))
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _getAttributeRow(String name, String value) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
-      child: Row(
-        children: [
-          SizedBox(width: 100, child: Text(name)),
-          Flexible(flex: 3, child: Text(value))
-        ],
       ),
     );
   }

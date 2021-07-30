@@ -17,7 +17,8 @@ class LemonMarketsProvider with ChangeNotifier {
 
   String? searchString;
 
-  StateInfo? stateInfo;
+  int? quantity;
+  bool orderCreated = false;
 
   Future<void> requestToken(BuildContext context) async {
     await credentials.init(context);
@@ -64,11 +65,32 @@ class LemonMarketsProvider with ChangeNotifier {
     }
   }
 
-  Future<void> requestStateInfo() async {
-    stateInfo = await lm.getStateInfo(token!);
+  Future<void> createAndActivateOrder(String isin, bool sell) async {
+    debugPrint('createAndActivateOrder with quantity $quantity');
+    if (quantity != null && quantity! > 0 && spaces != null && spaces!.result.isNotEmpty && token != null) {
+      try {
+        debugPrint('create order for $isin');
+        CreatedOrder order = await lm.placeOrder(token!, spaces!.result[0].uuid, isin, sell, quantity!, null, null, null);
+        debugPrint('created order:  ${order.uuid}');
+        this.quantity = null;
+        orderCreated = true;
+        await lm.activateOrder(token!, spaces!.result[0].uuid, order.uuid);
+      } on LemonMarketsException catch (e) {
+        setErrorMessage(e.toString());
+      }
+    }
   }
 
-  setErrorMessage(String message) {
+  void setQuantity(String? value) {
+    if (value == null || value.isEmpty) {
+      this.quantity = null;
+    } else {
+      this.quantity = int.tryParse(value);
+    }
+    notifyListeners();
+  }
+
+  setErrorMessage(String? message) {
     this.errorMessage = message;
     notifyListeners();
   }

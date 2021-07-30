@@ -1,4 +1,5 @@
 import 'package:example/provider/lemonMarketsProvider.dart';
+import 'package:example/widgets/commonWidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:lemon_markets_client/data/resultList.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsConverter.dart';
@@ -85,48 +86,15 @@ class SpacesInfoWidget extends StatelessWidget {
           children: [Text('Space data:')],
         ),
         Divider(),
-        _createRow('Name: ', space.name),
+        AttributeWidget(name: 'Name: ',value: space.name),
         Divider(),
-        _createRow('Type: ', space.type),
+        AttributeWidget(name: 'Type: ',value: space.type),
         Divider(),
-        _createRow('Uuid: ', space.uuid),
+        AttributeWidget(name: 'Uuid: ',value: space.uuid),
         Divider(),
-        _createRow('Cash to invest: ', space.state.cashToInvest),
+        AttributeWidget(name: 'Cash to invest: ',value: space.state.cashToInvest),
         Divider(),
-        _createRow('Balance: ', space.state.balance),
-      ],
-    );
-  }
-
-  Row _createRow(String label, String value) {
-    return Row(
-      children: [
-        SizedBox(width: 100, child: Text(label)),
-        Flexible(flex: 4, child: SelectableText(value)),
-      ],
-    );
-  }
-}
-
-class SpaceDetailRow extends StatelessWidget {
-  const SpaceDetailRow({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    bool hasData = context.watch<LemonMarketsProvider>().spaces != null;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text('Space details: '),
-        hasData
-            ? Icon(
-          Icons.check_box,
-          color: Colors.green,
-        )
-            : Icon(
-          Icons.not_interested,
-          color: Colors.red,
-        )
+        AttributeWidget(name: 'Balance: ',value: space.state.balance),
       ],
     );
   }

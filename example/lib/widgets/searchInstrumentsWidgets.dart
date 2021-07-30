@@ -40,6 +40,7 @@ class _SearchInstrumentsAreaState extends State<SearchInstrumentsArea> {
     return Column(
       children: [
         Text('Instrument search', textScaleFactor: 1.2,),
+        !hasToken ? Text('You can only search if you have requested a token', textScaleFactor: 0.8,) : Container(),
         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Container(
             width: MediaQuery.of(context).size.width / 1.5,
