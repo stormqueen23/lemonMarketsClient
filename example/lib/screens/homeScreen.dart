@@ -1,6 +1,7 @@
 import 'package:example/widgets/accessTokenWidgets.dart';
 import 'package:example/widgets/commonWidgets.dart';
 import 'package:example/widgets/searchInstrumentsWidgets.dart';
+import 'package:example/widgets/spaceWidgets.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -23,7 +24,10 @@ class HomeScreen extends StatelessWidget {
               AccessTokenRow(),
               AccessTokenArea(),
               Divider(thickness: 3,),
-              SearchInstrumentsArea()
+              SpaceDetailRow(),
+              SpacesArea(),
+              Divider(thickness: 3,),
+              SearchInstrumentsArea(),
             ],
           ),
         ),

@@ -9,6 +9,10 @@ class LemonMarketsProvider with ChangeNotifier {
 
   AccessToken? token;
   bool showTokenData = false;
+
+  ResultList<Space>? spaces;
+  bool showSpaceData = false;
+
   String? errorMessage;
 
   String? searchString;
@@ -19,13 +23,29 @@ class LemonMarketsProvider with ChangeNotifier {
     await credentials.init(context);
     try {
       token = await lm.requestToken(credentials.clientId, credentials.clientSecret);
+      notifyListeners();
+    } on LemonMarketsException catch (e) {
+      setErrorMessage(e.toString());
+    }
+
+  }
+
+  void switchShowTokenData() {
+    showTokenData = !showTokenData;
+    notifyListeners();
+  }
+
+  Future<void> requestSpaceDetails() async {
+    try {
+      spaces = await lm.getSpaces(token!);
+      notifyListeners();
     } on LemonMarketsException catch (e) {
       setErrorMessage(e.toString());
     }
   }
 
-  void switchShowTokenData() {
-    showTokenData = !showTokenData;
+  void switchShowSpaceData() {
+    showSpaceData = !showSpaceData;
     notifyListeners();
   }
 
