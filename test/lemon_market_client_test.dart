@@ -157,4 +157,10 @@ void main() {
     ResultList<OHLC> items = await lm.getOHLC(token,'US88160R1014', OHLCType.h1);
     expect(items.result.length, greaterThan(0));
   });
+
+  test('searchInstrumentsForTradingVenue', () async {
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    ResultList<Instrument> all = await lm.searchTradingVenueInstruments(token);
+    expect(all.result.length, greaterThan(0));
+  });
 }

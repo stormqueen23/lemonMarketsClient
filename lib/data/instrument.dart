@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:lemon_markets_client/data/searchTradingVenue.dart';
 
 part 'instrument.g.dart';
 
@@ -20,6 +21,9 @@ class Instrument {
   String currency;
   @JsonKey(name: 'tradable')
   bool tradable;
+
+  @JsonKey(name: 'trading_venues')
+  List<SearchTradingVenue>? tradingVenues;
 
   Instrument(this.isin, this.wkn, this.title, this.type, this.symbol, this.name, this.currency, this.tradable);
 

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:lemon_markets_client/clients/clientData.dart';
+import 'package:lemon_markets_client/clients/lemonMarketsSearch.dart';
 import 'package:lemon_markets_client/clients/lemonMarketsTradingVenue.dart';
 import 'package:lemon_markets_client/clients/lemonMarketsTransactions.dart';
 import 'package:lemon_markets_client/data/accessToken.dart';
@@ -37,6 +38,8 @@ enum OrderStatus { inactive, active, in_progress, executed, deleted, expired }
 enum OrderType { limit, market, stopLimit, stopMarket }
 enum OHLCType { m1, h1, d1 }
 
+const String defaultMic = 'XMUN';
+
 class LemonMarkets {
   final Logger log = Logger('LemonMarkets');
 
@@ -46,6 +49,7 @@ class LemonMarkets {
   late LemonMarketsTrading _tradingClient;
   late LemonMarketsMarketData _marketClient;
   late LemonMarketsHistoric _historicClient;
+  late LemonMarketsSearch _searchClient;
   late LemonMarketsTransaction _transactionClient;
   late LemonMarketsTradingVenue _tradingVenueClient;
 
@@ -57,6 +61,7 @@ class LemonMarkets {
     _marketClient = LemonMarketsMarketData(client);
     _portfolioClient = LemonMarketsPortfolio(client);
     _historicClient = LemonMarketsHistoric(client);
+    _searchClient = LemonMarketsSearch(client);
     _transactionClient = LemonMarketsTransaction(client);
     _tradingVenueClient = LemonMarketsTradingVenue(client);
   }
@@ -155,12 +160,12 @@ class LemonMarkets {
 
   Future<ResultList<Instrument>> searchInstruments(AccessToken token,
       {String? search, SearchType? type, bool? tradable, String? currency, String? limit, int? offset}) async {
-    ResultList<Instrument> result = await _tradingClient.searchInstruments(token, search: search, type: type, tradable: tradable, currency: currency, limit: limit, offset: offset);
+    ResultList<Instrument> result = await _searchClient.searchInstruments(token, search: search, type: type, tradable: tradable, currency: currency, limit: limit, offset: offset);
     return result;
   }
 
   Future<ResultList<Instrument>> searchInstrumentsByUrl(AccessToken token, String url) async {
-    ResultList<Instrument> result = await _tradingClient.searchInstrumentsByUrl(token, url);
+    ResultList<Instrument> result = await _searchClient.searchInstrumentsByUrl(token, url);
     return result;
   }
 
@@ -186,16 +191,28 @@ class LemonMarkets {
 
   //TODO -> see tradingClient
 
+  Future<ResultList<Instrument>> searchTradingVenueInstruments(AccessToken token,
+      {String mic = defaultMic, String? search, SearchType? type, bool? tradable, String? currency, String? limit, int? offset}) async {
+    ResultList<Instrument> result = await _searchClient.searchTradingVenueInstruments(token, mic, search: search, type: type, tradable: tradable, currency: currency, limit: limit, offset: offset);
+    return result;
+  }
+
+  Future<ResultList<Instrument>> searchTradingVenueInstrumentsByUrl(AccessToken token, String url) async {
+    ResultList<Instrument> result = await _searchClient.searchTradingVenueInstrumentsByUrl(token, url);
+    return result;
+  }
+
+
   // Data -> Quotes
 
-  Future<LatestQuote> getLatestQuote(AccessToken token, String isin, {String mic = 'XMUN'}) async {
+  Future<LatestQuote> getLatestQuote(AccessToken token, String isin, {String mic = defaultMic}) async {
     return _marketClient.getLatestQuote(token, isin, mic);
   }
 
   // Data -> OHLC
 
   Future<ResultList<OHLC>> getOHLC(AccessToken token, String isin, OHLCType type,
-    {String mic = 'XMUN', DateTime? from, DateTime? until, bool? reverseOrdering}) async {
+    {String mic = defaultMic, DateTime? from, DateTime? until, bool? reverseOrdering}) async {
     return _historicClient.getOHLC(token, isin, mic, type, from, until, reverseOrdering);
   }
 
@@ -205,7 +222,7 @@ class LemonMarkets {
 
   // Data -> Latest Trades
 
-  Future<LatestTrade> getLatestTrade(AccessToken token, String isin, {String mic = 'XMUN'}) async {
+  Future<LatestTrade> getLatestTrade(AccessToken token, String isin, {String mic = defaultMic}) async {
     return _marketClient.getLatestTrade(token, isin, mic);
   }
 
