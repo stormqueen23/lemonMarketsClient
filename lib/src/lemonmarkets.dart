@@ -96,7 +96,9 @@ class LemonMarkets {
     return _tradingClient.getOrders(token, spaceUuid, createdAtUntil, createdAtFrom, side, type, status, limit, offset);
   }
 
-  //TODO: getOrder
+  Future<ExistingOrder> getOrder(AccessToken token, String spaceUuid, String orderUuid) async {
+    return _tradingClient.getOrder(token, spaceUuid, orderUuid);
+  }
 
   Future<CreatedOrder> placeOrder(
       AccessToken token, String spaceUuid, String isin, bool sell, int quantity, {double? validUntil, double? stopPrice, double? limitPrice}) async {
@@ -125,12 +127,12 @@ class LemonMarkets {
     return _portfolioClient.getPortfolioItems(token, spaceUuid);
   }
 
-  Future<ResultList<PortfolioTransaction>> getTransactionsForPortfolio(AccessToken token, String spaceUuid,
+  Future<ResultList<PortfolioTransaction>> getPortfolioTransactions(AccessToken token, String spaceUuid,
       {int? createdAtUntil, int? createdAtFrom, int? limit, int? offset}) async {
     return _portfolioClient.getPortfolioTransactions(token, spaceUuid, createdAtFrom: createdAtFrom, createdAtUntil: createdAtUntil, limit: limit, offset: offset);
   }
 
-  Future<ResultList<PortfolioTransaction>> getTransactionsForPortfolioFromUrl(AccessToken token, String url) async {
+  Future<ResultList<PortfolioTransaction>> getPortfolioTransactionsFromUrl(AccessToken token, String url) async {
     return _portfolioClient.getPortfolioTransactionsFromUrl(token, url);
   }
 

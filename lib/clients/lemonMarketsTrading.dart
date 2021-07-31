@@ -95,7 +95,17 @@ class LemonMarketsTrading {
     }
   }
 
-  //TODO: /spaces/{space_uuid}/orders/{order_uuid}
+  Future<ExistingOrder> getOrder(AccessToken token, String spaceUuid, String orderUuid) async {
+    String url = LemonMarketsURL.BASE_URL + '/spaces/' + spaceUuid + '/orders/'+orderUuid;
+    LemonMarketsClientResponse response = await _client.sendGet(url, token);
+    try {
+      ExistingOrder result =  ExistingOrder.fromJson(response.decodedBody);
+      return result;
+    } catch (e) {
+      log.warning(e.toString());
+      throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString());
+    }
+  }
 
   Future<ResultList<ExistingOrder>> getOrders(AccessToken token, String spaceUuid,
       int? createdAtUntil, int? createdAtFrom, OrderSide? side, OrderType? type,

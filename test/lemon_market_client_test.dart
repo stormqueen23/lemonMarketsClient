@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lemon_markets_client/data/resultList.dart';
 import 'package:lemon_markets_client/data/transaction.dart';
@@ -42,9 +43,9 @@ void main() {
     expect(list.result.length, greaterThan(0));
   });
 
-  test('getTransactionsForPortfolio', () async {
+  test('getPortfolioTransactions', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    ResultList<PortfolioTransaction> list = await lm.getTransactionsForPortfolio(token, spaceUuid);
+    ResultList<PortfolioTransaction> list = await lm.getPortfolioTransactions(token, spaceUuid);
     expect(list.result.length, greaterThan(0));
   });
 
@@ -137,6 +138,12 @@ void main() {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
     ResultList<ExistingOrder> all = await lm.getOrders(token, Credentials.spaceUuid);
     expect(all.result.length, greaterThan(0));
+  });
+
+  test('getSingleOrder', () async {
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    ExistingOrder order = await lm.getOrder(token, Credentials.spaceUuid, Credentials.orderUuid);
+    expect(order.uuid, Credentials.orderUuid);
   });
 
   test('getPortfolioItems', () async {
