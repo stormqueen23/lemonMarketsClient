@@ -8,6 +8,7 @@ import 'package:lemon_markets_client/data/portfolioTransaction.dart';
 import 'package:lemon_markets_client/data/space.dart';
 import 'package:lemon_markets_client/data/tradingVenue.dart';
 import 'package:lemon_markets_client/data/transaction.dart';
+import 'package:lemon_markets_client/data/warrant.dart';
 
 import 'instrument.dart';
 
@@ -48,12 +49,14 @@ class ResultList<T> {
         return TradingVenue.fromJson(json) as T;
       } else if (T == Transaction) {
         return Transaction.fromJson(json) as T;
+      } else if (T == Warrant) {
+        return Warrant.fromJson(json) as T;
       }
     }
     throw ArgumentError.value(
       json,
       'json',
-      'Unknown type $T: Cannot convert the provided data ',
+      'Unknown type $T: Add $T in resultList.dart',
     );
   }
 }

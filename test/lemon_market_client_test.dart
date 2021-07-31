@@ -171,6 +171,18 @@ void main() {
     expect(result.isin, isin);
   });
 
+  test('searchWarrantForInstrumentForTradingVenue', () async {
+    String isin = 'US88160R1014';
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    ResultList<Warrant> result = await lm.searchTradingVenueInstrumentWarrants(token, 'XMUN', isin);
+    expect(result.result.length, greaterThan(0));
+  });
 
+  test('searchWithLimitWarrantForInstrumentForTradingVenue', () async {
+    String isin = 'US88160R1014';
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    ResultList<Warrant> result = await lm.searchTradingVenueInstrumentWarrants(token, 'XMUN', isin, limit: "1");
+    expect(result.result.length, 1);
+  });
 
 }

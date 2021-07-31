@@ -27,6 +27,7 @@ import 'package:lemon_markets_client/clients/lemonMarketsSpaces.dart';
 import 'package:lemon_markets_client/clients/lemonMarketsTrading.dart';
 import 'package:lemon_markets_client/data/tradingVenue.dart';
 import 'package:lemon_markets_client/data/transaction.dart';
+import 'package:lemon_markets_client/data/warrant.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsURLs.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 import 'package:logging/logging.dart';
@@ -189,7 +190,6 @@ class LemonMarkets {
 
   // Trading Venues
 
-  //TODO -> see tradingClient
   Future<ResultList<Instrument>> searchTradingVenueInstruments(AccessToken token, String mic,
       {String? search, SearchType? type, bool? tradable, String? currency, String? limit, int? offset}) async {
     return _searchClient.searchTradingVenueInstruments(token, mic, search: search, type: type, tradable: tradable, currency: currency, limit: limit, offset: offset);
@@ -201,6 +201,15 @@ class LemonMarkets {
 
   Future<Instrument> searchTradingVenueInstrument(AccessToken token, String mic, String isin) async {
     return _searchClient.searchTradingVenueInstrument(token, mic, isin);
+  }
+
+  Future<ResultList<Warrant>> searchTradingVenueInstrumentWarrants(AccessToken token, String mic, String isin,
+      {String? search, bool? tradable, String? currency, String? limit, int? offset}) async {
+    return _searchClient.searchTradingVenueInstrumentWarrants(token, mic, isin, search: search, tradable: tradable, currency: currency, limit: limit, offset: offset);
+  }
+
+  Future<ResultList<Warrant>> searchTradingVenueInstrumentWarrantsByUrl(AccessToken token, String url) async {
+    return _searchClient.searchTradingVenueInstrumentWarrantsByUrl(token, url);
   }
 
   // Data -> Quotes
