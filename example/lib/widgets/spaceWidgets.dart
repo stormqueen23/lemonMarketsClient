@@ -2,7 +2,6 @@ import 'package:example/provider/lemonMarketsProvider.dart';
 import 'package:example/widgets/commonWidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:lemon_markets_client/data/resultList.dart';
-import 'package:lemon_markets_client/helper/lemonMarketsConverter.dart';
 import 'package:provider/provider.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 

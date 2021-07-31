@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lemon_markets_client/data/existingOrder.dart';
 import 'package:lemon_markets_client/data/ohlc.dart';
