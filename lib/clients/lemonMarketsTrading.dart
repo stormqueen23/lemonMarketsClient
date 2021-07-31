@@ -1,3 +1,4 @@
+import 'package:lemon_markets_client/clients/clientData.dart';
 import 'package:lemon_markets_client/data/accessToken.dart';
 import 'package:lemon_markets_client/data/createdOrder.dart';
 import 'package:lemon_markets_client/data/existingOrder.dart';
@@ -16,34 +17,9 @@ class LemonMarketsTrading {
 
   LemonMarketsTrading(this._client);
 
-  /// /trading-venues/{mic}/instruments/
-  /// /trading-venues/{mic}/instruments/{isin}/
-  /// /trading-venues/{mic}/instruments/{isin}/warrants/
-
-  String _generateInstrumentParamString({String? search, SearchType? type, bool? tradable, String? currency, String? limit, int? offset}) {
-    List<String> query = [];
-    if (search != null && search.trim().isNotEmpty) {
-      query.add("search="+search.trim());
-    }
-    if (type != null) {
-      String appendType = _convertType(type);
-      query.add("type="+appendType);
-    }
-    if (tradable != null) {
-      query.add("tradable="+tradable.toString());
-    }
-    if (currency != null) {
-      query.add("currency="+currency);
-    }
-    if (limit != null) {
-      query.add("limit="+limit.toString());
-    }
-    if (offset != null) {
-      query.add("offset="+offset.toString());
-    }
-    String result = LemonMarketsHttpClient.generateQueryParams(query);
-    return result;
-  }
+  ///TODO /trading-venues/{mic}/instruments/
+  ///TODO /trading-venues/{mic}/instruments/{isin}/
+  ///TODO /trading-venues/{mic}/instruments/{isin}/warrants/
 
   Future<ResultList<Instrument>> searchInstruments(AccessToken token,
       {String? search, SearchType? type, bool? tradable, String? currency, String? limit, int? offset}) async {
@@ -66,7 +42,7 @@ class LemonMarketsTrading {
 
   Future<CreatedOrder> placeOrder(
       AccessToken token, String spaceUuid, String isin, double validUntil, String side,
-      int quantity, double? stopPrice, double? limitPrice) async {
+      int quantity, {double? stopPrice, double? limitPrice}) async {
     String url = LemonMarketsURL.BASE_URL + '/spaces/' + spaceUuid + '/orders/';
     Map<String, dynamic> data = {};
     data['isin'] = isin;
@@ -80,7 +56,6 @@ class LemonMarketsTrading {
       data['stop_price'] = stopPrice.toString();
     }
     log.fine('place order data: $data');
-
     LemonMarketsClientResponse response = await _client.sendPost(url, token, data);
     try {
       CreatedOrder result = CreatedOrder.fromJson(response.decodedBody);
@@ -91,36 +66,33 @@ class LemonMarketsTrading {
     }
   }
 
-  Future<bool> activateOrder(AccessToken token, String spaceUuid, String orderUuid) async {
+  Future<ActivateOrderResponse> activateOrder(AccessToken token, String spaceUuid, String orderUuid) async {
     String url = LemonMarketsURL.BASE_URL + '/spaces/' + spaceUuid + '/orders/' + orderUuid + '/activate/';
     LemonMarketsClientResponse response = await _client.sendPut(url, token);
     try {
       String status = response.decodedBody['status'];
       log.fine('status for orderActivation: $status');
-      //TODO: better handling in case of no success
-      return 'activated'.compareTo(status) == 0 && response.statusCode == 200 ? true : false;
+      return ActivateOrderResponse('activated'.compareTo(status) == 0 && response.statusCode == 200, response.statusCode, response.decodedBody);
     } catch (e) {
       log.warning(e.toString());
+      throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString());
     }
-    return false;
   }
 
-  Future<bool> deleteOrder(AccessToken token, String spaceUuid, String orderUuid) async {
+  Future<DeleteOrderResponse> deleteOrder(AccessToken token, String spaceUuid, String orderUuid) async {
     String url = LemonMarketsURL.BASE_URL + '/spaces/' + spaceUuid + '/orders/' + orderUuid + '';
     LemonMarketsClientResponse response =  await _client.sendDelete(url, token);
     try {
       log.fine('response from delete order: ${response.decodedBody}');
       if (response.decodedBody.isEmpty && response.statusCode == 204) {
-        return true;
+        return DeleteOrderResponse(true, response.statusCode, response.decodedBody);
       } else {
-        //TODO: better handling in case of no success
-        return false;
+        return DeleteOrderResponse(false, response.statusCode, response.decodedBody);
       }
     } catch (e) {
       log.warning(e.toString());
-      //throw LemonMarketJsonException(decoded.toString(), decoded.toString());
+      throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString());
     }
-    return false;
   }
 
   //TODO: /spaces/{space_uuid}/orders/{order_uuid}
@@ -179,4 +151,28 @@ class LemonMarketsTrading {
     return result;
   }
 
+  String _generateInstrumentParamString({String? search, SearchType? type, bool? tradable, String? currency, String? limit, int? offset}) {
+    List<String> query = [];
+    if (search != null && search.trim().isNotEmpty) {
+      query.add("search="+search.trim());
+    }
+    if (type != null) {
+      String appendType = _convertType(type);
+      query.add("type="+appendType);
+    }
+    if (tradable != null) {
+      query.add("tradable="+tradable.toString());
+    }
+    if (currency != null) {
+      query.add("currency="+currency);
+    }
+    if (limit != null) {
+      query.add("limit="+limit.toString());
+    }
+    if (offset != null) {
+      query.add("offset="+offset.toString());
+    }
+    String result = LemonMarketsHttpClient.generateQueryParams(query);
+    return result;
+  }
 }

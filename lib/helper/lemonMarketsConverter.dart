@@ -13,9 +13,9 @@ class LemonMarketsConverter {
   }
 
   static String? convertSide(OrderSide value) {
-    if (OrderSide.BUY == value) {
+    if (OrderSide.buy == value) {
       return 'buy';
-    } else if (OrderSide.SELL == value) {
+    } else if (OrderSide.sell == value) {
       return 'sell';
     }
     return null;
@@ -54,22 +54,22 @@ class LemonMarketsConverter {
   static String convertSearchType(SearchType type) {
     String result = "";
     switch (type) {
-      case SearchType.BOND:
+      case SearchType.bond:
         result = "bond";
         break;
-      case SearchType.ETF:
+      case SearchType.etf:
         result = "ETF";
         break;
-      case SearchType.FUND:
+      case SearchType.fund:
         result = "fund";
         break;
-      case SearchType.STOCK:
+      case SearchType.stock:
         result = "stock";
         break;
-      case SearchType.WARRANT:
+      case SearchType.warrant:
         result = "warrant";
         break;
-      case SearchType.NONE:
+      case SearchType.none:
         result = "";
         break;
     }

@@ -2,6 +2,8 @@ library lemon_markets_client;
 
 export 'package:lemon_markets_client/src/lemonmarkets.dart';
 
+export 'package:lemon_markets_client/clients/clientData.dart';
+
 export 'package:lemon_markets_client/exception/lemonMarketsDecodeException.dart';
 export 'package:lemon_markets_client/exception/lemonMarketsConvertException.dart';
 export 'package:lemon_markets_client/exception/lemonMarketsStatusCodeException.dart';

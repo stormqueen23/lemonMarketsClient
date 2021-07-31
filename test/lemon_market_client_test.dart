@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lemon_markets_client/data/resultList.dart';
 import 'package:lemon_markets_client/data/transaction.dart';
@@ -109,7 +108,7 @@ void main() {
 
   test('searchInstrumentsWithQueryAndType', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    ResultList<Instrument> all = await lm.searchInstruments(token, search: 'Tesla', type: SearchType.STOCK);
+    ResultList<Instrument> all = await lm.searchInstruments(token, search: 'Tesla', type: SearchType.stock);
     expect(all.result.length, greaterThan(0));
   });
 
@@ -148,7 +147,7 @@ void main() {
 
   test('getOHLC', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    ResultList<OHLC> items = await lm.getOHLC(token,'US88160R1014', OHLCType.h1, null, null, null);
+    ResultList<OHLC> items = await lm.getOHLC(token,'US88160R1014', OHLCType.h1);
     expect(items.result.length, greaterThan(0));
   });
 }
