@@ -127,11 +127,11 @@ class LemonMarkets {
 
   Future<ResultList<PortfolioTransaction>> getTransactionsForPortfolio(AccessToken token, String spaceUuid,
       {int? createdAtUntil, int? createdAtFrom, int? limit, int? offset}) async {
-    return _transactionClient.getTransactionsForPortfolio(token, spaceUuid, createdAtFrom: createdAtFrom, createdAtUntil: createdAtUntil, limit: limit, offset: offset);
+    return _portfolioClient.getPortfolioTransactions(token, spaceUuid, createdAtFrom: createdAtFrom, createdAtUntil: createdAtUntil, limit: limit, offset: offset);
   }
 
   Future<ResultList<PortfolioTransaction>> getTransactionsForPortfolioFromUrl(AccessToken token, String url) async {
-    return _transactionClient.getPortfolioTransactionsFromUrl(token, url);
+    return _portfolioClient.getPortfolioTransactionsFromUrl(token, url);
   }
 
   // Spaces -> Transactions
