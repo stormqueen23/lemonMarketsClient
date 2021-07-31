@@ -154,13 +154,23 @@ void main() {
 
   test('getOHLC', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    ResultList<OHLC> items = await lm.getOHLC(token,'US88160R1014', OHLCType.h1);
+    ResultList<OHLC> items = await lm.getOHLC(token, 'US88160R1014', OHLCType.h1);
     expect(items.result.length, greaterThan(0));
   });
 
   test('searchInstrumentsForTradingVenue', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    ResultList<Instrument> all = await lm.searchTradingVenueInstruments(token);
+    ResultList<Instrument> all = await lm.searchTradingVenueInstruments(token, 'XMUN');
     expect(all.result.length, greaterThan(0));
   });
+
+  test('searchSingleInstrumentForTradingVenue', () async {
+    String isin = 'US88160R1014';
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    Instrument result = await lm.searchTradingVenueInstrument(token, 'XMUN', isin);
+    expect(result.isin, isin);
+  });
+
+
+
 }

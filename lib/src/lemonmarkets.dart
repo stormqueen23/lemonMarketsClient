@@ -190,18 +190,18 @@ class LemonMarkets {
   // Trading Venues
 
   //TODO -> see tradingClient
-
-  Future<ResultList<Instrument>> searchTradingVenueInstruments(AccessToken token,
-      {String mic = defaultMic, String? search, SearchType? type, bool? tradable, String? currency, String? limit, int? offset}) async {
-    ResultList<Instrument> result = await _searchClient.searchTradingVenueInstruments(token, mic, search: search, type: type, tradable: tradable, currency: currency, limit: limit, offset: offset);
-    return result;
+  Future<ResultList<Instrument>> searchTradingVenueInstruments(AccessToken token, String mic,
+      {String? search, SearchType? type, bool? tradable, String? currency, String? limit, int? offset}) async {
+    return _searchClient.searchTradingVenueInstruments(token, mic, search: search, type: type, tradable: tradable, currency: currency, limit: limit, offset: offset);
   }
 
   Future<ResultList<Instrument>> searchTradingVenueInstrumentsByUrl(AccessToken token, String url) async {
-    ResultList<Instrument> result = await _searchClient.searchTradingVenueInstrumentsByUrl(token, url);
-    return result;
+    return _searchClient.searchTradingVenueInstrumentsByUrl(token, url);
   }
 
+  Future<Instrument> searchTradingVenueInstrument(AccessToken token, String mic, String isin) async {
+    return _searchClient.searchTradingVenueInstrument(token, mic, isin);
+  }
 
   // Data -> Quotes
 

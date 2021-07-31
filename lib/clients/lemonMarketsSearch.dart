@@ -17,9 +17,19 @@ class LemonMarketsSearch {
 
   LemonMarketsSearch(this._client);
 
-
-  ///TODO /trading-venues/{mic}/instruments/{isin}/
   ///TODO /trading-venues/{mic}/instruments/{isin}/warrants/
+
+  Future<Instrument> searchTradingVenueInstrument(AccessToken token, String mic, String isin) async {
+    String url = LemonMarketsURL.BASE_URL + '/trading-venues/' + mic + '/instruments/' + isin + '/';
+    LemonMarketsClientResponse response = await _client.sendGet(url, token);
+    try {
+      Instrument result = Instrument.fromJson(response.decodedBody);
+      return result;
+    } catch (e) {
+      log.warning(e.toString());
+      throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString());
+    }
+  }
 
   Future<ResultList<Instrument>> searchTradingVenueInstruments(AccessToken token, String mic,
       {String? search, SearchType? type, bool? tradable, String? currency, String? limit, int? offset}) async {
