@@ -14,8 +14,16 @@ class LemonMarketsSpaces {
 
   LemonMarketsSpaces(this._client);
 
-  Future<ResultList<Space>> getSpaces(AccessToken token) async {
-    String url = LemonMarketsURL.BASE_URL+'/spaces/';
+  Future<ResultList<Space>> getSpaces(AccessToken token, {int? limit, int? offset}) async {
+    List<String> queryParamList = [];
+    if (limit != null) {
+      queryParamList.add('limit='+limit.toString());
+    }
+    if (offset != null) {
+      queryParamList.add('offset='+offset.toString());
+    }
+    String query = LemonMarketsHttpClient.generateQueryParams(queryParamList);
+    String url = LemonMarketsURL.BASE_URL+'/spaces/'+query;
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
       ResultList<Space> result = ResultList<Space>.fromJson(response.decodedBody);
@@ -36,7 +44,6 @@ class LemonMarketsSpaces {
       log.warning(e.toString());
       throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString());
     }
-
   }
 
   Future<SpaceState> getSpaceState(AccessToken token, String uuid) async {
@@ -51,8 +58,16 @@ class LemonMarketsSpaces {
     }
   }
 
-  Future<StateInfo> getStateInfo(AccessToken token) async {
-    String url = LemonMarketsURL.BASE_URL+'/state/';
+  Future<StateInfo> getStateInfo(AccessToken token, {int? limit, int? offset}) async {
+    List<String> queryParamList = [];
+    if (limit != null) {
+      queryParamList.add('limit='+limit.toString());
+    }
+    if (offset != null) {
+      queryParamList.add('offset='+offset.toString());
+    }
+    String query = LemonMarketsHttpClient.generateQueryParams(queryParamList);
+    String url = LemonMarketsURL.BASE_URL+'/state/'+query;
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
       StateInfo result = StateInfo.fromJson(response.decodedBody);

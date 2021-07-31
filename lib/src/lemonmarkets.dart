@@ -71,15 +71,13 @@ class LemonMarkets {
   // State
 
   Future<StateInfo> getStateInfo(AccessToken token, {int? limit, int? offset}) async {
-    //TODO: add params
-    return _spacesClient.getStateInfo(token);
+    return _spacesClient.getStateInfo(token, limit: limit, offset: offset);
   }
 
   // Spaces -> Spaces
 
   Future<ResultList<Space>> getSpaces(AccessToken token, {int? limit, int? offset}) async {
-    //TODO: add params
-    return _spacesClient.getSpaces(token);
+    return _spacesClient.getSpaces(token, limit: limit, offset: offset);
   }
 
   Future<Space> getSpace(AccessToken token, String spaceUuid) async {
