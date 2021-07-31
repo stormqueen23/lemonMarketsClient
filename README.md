@@ -69,15 +69,6 @@ Short example for SELL:
 
 
 
-## TODO
-### Not implemented endpoints:
-
-/spaces/{space_uuid}/orders/{order_uuid}
-
-/trading-venues/{mic}/instruments/ \
-/trading-venues/{mic}/instruments/{isin}/ \
-/trading-venues/{mic}/instruments/{isin}/warrants/ 
-
 ## Building this plugin
 To generate the missing *.g.dart classes run:\
 ```
