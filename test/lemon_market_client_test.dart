@@ -36,9 +36,9 @@ void main() {
     expect(spaces.result[0].uuid, spaceUuid);
   });
 
-  test('getTransactionsForSpace', () async {
+  test('getTransactions', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    ResultList<Transaction> list = await lm.getTransactionsForSpace(token, spaceUuid);
+    ResultList<Transaction> list = await lm.getTransactions(token, spaceUuid);
     expect(list.result.length, greaterThan(0));
   });
 
@@ -48,29 +48,29 @@ void main() {
     expect(list.result.length, greaterThan(0));
   });
 
-  test('getTransactionsForSpaceFromUntil', () async {
+  test('getTransactionsFromUntil', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
     DateTime from = DateTime(2021, 6, 23, 9);
     double fromDouble = LemonMarketsTimeConverter.getDoubleTimeForDateTime(from);
     DateTime until = DateTime(2021, 7, 15, 14, 3);
     double untilDouble = LemonMarketsTimeConverter.getDoubleTimeForDateTime(until);
-    ResultList<Transaction> list = await lm.getTransactionsForSpace(token, spaceUuid, createdAtFrom: fromDouble.toInt(), createdAtUntil: untilDouble.toInt());
+    ResultList<Transaction> list = await lm.getTransactions(token, spaceUuid, createdAtFrom: fromDouble.toInt(), createdAtUntil: untilDouble.toInt());
     expect(list.result.length, 2);
   });
 
   test('getTransactionsFromURL', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    ResultList<Transaction> list = await lm.getTransactionsForSpace(token, spaceUuid, limit: 1);
+    ResultList<Transaction> list = await lm.getTransactions(token, spaceUuid, limit: 1);
     expect(list.result.length, 1);
     expect(list.next, isNotNull);
     String nextUrl = list.next!;
-    ResultList<Transaction> nextList = await lm.getTransactionsFromURL(token, nextUrl);
+    ResultList<Transaction> nextList = await lm.getTransactionsByURL(token, nextUrl);
     expect(nextList, isNotNull);
   });
 
-  test('getTransactionForSpace', () async {
+  test('getTransaction', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    Transaction transaction = await lm.getTransactionForSpace(token, spaceUuid, transactionUuidPayIn);
+    Transaction transaction = await lm.getTransaction(token, spaceUuid, transactionUuidPayIn);
     expect(transaction.order, null);
   });
 

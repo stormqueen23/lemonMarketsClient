@@ -15,6 +15,10 @@ class LemonMarketsPortfolio {
 
   Future<ResultList<PortfolioItem>> getPortfolioItems(AccessToken token, String spaceUuid) async {
     String url = LemonMarketsURL.BASE_URL+'/spaces/'+spaceUuid+'/portfolio/';
+    return getPortfolioItemsByUrl(token, url);
+  }
+
+  Future<ResultList<PortfolioItem>> getPortfolioItemsByUrl(AccessToken token, String url) async {
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
       ResultList<PortfolioItem> result = ResultList<PortfolioItem>.fromJson(response.decodedBody);
@@ -30,10 +34,10 @@ class LemonMarketsPortfolio {
     String url = LemonMarketsURL.BASE_URL+'/spaces/'+spaceUuid+'/portfolio/transactions/';
     String append = _generateParamString(createdAtUntil: createdAtUntil, createdAtFrom: createdAtFrom, limit: limit, offset: offset);
     url += append;
-    return getPortfolioTransactionsFromUrl(token, url);
+    return getPortfolioTransactionsByUrl(token, url);
   }
 
-  Future<ResultList<PortfolioTransaction>> getPortfolioTransactionsFromUrl(AccessToken token, String url) async {
+  Future<ResultList<PortfolioTransaction>> getPortfolioTransactionsByUrl(AccessToken token, String url) async {
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
       ResultList<PortfolioTransaction> result = ResultList<PortfolioTransaction>.fromJson(response.decodedBody);

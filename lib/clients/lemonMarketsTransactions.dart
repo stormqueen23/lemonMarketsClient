@@ -12,15 +12,15 @@ class LemonMarketsTransaction {
 
   LemonMarketsTransaction(this._client);
 
-  Future<ResultList<Transaction>> getTransactionsForSpace(AccessToken token, String spaceUuid,
+  Future<ResultList<Transaction>> getTransactions(AccessToken token, String spaceUuid,
       {int? createdAtUntil, int? createdAtFrom, int? limit, int? offset}) async {
     String url = LemonMarketsURL.BASE_URL+'/spaces/'+spaceUuid+'/transactions/';
     String append = _generateParamString(createdAtUntil: createdAtUntil, createdAtFrom: createdAtFrom, limit: limit, offset: offset);
     url += append;
-    return getTransactionsFromUrl(token, url);
+    return getTransactionsByUrl(token, url);
   }
 
-  Future<Transaction> getTransactionForSpace(AccessToken token, String spaceUuid, String transactionUuid) async {
+  Future<Transaction> getTransaction(AccessToken token, String spaceUuid, String transactionUuid) async {
     String url = LemonMarketsURL.BASE_URL+'/spaces/'+spaceUuid+'/transactions/'+transactionUuid+'/';
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
@@ -32,7 +32,7 @@ class LemonMarketsTransaction {
     }
   }
 
-  Future<ResultList<Transaction>> getTransactionsFromUrl(AccessToken token, String url) async {
+  Future<ResultList<Transaction>> getTransactionsByUrl(AccessToken token, String url) async {
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
       ResultList<Transaction> result = ResultList<Transaction>.fromJson(response.decodedBody);

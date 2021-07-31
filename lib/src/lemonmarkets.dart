@@ -86,6 +86,10 @@ class LemonMarkets {
     return _spacesClient.getSpaces(token, limit: limit, offset: offset);
   }
 
+  Future<ResultList<Space>> getSpacesByUrl(AccessToken token, String url) async {
+    return _spacesClient.getSpacesByUrl(token, url);
+  }
+
   Future<Space> getSpace(AccessToken token, String spaceUuid) async {
     return _spacesClient.getSpace(token, spaceUuid);
   }
@@ -100,6 +104,10 @@ class LemonMarkets {
       {int? createdAtUntil, int? createdAtFrom, OrderSide? side, OrderType? type, OrderStatus? status, int? limit, int? offset}) async {
     //isin as query parameter would be nice
     return _tradingClient.getOrders(token, spaceUuid, createdAtUntil, createdAtFrom, side, type, status, limit, offset);
+  }
+
+  Future<ResultList<ExistingOrder>> getOrdersByUrl(AccessToken token, String url) async {
+    return _tradingClient.getOrdersByUrl(token, url);
   }
 
   Future<ExistingOrder> getOrder(AccessToken token, String spaceUuid, String orderUuid) async {
@@ -133,28 +141,32 @@ class LemonMarkets {
     return _portfolioClient.getPortfolioItems(token, spaceUuid);
   }
 
+  Future<ResultList<PortfolioItem>> getPortfolioItemsByUrl(AccessToken token, String spaceUuid) async {
+    return _portfolioClient.getPortfolioItems(token, spaceUuid);
+  }
+
   Future<ResultList<PortfolioTransaction>> getPortfolioTransactions(AccessToken token, String spaceUuid,
       {int? createdAtUntil, int? createdAtFrom, int? limit, int? offset}) async {
     return _portfolioClient.getPortfolioTransactions(token, spaceUuid, createdAtFrom: createdAtFrom, createdAtUntil: createdAtUntil, limit: limit, offset: offset);
   }
 
-  Future<ResultList<PortfolioTransaction>> getPortfolioTransactionsFromUrl(AccessToken token, String url) async {
-    return _portfolioClient.getPortfolioTransactionsFromUrl(token, url);
+  Future<ResultList<PortfolioTransaction>> getPortfolioTransactionsByUrl(AccessToken token, String url) async {
+    return _portfolioClient.getPortfolioTransactionsByUrl(token, url);
   }
 
   // Spaces -> Transactions
 
-  Future<ResultList<Transaction>> getTransactionsForSpace(AccessToken token, String spaceUuid,
+  Future<ResultList<Transaction>> getTransactions(AccessToken token, String spaceUuid,
       {int? createdAtUntil, int? createdAtFrom, int? limit, int? offset}) async {
-    return _transactionClient.getTransactionsForSpace(token, spaceUuid, createdAtFrom: createdAtFrom, createdAtUntil: createdAtUntil, limit: limit, offset: offset);
+    return _transactionClient.getTransactions(token, spaceUuid, createdAtFrom: createdAtFrom, createdAtUntil: createdAtUntil, limit: limit, offset: offset);
   }
 
-  Future<ResultList<Transaction>> getTransactionsFromURL(AccessToken token, String url) async {
-    return _transactionClient.getTransactionsFromUrl(token, url);
+  Future<ResultList<Transaction>> getTransactionsByURL(AccessToken token, String url) async {
+    return _transactionClient.getTransactionsByUrl(token, url);
   }
 
-  Future<Transaction> getTransactionForSpace(AccessToken token, String spaceUuid, String transactionUuid) async {
-    return _transactionClient.getTransactionForSpace(token, spaceUuid, transactionUuid);
+  Future<Transaction> getTransaction(AccessToken token, String spaceUuid, String transactionUuid) async {
+    return _transactionClient.getTransaction(token, spaceUuid, transactionUuid);
   }
 
   // Instruments
@@ -186,6 +198,10 @@ class LemonMarkets {
 
   Future<ResultList<OpeningDay>> getTradingVenueOpeningDays(AccessToken token, String mic) async {
     return _tradingVenueClient.getOpeningDays(token, mic);
+  }
+
+  Future<ResultList<OpeningDay>> getTradingVenueOpeningDaysByUrl(AccessToken token, String url) async {
+    return _tradingVenueClient.getOpeningDaysByUrl(token, url);
   }
 
   // Trading Venues
@@ -225,7 +241,7 @@ class LemonMarkets {
     return _historicClient.getOHLC(token, isin, mic, type, from, until, reverseOrdering);
   }
 
-  Future<ResultList<OHLC>> getOHLCFromUrl(AccessToken token, String url) async {
+  Future<ResultList<OHLC>> getOHLCByUrl(AccessToken token, String url) async {
     return _historicClient.getOHLCFromUrl(token, url);
   }
 

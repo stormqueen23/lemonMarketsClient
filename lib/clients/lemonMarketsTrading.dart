@@ -89,6 +89,10 @@ class LemonMarketsTrading {
     List<String> params = _getOrderQueryParams(createdAtUntil, createdAtFrom, side, type, status, limit, offset);
     String queryParams = LemonMarketsHttpClient.generateQueryParams(params);
     String url = LemonMarketsURL.BASE_URL + '/spaces/' + spaceUuid + '/orders/'+queryParams;
+    return getOrdersByUrl(token, url);
+  }
+
+  Future<ResultList<ExistingOrder>> getOrdersByUrl(AccessToken token, String url) async {
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
       ResultList<ExistingOrder> result =  ResultList<ExistingOrder>.fromJson(response.decodedBody);

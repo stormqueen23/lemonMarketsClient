@@ -24,6 +24,10 @@ class LemonMarketsSpaces {
     }
     String query = LemonMarketsHttpClient.generateQueryParams(queryParamList);
     String url = LemonMarketsURL.BASE_URL+'/spaces/'+query;
+    return getSpacesByUrl(token, url);
+  }
+
+  Future<ResultList<Space>> getSpacesByUrl(AccessToken token, String url) async {
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
       ResultList<Space> result = ResultList<Space>.fromJson(response.decodedBody);

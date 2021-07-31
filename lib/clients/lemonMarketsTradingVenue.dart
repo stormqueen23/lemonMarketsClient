@@ -43,6 +43,10 @@ class LemonMarketsTradingVenue {
 
   Future<ResultList<OpeningDay>> getOpeningDays(AccessToken token, String mic) async {
     String url = LemonMarketsURL.BASE_URL + '/trading-venues/' + mic + '/opening-days';
+    return getOpeningDaysByUrl(token, url);
+  }
+
+  Future<ResultList<OpeningDay>> getOpeningDaysByUrl(AccessToken token, String url) async {
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
       ResultList<OpeningDay> result = ResultList<OpeningDay>.fromJson(response.decodedBody);
