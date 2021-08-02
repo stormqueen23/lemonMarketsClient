@@ -1,5 +1,5 @@
 # lemon_markets_client
-A simple way to access the lemon markets API (https://www.lemon.markets/)
+A simple way to access the lemon markets API (https://www.lemon.markets/) in flutter
 
 ## Create account for lemon markets
 Currently the lemon market api is in beta and you can join the waitlist to get access (https://www.lemon.markets/waitlist)
