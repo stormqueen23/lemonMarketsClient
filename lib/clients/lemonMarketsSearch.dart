@@ -95,7 +95,7 @@ class LemonMarketsSearch {
     if (search != null && search.trim().isNotEmpty) {
       query.add("search="+search.trim());
     }
-    if (type != null) {
+    if (type != null && type != SearchType.none) {
       String appendType = _convertType(type);
       query.add("type="+appendType);
     }
