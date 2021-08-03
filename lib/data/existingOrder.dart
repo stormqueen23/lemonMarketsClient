@@ -1,7 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lemon_markets_client/data/orderInstrument.dart';
+import 'package:lemon_markets_client/helper/lemonMarketsResultConverter.dart';
 
 part 'existingOrder.g.dart';
+
+enum ExistingOrderSide {buy, sell, unknown}
 
 @JsonSerializable()
 class ExistingOrder {
@@ -33,8 +36,8 @@ class ExistingOrder {
   @JsonKey(name: 'created_at')
   double createdAt;
 
-  @JsonKey(name: 'type')
-  String type;
+  @JsonKey(name: 'type', fromJson: LemonMarketsResultConverter.fromExistingOrderType, toJson: LemonMarketsResultConverter.toExistingOrderType)
+  ExistingOrderSide type;
 
   @JsonKey(name: 'processed_at')
   double? processedAt;
