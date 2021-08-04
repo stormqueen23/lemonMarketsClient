@@ -12,8 +12,8 @@ class ExistingOrder {
   @JsonKey(name: 'valid_until') //double
   double validUntil;
 
-  @JsonKey(name: 'side')
-  String side;
+  @JsonKey(name: 'side', fromJson: LemonMarketsResultConverter.fromExistingOrderType, toJson: LemonMarketsResultConverter.toExistingOrderType)
+  ExistingOrderSide side;
 
   @JsonKey(name: 'quantity')
   int quantity;
@@ -36,8 +36,8 @@ class ExistingOrder {
   @JsonKey(name: 'created_at')
   double createdAt;
 
-  @JsonKey(name: 'type', fromJson: LemonMarketsResultConverter.fromExistingOrderType, toJson: LemonMarketsResultConverter.toExistingOrderType)
-  ExistingOrderSide type;
+  @JsonKey(name: 'type')
+  String type;
 
   @JsonKey(name: 'processed_at')
   double? processedAt;

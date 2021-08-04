@@ -12,9 +12,9 @@ class LemonMarketsResultConverter {
   }
 
   static ExistingOrderSide fromExistingOrderType(String typeAsString) {
-      if ('sell'.compareTo(typeAsString) == 0) {
+      if ('sell' == typeAsString) {
         return ExistingOrderSide.sell;
-      } else if ('buy'.compareTo(typeAsString) == 0) {
+      } else if ('buy' == typeAsString) {
         return ExistingOrderSide.buy;
       }
     return ExistingOrderSide.unknown;
