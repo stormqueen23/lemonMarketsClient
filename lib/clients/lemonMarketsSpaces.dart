@@ -32,9 +32,9 @@ class LemonMarketsSpaces {
     try {
       ResultList<Space> result = ResultList<Space>.fromJson(response.decodedBody);
       return result;
-    } catch (e) {
+    } catch (e, stackTrace) {
       log.warning(e.toString());
-      throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString());
+      throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString(), stackTrace);
     }
   }
 
@@ -44,9 +44,9 @@ class LemonMarketsSpaces {
     try {
       Space result = Space.fromJson(response.decodedBody);
       return result;
-    } catch (e) {
+    } catch (e, stackTrace) {
       log.warning(e.toString());
-      throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString());
+      throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString(), stackTrace);
     }
   }
 
@@ -56,9 +56,9 @@ class LemonMarketsSpaces {
     try {
       SpaceState result = SpaceState.fromJson(response.decodedBody);
       return result;
-    } catch (e) {
+    } catch (e, stackTrace) {
       log.warning(e.toString());
-      throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString());
+      throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString(), stackTrace);
     }
   }
 
@@ -76,9 +76,9 @@ class LemonMarketsSpaces {
     try {
       StateInfo result = StateInfo.fromJson(response.decodedBody);
       return result;
-    } catch (e) {
+    } catch (e, stackTrace) {
       log.warning(e.toString());
-      throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString());
+      throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString(), stackTrace);
     }
   }
 }

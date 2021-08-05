@@ -26,9 +26,9 @@ class LemonMarketsTransaction {
     try {
       Transaction result = Transaction.fromJson(response.decodedBody);
       return result;
-    } catch (e) {
+    } catch (e, stackTrace) {
       log.warning(e.toString());
-      throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString());
+      throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString(), stackTrace);
     }
   }
 
@@ -37,9 +37,9 @@ class LemonMarketsTransaction {
     try {
       ResultList<Transaction> result = ResultList<Transaction>.fromJson(response.decodedBody);
       return result;
-    } catch (e) {
+    } catch (e, stackTrace) {
       log.warning(e.toString());
-      throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString());
+      throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString(), stackTrace);
     }
   }
 

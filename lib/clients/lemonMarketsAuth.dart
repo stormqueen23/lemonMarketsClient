@@ -18,11 +18,11 @@ class LemonMarketsAuth {
       try {
         AccessToken result = AccessToken.fromJson(response.decodedBody);
         return result;
-      } catch (e) {
-        throw LemonMarketsConvertException(LemonMarketsURL.AUTH_URL, e.toString(), response.statusCode, response.decodedBody.toString());
+      } catch (e, stackTrace) {
+        throw LemonMarketsConvertException(LemonMarketsURL.AUTH_URL, e.toString(), response.statusCode, response.decodedBody.toString(), stackTrace);
       }
     } else {
-      throw LemonMarketsStatusCodeException(LemonMarketsURL.AUTH_URL, response.statusCode, response.decodedBody.toString());
+      throw LemonMarketsStatusCodeException(LemonMarketsURL.AUTH_URL, response.statusCode, response.decodedBody.toString(), null);
     }
   }
 }

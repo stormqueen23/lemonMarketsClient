@@ -36,9 +36,9 @@ class LemonMarketsTrading {
     try {
       CreatedOrder result = CreatedOrder.fromJson(response.decodedBody);
       return result;
-    } catch (e) {
+    } catch (e, stackTrace) {
       log.warning(e.toString());
-      throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString());
+      throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString(), stackTrace);
     }
   }
 
@@ -49,9 +49,9 @@ class LemonMarketsTrading {
       String status = response.decodedBody['status'];
       log.fine('status for orderActivation: $status');
       return ActivateOrderResponse('activated'.compareTo(status) == 0 && response.statusCode == 200, response.statusCode, response.decodedBody);
-    } catch (e) {
+    } catch (e, stackTrace) {
       log.warning(e.toString());
-      throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString());
+      throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString(), stackTrace);
     }
   }
 
@@ -65,9 +65,9 @@ class LemonMarketsTrading {
       } else {
         return DeleteOrderResponse(false, response.statusCode, response.decodedBody);
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
       log.warning(e.toString());
-      throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString());
+      throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString(), stackTrace);
     }
   }
 
@@ -77,9 +77,9 @@ class LemonMarketsTrading {
     try {
       ExistingOrder result =  ExistingOrder.fromJson(response.decodedBody);
       return result;
-    } catch (e) {
+    } catch (e, stackTrace) {
       log.warning(e.toString());
-      throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString());
+      throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString(), stackTrace);
     }
   }
 
@@ -97,9 +97,9 @@ class LemonMarketsTrading {
     try {
       ResultList<ExistingOrder> result =  ResultList<ExistingOrder>.fromJson(response.decodedBody);
       return result;
-    } catch (e) {
+    } catch (e, stackTrace) {
       log.warning(e.toString());
-      throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString());
+      throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString(), stackTrace);
     }
   }
 

@@ -20,9 +20,9 @@ class LemonMarketsHistoric {
     try {
       ResultList<OHLC> result = ResultList<OHLC>.fromJson(response.decodedBody);
       return result;
-    } catch (e) {
+    } catch (e, stackTrace) {
       log.warning(e.toString());
-      throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString());
+      throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString(), stackTrace);
     }
 
   }

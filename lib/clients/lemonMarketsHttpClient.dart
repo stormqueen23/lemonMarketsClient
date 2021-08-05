@@ -48,14 +48,14 @@ class LemonMarketsHttpClient {
     log.fine("response: ${response.body} with statusCode $statusCode");
     if (statusCode == 401) {
       log.info("401 statusCode");
-      throw LemonMarketsAuthException(url, "401 Error", statusCode, response.body);
+      throw LemonMarketsAuthException(url, "401 Error", statusCode, response.body, null);
     }
     try {
       Map<String, dynamic> decoded = json.decode(response.body);
       return LemonMarketsClientResponse(statusCode, decoded);
-    } catch (e) {
+    } catch (e, stackTrace) {
       log.warning(e.toString());
-      throw LemonMarketsDecodeException(url, e.toString(), statusCode, response.body);
+      throw LemonMarketsDecodeException(url, e.toString(), statusCode, response.body, stackTrace);
     }
   }
 
@@ -64,7 +64,7 @@ class LemonMarketsHttpClient {
     if (_token.type == 'bearer') {
       prefix = 'Bearer';
     } else {
-      throw LemonMarketsAuthException(url, "Unknown token type ${_token.type}", null, "");
+      throw LemonMarketsAuthException(url, "Unknown token type ${_token.type}", null, "", null);
     }
     return {'Authorization': prefix + ' ' + _token.token};
   }
