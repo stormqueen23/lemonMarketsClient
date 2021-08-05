@@ -1,7 +1,7 @@
 ///This exception is thrown if something went wrong during Authentication
 class LemonMarketsException implements Exception {
   String url;
-  int responseCode;
+  int? responseCode;
   String rootCause;
   String responseMap;
 

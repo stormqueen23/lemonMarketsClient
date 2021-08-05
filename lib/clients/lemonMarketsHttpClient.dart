@@ -20,72 +20,51 @@ class LemonMarketsHttpClient {
 
   Future<LemonMarketsClientResponse> sendPost(String url, AccessToken? token, Map<String, dynamic>? bodyMap) async {
     log.fine("send post to url: $url");
-    Map<String, String>? header = token != null ? _getHeader(token) : null;
+    Map<String, String>? header = token != null ? _getHeader(token, url) : null;
     Response response =  await _client.post(Uri.parse(url), headers: header, body: bodyMap);
-    int statusCode = response.statusCode;
-    String message = response.body;
-    log.fine("response: $message with statusCode $statusCode");
-    try {
-      Map<String, dynamic> decoded = json.decode(message);
-      return LemonMarketsClientResponse(statusCode, decoded);
-    } catch (e) {
-      log.warning(e.toString());
-      throw LemonMarketsDecodeException(url, e.toString(), statusCode, message);
-    }
+    return _decode(response, url);
   }
 
   Future<LemonMarketsClientResponse> sendGet(String url, AccessToken token) async {
     log.fine("send get to url: $url");
-    Response response =  await _client.get(Uri.parse(url), headers: _getHeader(token),);
-    int statusCode = response.statusCode;
-    String message = response.body;
-    log.fine("response: $message with statusCode $statusCode");
-    try {
-      Map<String, dynamic> decoded = json.decode(message);
-      return LemonMarketsClientResponse(statusCode, decoded);
-    } catch (e) {
-      log.warning(e.toString());
-      throw LemonMarketsDecodeException(url, e.toString(), statusCode, message);
-    }
+    Response response =  await _client.get(Uri.parse(url), headers: _getHeader(token, url),);
+    return _decode(response, url);
   }
 
   Future<LemonMarketsClientResponse> sendPut(String url, AccessToken token) async {
     log.fine("send put to url: $url");
-    Response response =  await _client.put(Uri.parse(url), headers: _getHeader(token),);
-    int statusCode = response.statusCode;
-    String message = response.body;
-    log.fine("response: $message with statusCode $statusCode");
-    try {
-      Map<String, dynamic> decoded = json.decode(message);
-      return LemonMarketsClientResponse(statusCode, decoded);
-    } catch (e) {
-      log.warning(e.toString());
-      throw LemonMarketsDecodeException(url, e.toString(), statusCode, message);
-    }
+    Response response =  await _client.put(Uri.parse(url), headers: _getHeader(token, url),);
+    return _decode(response, url);
   }
 
   Future<LemonMarketsClientResponse> sendDelete(String url, AccessToken token) async {
     log.fine("send delete to url: $url");
-    Response response =  await _client.delete(Uri.parse(url), headers: _getHeader(token),);
-    String message = response.body;
+    Response response =  await _client.delete(Uri.parse(url), headers: _getHeader(token, url),);
+    return _decode(response, url);
+  }
+
+  LemonMarketsClientResponse _decode(Response response, String url) {
     int statusCode = response.statusCode;
-    log.fine("response: $message with statusCode $statusCode");
+    log.fine("response: ${response.body} with statusCode $statusCode");
+    if (statusCode == 401) {
+      log.info("401 statusCode");
+      throw LemonMarketsAuthException(url, "401 Error", statusCode, response.body);
+    }
     try {
-        Map<String, dynamic> decoded = json.decode(message);
-        return LemonMarketsClientResponse(statusCode, decoded);
+      Map<String, dynamic> decoded = json.decode(response.body);
+      return LemonMarketsClientResponse(statusCode, decoded);
     } catch (e) {
       log.warning(e.toString());
-      throw LemonMarketsDecodeException(url, e.toString(), statusCode, message);
+      throw LemonMarketsDecodeException(url, e.toString(), statusCode, response.body);
     }
   }
 
-
-  Map<String, String> _getHeader(AccessToken _token) {
+  Map<String, String> _getHeader(AccessToken _token, String url) {
     String prefix = '';
     if (_token.type == 'bearer') {
       prefix = 'Bearer';
     } else {
-      throw LemonMarketsAuthException(_token.type, "Unknown token type");
+      throw LemonMarketsAuthException(url, "Unknown token type ${_token.type}", null, "");
     }
     return {'Authorization': prefix + ' ' + _token.token};
   }
