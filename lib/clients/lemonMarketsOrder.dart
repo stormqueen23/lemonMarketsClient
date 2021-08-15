@@ -10,11 +10,11 @@ import 'package:lemon_markets_client/src/lemonmarkets.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsURLs.dart';
 import 'package:logging/logging.dart';
 
-class LemonMarketsTrading {
-  final log = Logger('LemonMarketsTrading');
+class LemonMarketsOrder {
+  final log = Logger('LemonMarketsOrder');
   LemonMarketsHttpClient _client;
 
-  LemonMarketsTrading(this._client);
+  LemonMarketsOrder(this._client);
 
   Future<CreatedOrder> placeOrder(
       AccessToken token, String spaceUuid, String isin, double validUntil, String side,

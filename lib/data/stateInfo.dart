@@ -6,11 +6,11 @@ part 'stateInfo.g.dart';
 @JsonSerializable()
 class StateInfo {
   @JsonKey(name: 'cash_account_number')
-  String cashAccountNumber;
+  String? cashAccountNumber;
   @JsonKey(name: 'securities_account_number')
-  String securitiesAccountNumber;
+  String? securitiesAccountNumber;
 
-  @JsonKey()
+  @JsonKey(name: 'state')
   StateDetailInfo details;
 
   StateInfo(this.cashAccountNumber, this.securitiesAccountNumber, this.details);

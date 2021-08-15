@@ -51,7 +51,7 @@ class LemonMarketsHttpClient {
       throw LemonMarketsAuthException(url, "401 Error", statusCode, response.body, null);
     }
     try {
-      Map<String, dynamic> decoded = json.decode(response.body);
+      Map<String, dynamic> decoded = response.body != null && response.body.isNotEmpty ? json.decode(response.body) : {};
       return LemonMarketsClientResponse(statusCode, decoded);
     } catch (e, stackTrace) {
       log.warning(e.toString());

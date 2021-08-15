@@ -8,10 +8,9 @@ import 'package:lemon_markets_client/data/accessToken.dart';
 import 'package:lemon_markets_client/data/createdOrder.dart';
 import 'package:lemon_markets_client/data/existingOrder.dart';
 import 'package:lemon_markets_client/data/instrument.dart';
-import 'package:lemon_markets_client/data/latestQuote.dart';
-import 'package:lemon_markets_client/data/latestTrade.dart';
+import 'package:lemon_markets_client/data/quote.dart';
+import 'package:lemon_markets_client/data/trade.dart';
 import 'package:lemon_markets_client/data/ohlc.dart';
-import 'package:lemon_markets_client/data/openingDay.dart';
 import 'package:lemon_markets_client/data/portfolioItem.dart';
 import 'package:lemon_markets_client/data/portfolioTransaction.dart';
 import 'package:lemon_markets_client/data/resultList.dart';
@@ -20,14 +19,12 @@ import 'package:lemon_markets_client/data/spaceState.dart';
 import 'package:lemon_markets_client/data/stateInfo.dart';
 import 'package:lemon_markets_client/clients/lemonMarketsHttpClient.dart';
 import 'package:lemon_markets_client/clients/lemonMarketsAuth.dart';
-import 'package:lemon_markets_client/clients/lemonMarketsHistoric.dart';
 import 'package:lemon_markets_client/clients/lemonMarketsMarketData.dart';
 import 'package:lemon_markets_client/clients/lemonMarketsPortfolio.dart';
 import 'package:lemon_markets_client/clients/lemonMarketsSpaces.dart';
-import 'package:lemon_markets_client/clients/lemonMarketsTrading.dart';
+import 'package:lemon_markets_client/clients/lemonMarketsOrder.dart';
 import 'package:lemon_markets_client/data/tradingVenue.dart';
 import 'package:lemon_markets_client/data/transaction.dart';
-import 'package:lemon_markets_client/data/warrant.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsURLs.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 import 'package:logging/logging.dart';
@@ -47,9 +44,8 @@ class LemonMarkets {
   late LemonMarketsSpaces _spacesClient;
   late LemonMarketsPortfolio _portfolioClient;
   late LemonMarketsAuth _authClient;
-  late LemonMarketsTrading _tradingClient;
+  late LemonMarketsOrder _tradingClient;
   late LemonMarketsMarketData _marketClient;
-  late LemonMarketsHistoric _historicClient;
   late LemonMarketsSearch _searchClient;
   late LemonMarketsTransaction _transactionClient;
   late LemonMarketsTradingVenue _tradingVenueClient;
@@ -58,10 +54,9 @@ class LemonMarkets {
     LemonMarketsHttpClient client = LemonMarketsHttpClient();
     _spacesClient = LemonMarketsSpaces(client);
     _authClient = LemonMarketsAuth(client);
-    _tradingClient = LemonMarketsTrading(client);
+    _tradingClient = LemonMarketsOrder(client);
     _marketClient = LemonMarketsMarketData(client);
     _portfolioClient = LemonMarketsPortfolio(client);
-    _historicClient = LemonMarketsHistoric(client);
     _searchClient = LemonMarketsSearch(client);
     _transactionClient = LemonMarketsTransaction(client);
     _tradingVenueClient = LemonMarketsTradingVenue(client);
@@ -119,7 +114,7 @@ class LemonMarkets {
     String side = sell ? LemonMarketsURL.SELL_CONST : LemonMarketsURL.BUY_CONST;
     if (validUntil == null) {
       DateTime oneYear = DateTime.now().add(Duration(days: 365));
-      validUntil = LemonMarketsTimeConverter.getDoubleTimeForDateTime(oneYear.toUtc());
+      validUntil = LemonMarketsTimeConverter.getUTCUnixTimestamp(oneYear.toUtc());
     }
     CreatedOrder o = await _tradingClient.placeOrder(token, spaceUuid, isin, validUntil, side, quantity, stopPrice: stopPrice, limitPrice: limitPrice);
     return o;
@@ -157,7 +152,7 @@ class LemonMarkets {
   // Spaces -> Transactions
 
   Future<ResultList<Transaction>> getTransactions(AccessToken token, String spaceUuid,
-      {int? createdAtUntil, int? createdAtFrom, int? limit, int? offset}) async {
+      {DateTime? createdAtUntil, DateTime? createdAtFrom, int? limit, int? offset}) async {
     return _transactionClient.getTransactions(token, spaceUuid, createdAtFrom: createdAtFrom, createdAtUntil: createdAtUntil, limit: limit, offset: offset);
   }
 
@@ -172,8 +167,8 @@ class LemonMarkets {
   // Instruments
 
   Future<ResultList<Instrument>> searchInstruments(AccessToken token,
-      {String? search, SearchType? type, bool? tradable, String? currency, String? limit, int? offset}) async {
-    ResultList<Instrument> result = await _searchClient.searchInstruments(token, search: search, type: type, tradable: tradable, currency: currency, limit: limit, offset: offset);
+      {List<String>? mic, List<String>? isin, String? search, SearchType? type, bool? tradable, String? currency, String? limit, int? offset}) async {
+    ResultList<Instrument> result = await _searchClient.searchInstruments(token, mic: mic, isin: isin, search: search, type: type, tradable: tradable, currency: currency, limit: limit, offset: offset);
     return result;
   }
 
@@ -184,71 +179,63 @@ class LemonMarkets {
 
   // Trading Venues
 
-  Future<ResultList<TradingVenue>> getTradingVenues(AccessToken token) async {
-    return _tradingVenueClient.getTradingVenues(token);
+  Future<ResultList<TradingVenue>> getTradingVenues(AccessToken token, {List<String>? mics}) async {
+    return _tradingVenueClient.getTradingVenues(token, mics: mics);
   }
 
   Future<ResultList<TradingVenue>> getTradingVenuesByUrl(AccessToken token, String url) async {
     return _tradingVenueClient.getTradingVenues(token);
   }
 
-  Future<TradingVenue> getTradingVenue(AccessToken token, String mic) async {
-    return _tradingVenueClient.getTradingVenue(token, mic);
-  }
-
-  Future<ResultList<OpeningDay>> getTradingVenueOpeningDays(AccessToken token, String mic) async {
-    return _tradingVenueClient.getOpeningDays(token, mic);
-  }
-
-  Future<ResultList<OpeningDay>> getTradingVenueOpeningDaysByUrl(AccessToken token, String url) async {
-    return _tradingVenueClient.getOpeningDaysByUrl(token, url);
-  }
-
-  // Trading Venues
-
-  Future<ResultList<Instrument>> searchTradingVenueInstruments(AccessToken token, String mic,
-      {String? search, SearchType? type, bool? tradable, String? currency, String? limit, int? offset}) async {
-    return _searchClient.searchTradingVenueInstruments(token, mic, search: search, type: type, tradable: tradable, currency: currency, limit: limit, offset: offset);
-  }
-
-  Future<ResultList<Instrument>> searchTradingVenueInstrumentsByUrl(AccessToken token, String url) async {
-    return _searchClient.searchTradingVenueInstrumentsByUrl(token, url);
-  }
-
-  Future<Instrument> searchTradingVenueInstrument(AccessToken token, String mic, String isin) async {
-    return _searchClient.searchTradingVenueInstrument(token, mic, isin);
-  }
-
-  Future<ResultList<Warrant>> searchTradingVenueInstrumentWarrants(AccessToken token, String mic, String isin,
-      {String? search, bool? tradable, String? currency, String? limit, int? offset}) async {
-    return _searchClient.searchTradingVenueInstrumentWarrants(token, mic, isin, search: search, tradable: tradable, currency: currency, limit: limit, offset: offset);
-  }
-
-  Future<ResultList<Warrant>> searchTradingVenueInstrumentWarrantsByUrl(AccessToken token, String url) async {
-    return _searchClient.searchTradingVenueInstrumentWarrantsByUrl(token, url);
-  }
-
   // Data -> Quotes
 
-  Future<LatestQuote> getLatestQuote(AccessToken token, String isin, {String mic = defaultMic}) async {
-    return _marketClient.getLatestQuote(token, isin, mic);
+  // Epoch parameter not supported yet. Its always true problem: epoch=true results in number and result=false results in string --> type cast problem!
+  // type 'int' is not a subtype of type 'String' in type cast
+  Future<ResultList<Quote>> getLatestQuotes(AccessToken token, List<String> isin,
+      {List<String>? mic, bool? decimals, String? sorting}) async {
+    return _marketClient.getQuotes(token, isin, mic: mic, sorting: sorting, decimals: decimals, latest: true);
+  }
+
+  Future<ResultList<Quote>> getQuotes(AccessToken token, List<String> isin,
+      {List<String>? mic, bool? decimals, String? sorting, DateTime? from, DateTime? to}) async {
+    return _marketClient.getQuotes(token, isin, mic: mic, sorting: sorting, decimals: decimals, from: from, to: to);
+  }
+
+  Future<ResultList<Quote>> getQuotesByUrl(AccessToken token, String url) async {
+    return _marketClient.getQuotesByUrl(token, url);
   }
 
   // Data -> OHLC
 
-  Future<ResultList<OHLC>> getOHLC(AccessToken token, String isin, OHLCType type,
-    {String mic = defaultMic, DateTime? from, DateTime? until, bool? reverseOrdering}) async {
-    return _historicClient.getOHLC(token, isin, mic, type, from, until, reverseOrdering);
+  Future<ResultList<OHLC>> getLatestOHLC(AccessToken token, List<String> isin,  OHLCType type,
+      {List<String>? mic, String? format, String? sorting}) async {
+    return _marketClient.getOHLC(token, isin, type, sorting: sorting, mics: mic, format: format, latest: true);
+  }
+
+  Future<ResultList<OHLC>> getOHLC(AccessToken token, List<String> isin, OHLCType type,
+    {List<String>? mics, DateTime? from, DateTime? until, String? sorting, String? format}) async {
+    return _marketClient.getOHLC(token, isin, type, mics: mics, from: from, to: until, sorting: sorting, format: format);
   }
 
   Future<ResultList<OHLC>> getOHLCByUrl(AccessToken token, String url) async {
-    return _historicClient.getOHLCFromUrl(token, url);
+    return _marketClient.getOHLCFromUrl(token, url);
   }
 
   // Data -> Latest Trades
 
-  Future<LatestTrade> getLatestTrade(AccessToken token, String isin, {String mic = defaultMic}) async {
-    return _marketClient.getLatestTrade(token, isin, mic);
+  Future<ResultList<Trade>> getLatestTrade(AccessToken token, List<String> isin,
+      {List<String>? mic, bool? decimals, String? sorting}) async {
+    return _marketClient.getTrades(token, isin, sorting: sorting, mic: mic, decimals: decimals, latest: true);
+  }
+
+  Future<ResultList<Trade>> getTrades(AccessToken token, List<String> isin,
+      {List<String>? mic, bool? decimals, String? sorting,
+        DateTime? from, DateTime? until}) async {
+    return _marketClient.getTrades(token, isin, from: from, to: until, decimals: decimals, mic: mic, sorting: sorting);
+  }
+
+  Future<ResultList<Trade>> getTradesByUrl(AccessToken token, String url) async {
+    return _marketClient.getTradesByUrl(token, url);
   }
 
 }

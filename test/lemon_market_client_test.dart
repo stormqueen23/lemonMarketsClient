@@ -24,9 +24,19 @@ void main() {
   }
   );
 
+  // Authentication
+
   test('requestToken', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
     expect(token, isNotNull);
+  });
+
+  // State -> Spaces
+
+  test('getState', () async {
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    StateInfo spaces = await lm.getStateInfo(token);
+    expect(spaces, isNotNull);
   });
 
   test('getSpaces', () async {
@@ -36,25 +46,79 @@ void main() {
     expect(spaces.result[0].uuid, spaceUuid);
   });
 
+  test('getSpaceByUuid', () async {
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    Space result = await lm.getSpace(token, spaceUuid);
+    expect(result, isNotNull);
+  });
+
+  test('getSpaceStateByUuid', () async {
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    SpaceState result = await lm.getSpaceState(token, spaceUuid);
+    expect(result, isNotNull);
+  });
+
+  // State -> Orders (post order implicity testet in delete / activate
+
+  test('getOrders', () async {
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    ResultList<ExistingOrder> all = await lm.getOrders(token, Credentials.spaceUuid);
+    expect(all.result.length, greaterThan(0));
+  });
+
+  test('getSingleOrder', () async {
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    ExistingOrder order = await lm.getOrder(token, Credentials.spaceUuid, Credentials.orderUuid);
+    expect(order.uuid, Credentials.orderUuid);
+  });
+
+  test('deleteOrder', () async {
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    CreatedOrder order = await lm.placeOrder(token, spaceUuid, 'DE000A0D6554', false, 1);
+    DeleteOrderResponse result = await lm.deleteOrder(token, spaceUuid, order.uuid);
+    expect(result.success, true);
+  });
+
+  test('activateOrder', () async {
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    CreatedOrder order = await lm.placeOrder(token, spaceUuid, 'DE000A0D6554', false, 1);
+    ActivateOrderResponse result = await lm.activateOrder(token, spaceUuid, order.uuid);
+    expect(result.success, true);
+  });
+
+  // State -> Portfolio
+
+  test('getPortfolioItems', () async {
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    ResultList<PortfolioItem> items = await lm.getPortfolioItems(token, Credentials.spaceUuid);
+    expect(items.result.length, greaterThan(0));
+  });
+
+  test('getPortfolioTransactions', () async {
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    ResultList<PortfolioTransaction> items = await lm.getPortfolioTransactions(token, Credentials.spaceUuid);
+    expect(items.result.length, greaterThan(0));
+  });
+
+  // State -> Tansactions
+
   test('getTransactions', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
     ResultList<Transaction> list = await lm.getTransactions(token, spaceUuid);
     expect(list.result.length, greaterThan(0));
   });
 
-  test('getPortfolioTransactions', () async {
+  test('getTransaction', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    ResultList<PortfolioTransaction> list = await lm.getPortfolioTransactions(token, spaceUuid);
-    expect(list.result.length, greaterThan(0));
+    Transaction transaction = await lm.getTransaction(token, spaceUuid, transactionUuidPayIn);
+    expect(transaction.order, null);
   });
 
   test('getTransactionsFromUntil', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
     DateTime from = DateTime(2021, 6, 23, 9);
-    double fromDouble = LemonMarketsTimeConverter.getDoubleTimeForDateTime(from);
     DateTime until = DateTime(2021, 7, 15, 14, 3);
-    double untilDouble = LemonMarketsTimeConverter.getDoubleTimeForDateTime(until);
-    ResultList<Transaction> list = await lm.getTransactions(token, spaceUuid, createdAtFrom: fromDouble.toInt(), createdAtUntil: untilDouble.toInt());
+    ResultList<Transaction> list = await lm.getTransactions(token, spaceUuid, createdAtFrom: from, createdAtUntil: until);
     expect(list.result.length, 2);
   });
 
@@ -68,11 +132,7 @@ void main() {
     expect(nextList, isNotNull);
   });
 
-  test('getTransaction', () async {
-    AccessToken token = await lm.requestToken(clientId, clientSecret);
-    Transaction transaction = await lm.getTransaction(token, spaceUuid, transactionUuidPayIn);
-    expect(transaction.order, null);
-  });
+  // Market data -> Tranding venues
 
   test('getTradingVenues', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
@@ -82,22 +142,34 @@ void main() {
 
   test('getXMUNTradingVenue', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    String mic = 'XMUN';
-    TradingVenue tradingVenue = await lm.getTradingVenue(token, mic);
-    expect(tradingVenue.mic, mic);
+    ResultList<TradingVenue> tradingVenue = await lm.getTradingVenues(token, mics: ['XMUN']);
+    expect(tradingVenue.result.length, 1);
   });
 
-  test('getXMUNOpeningDays', () async {
+  test('getMultipleTradingVenue', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    String mic = 'XMUN';
-    ResultList<OpeningDay> openingDays = await lm.getTradingVenueOpeningDays(token, mic);
-    expect(openingDays.result, isNotEmpty);
+    ResultList<TradingVenue> tradingVenue = await lm.getTradingVenues(token, mics: ['XMUN', 'LMBPX']);
+    expect(tradingVenue.result.length, 2);
   });
+
+  // Market data -> Instruments
 
   test('searchInstrumentsWithoutParams', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
     ResultList<Instrument> all = await lm.searchInstruments(token);
     expect(all.result.length, greaterThan(0));
+  });
+
+  test('searchInstrumentsByIsin', () async {
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    ResultList<Instrument> all = await lm.searchInstruments(token, isin: ['DE000A0D6554']);
+    expect(all.result.length, 1);
+  });
+
+  test('searchInstrumentsByMultipleIsin', () async {
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    ResultList<Instrument> all = await lm.searchInstruments(token, isin: ['DE000A0D6554', 'US88160R1014']);
+    expect(all.result.length, 2);
   });
 
   test('searchInstrumentsWithQuery', () async {
@@ -129,59 +201,54 @@ void main() {
 
   test('searchInstrumentsWithQueryAndCurrency', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    ResultList<Instrument> all = await lm.searchInstruments(token, search: 'Tesla', currency: 'USD');
+    ResultList<Instrument> all = await lm.searchInstruments(token, search: 'Tesla', currency: 'EUR');
     expect(all.result.length, greaterThan(0));
   });
 
-  test('getOrders', () async {
-    AccessToken token = await lm.requestToken(clientId, clientSecret);
-    ResultList<ExistingOrder> all = await lm.getOrders(token, Credentials.spaceUuid);
-    expect(all.result.length, greaterThan(0));
-  });
+  // Market data -> Quotes
 
-  test('getSingleOrder', () async {
+  test('getLatestQuotes', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    ExistingOrder order = await lm.getOrder(token, Credentials.spaceUuid, Credentials.orderUuid);
-    expect(order.uuid, Credentials.orderUuid);
-  });
-
-  test('getPortfolioItems', () async {
-    AccessToken token = await lm.requestToken(clientId, clientSecret);
-    ResultList<PortfolioItem> items = await lm.getPortfolioItems(token, Credentials.spaceUuid);
+    ResultList<Quote> items = await lm.getLatestQuotes(token, ['US88160R1014'],);
     expect(items.result.length, greaterThan(0));
   });
 
+  test('getQuotes', () async {
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    ResultList<Quote> items = await lm.getQuotes(token, ['US88160R1014'],);
+    expect(items.result.length, greaterThan(0));
+  });
+
+
+  // Market data -> OHLC
+  
   test('getOHLC', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    ResultList<OHLC> items = await lm.getOHLC(token, 'US88160R1014', OHLCType.h1);
+    ResultList<OHLC> items = await lm.getOHLC(token, ['US88160R1014'], OHLCType.h1);
     expect(items.result.length, greaterThan(0));
+    expect(items.result[0].isin, 'US88160R1014');
   });
 
-  test('searchInstrumentsForTradingVenue', () async {
+  test('getLatestOHLC', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    ResultList<Instrument> all = await lm.searchTradingVenueInstruments(token, 'XMUN');
-    expect(all.result.length, greaterThan(0));
+    ResultList<OHLC> items = await lm.getLatestOHLC(token, ['US88160R1014'], OHLCType.h1);
+    expect(items.result.length, greaterThan(0));
+    expect(items.result[0].isin, 'US88160R1014');
   });
 
-  test('searchSingleInstrumentForTradingVenue', () async {
-    String isin = 'US88160R1014';
+  // Market data -> Trades
+
+  test('getTrades', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    Instrument result = await lm.searchTradingVenueInstrument(token, 'XMUN', isin);
-    expect(result.isin, isin);
+    ResultList<Trade> items = await lm.getTrades(token, ['US88160R1014']);
+    expect(items.result.length, greaterThan(0));
+    expect(items.result[0].isin, 'US88160R1014');
   });
 
-  test('searchWarrantForInstrumentForTradingVenue', () async {
-    String isin = 'US88160R1014';
+  test('getLatestTrades', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    ResultList<Warrant> result = await lm.searchTradingVenueInstrumentWarrants(token, 'XMUN', isin);
-    expect(result.result.length, greaterThan(0));
-  });
-
-  test('searchWithLimitWarrantForInstrumentForTradingVenue', () async {
-    String isin = 'US88160R1014';
-    AccessToken token = await lm.requestToken(clientId, clientSecret);
-    ResultList<Warrant> result = await lm.searchTradingVenueInstrumentWarrants(token, 'XMUN', isin, limit: "1");
-    expect(result.result.length, 1);
+    ResultList<Trade> items = await lm.getLatestTrade(token, ['US88160R1014']);
+    expect(items.result.length, greaterThan(0));
   });
 
 }

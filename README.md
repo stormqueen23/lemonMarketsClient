@@ -85,3 +85,6 @@ If you want to run the example app, you need to create an asset folder with  a f
   "spaceUuid": "SPACE_UUID_FOR_CLIENT_ID"
 }
 ```
+
+## TODO
+New Error handling

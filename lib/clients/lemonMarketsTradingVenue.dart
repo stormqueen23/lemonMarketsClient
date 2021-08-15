@@ -1,6 +1,5 @@
 import 'package:lemon_markets_client/data/accessToken.dart';
 import 'package:lemon_markets_client/clients/lemonMarketsHttpClient.dart';
-import 'package:lemon_markets_client/data/openingDay.dart';
 import 'package:lemon_markets_client/data/resultList.dart';
 import 'package:lemon_markets_client/data/tradingVenue.dart';
 import 'package:lemon_markets_client/exception/lemonMarketsConvertException.dart';
@@ -13,8 +12,12 @@ class LemonMarketsTradingVenue {
 
   LemonMarketsTradingVenue(this._client);
 
-  Future<ResultList<TradingVenue>> getTradingVenues(AccessToken token) async {
-    String url = LemonMarketsURL.BASE_URL+'/trading-venues/';
+  Future<ResultList<TradingVenue>> getTradingVenues(AccessToken token, {List<String>? mics}) async {
+    String url = LemonMarketsURL.BASE_URL_MARKET+'/venues/';
+    if (mics != null && mics.isNotEmpty) {
+      String values = mics.join(',');
+      url = url+'?mic='+values;
+    }
     return getTradingVenuesByUrl(token, url);
   }
 
@@ -29,31 +32,4 @@ class LemonMarketsTradingVenue {
     }
   }
 
-  Future<TradingVenue> getTradingVenue(AccessToken token, String mic) async {
-    String url = LemonMarketsURL.BASE_URL + '/trading-venues/' + mic + '/';
-    LemonMarketsClientResponse response = await _client.sendGet(url, token);
-    try {
-      TradingVenue result = TradingVenue.fromJson(response.decodedBody);
-      return result;
-    } catch (e, stackTrace) {
-      log.warning(e.toString());
-      throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString(), stackTrace);
-    }
-  }
-
-  Future<ResultList<OpeningDay>> getOpeningDays(AccessToken token, String mic) async {
-    String url = LemonMarketsURL.BASE_URL + '/trading-venues/' + mic + '/opening-days';
-    return getOpeningDaysByUrl(token, url);
-  }
-
-  Future<ResultList<OpeningDay>> getOpeningDaysByUrl(AccessToken token, String url) async {
-    LemonMarketsClientResponse response = await _client.sendGet(url, token);
-    try {
-      ResultList<OpeningDay> result = ResultList<OpeningDay>.fromJson(response.decodedBody);
-      return result;
-    } catch (e, stackTrace) {
-      log.warning(e.toString());
-      throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString(), stackTrace);
-    }
-  }
 }

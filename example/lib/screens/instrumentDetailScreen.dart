@@ -27,14 +27,13 @@ class InstrumentDetailScreen extends StatelessWidget {
             AttributeWidget(name: 'Isin: ', value: instrument.isin),
             AttributeWidget(name: 'WKN: ', value: instrument.wkn),
             AttributeWidget(name: 'Symbol: ', value: instrument.symbol),
-            AttributeWidget(name: 'Currency: ', value: instrument.currency),
-            AttributeWidget(name: 'Tradable: ', value: instrument.tradable.toString()),
+
             Container(
               height: 16,
             ),
             !hasToken || !hasSpaceData ? Text('You can only create an order if you have requested space details', textScaleFactor: 0.8,) : Container(),
             TextButton(
-                onPressed: !instrument.tradable || !hasToken || !hasSpaceData
+                onPressed: !hasToken || !hasSpaceData
                     ? null
                     : () {
                         context.read<LemonMarketsProvider>().orderCreated = false;

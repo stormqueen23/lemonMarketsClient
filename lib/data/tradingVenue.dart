@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:lemon_markets_client/data/openingHour.dart';
 
 part 'tradingVenue.g.dart';
 
@@ -16,7 +17,13 @@ class TradingVenue {
   @JsonKey(name: 'is_open')
   bool isOpen;
 
-  TradingVenue(this.name, this.title, this.mic, this.isOpen);
+  @JsonKey(name: 'opening_hours')
+  OpeningHour hour;
+
+  @JsonKey(name: 'opening_days')
+  List<String> openingDays;
+
+  TradingVenue(this.name, this.title, this.mic, this.isOpen, this.hour, this.openingDays);
 
   factory TradingVenue.fromJson(Map<String, dynamic> json) => _$TradingVenueFromJson(json);
 
