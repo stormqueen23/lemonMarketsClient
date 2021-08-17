@@ -55,7 +55,7 @@ class LemonMarketsHttpClient {
       Map<String, dynamic> decoded = response.body.isNotEmpty ? json.decode(response.body) : {};
       if (statusCode == 400) {
         log.info("400 statusCode");
-        throw LemonMarketsInvalidQueryException(url, decoded['message'], statusCode, response.body, null);
+        throw LemonMarketsInvalidQueryException(url, decoded['message'] ?? '', statusCode, response.body, null);
       }
       return LemonMarketsClientResponse(statusCode, decoded);
     } catch (e, stackTrace) {

@@ -24,7 +24,7 @@ class LemonMarketsOrder {
     Map<String, dynamic> data = {};
     data['isin'] = isin;
     data['side'] = LemonMarketsConverter.convertSideForExecution(side);
-    data['valid_until'] = LemonMarketsTimeConverter.getDoubleTimeForDateTime(validUntil).toString();
+    data['valid_until'] = LemonMarketsTimeConverter.getUTCUnixTimestamp(validUntil).toString();
     data['quantity'] = quantity.toString();
     if (limitPrice != null) {
       data['limit_price'] = limitPrice.toString();
