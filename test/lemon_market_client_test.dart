@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lemon_markets_client/data/resultList.dart';
 import 'package:lemon_markets_client/data/transaction.dart';
+import 'package:lemon_markets_client/exception/lemonMarketsInvalidQueryException.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 import 'package:lemon_markets_client/src/lemonmarkets.dart';
 import 'package:logging/logging.dart';
@@ -74,14 +76,14 @@ void main() {
 
   test('deleteOrder', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    CreatedOrder order = await lm.placeOrder(token, spaceUuid, 'DE000A0D6554', false, 1);
+    CreatedOrder order = await lm.placeOrder(token, spaceUuid, 'DE000A0D6554', OrderSide.buy, 1);
     DeleteOrderResponse result = await lm.deleteOrder(token, spaceUuid, order.uuid);
     expect(result.success, true);
   });
 
   test('activateOrder', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    CreatedOrder order = await lm.placeOrder(token, spaceUuid, 'DE000A0D6554', false, 1);
+    CreatedOrder order = await lm.placeOrder(token, spaceUuid, 'DE000A0D6554', OrderSide.buy, 1);
     ActivateOrderResponse result = await lm.activateOrder(token, spaceUuid, order.uuid);
     expect(result.success, true);
   });
@@ -174,26 +176,32 @@ void main() {
 
   test('searchInstrumentsWithQuery', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    ResultList<Instrument> all = await lm.searchInstruments(token, search: 'Tesla');
+    ResultList<Instrument> all = await lm.searchInstruments(token, query: 'Tesla');
     expect(all.result.length, greaterThan(0));
   });
 
   test('searchInstrumentsWithQueryAndType', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    ResultList<Instrument> all = await lm.searchInstruments(token, search: 'Tesla', type: SearchType.stock);
+    ResultList<Instrument> all = await lm.searchInstruments(token, query: 'Tesla', types: [SearchType.stock]);
+    expect(all.result.length, greaterThan(0));
+  });
+
+  test('searchInstrumentsWithQueryAndMultipleType', () async {
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    ResultList<Instrument> all = await lm.searchInstruments(token, query: 'Tesla', types: [SearchType.stock, SearchType.warrant]);
     expect(all.result.length, greaterThan(0));
   });
 
   test('searchInstrumentsWithQueryAndLimit', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    ResultList<Instrument> all = await lm.searchInstruments(token, search: 'Tesla', limit: "2");
+    ResultList<Instrument> all = await lm.searchInstruments(token, query: 'Tesla', limit: "2");
     expect(all.result.length, 2);
   });
 
   test('searchInstrumentsWithQueryAndLimitAndOffset', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    ResultList<Instrument> prev = await lm.searchInstruments(token, search: 'Tesla', limit: "1", offset: 0);
-    ResultList<Instrument> all = await lm.searchInstruments(token, search: 'Tesla', limit: "1", offset: 1);
+    ResultList<Instrument> prev = await lm.searchInstruments(token, query: 'Tesla', limit: "1", offset: 0);
+    ResultList<Instrument> all = await lm.searchInstruments(token, query: 'Tesla', limit: "1", offset: 1);
     expect(prev.result.length, 1);
     expect(all.result.length, 1);
     expect(all.result.first.isin, isNot(prev.result.first.isin));
@@ -201,7 +209,7 @@ void main() {
 
   test('searchInstrumentsWithQueryAndCurrency', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    ResultList<Instrument> all = await lm.searchInstruments(token, search: 'Tesla', currency: 'EUR');
+    ResultList<Instrument> all = await lm.searchInstruments(token, query: 'Tesla', currency: 'EUR');
     expect(all.result.length, greaterThan(0));
   });
 
@@ -211,6 +219,21 @@ void main() {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
     ResultList<Quote> items = await lm.getLatestQuotes(token, ['US88160R1014'],);
     expect(items.result.length, greaterThan(0));
+  });
+
+  test('getQByDate', () async {
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    DateTime from = DateTime.fromMillisecondsSinceEpoch(1629109145919);
+    DateTime to = DateTime.fromMillisecondsSinceEpoch(1629109145919).add(Duration(hours: 8));
+    debugPrint('from $from to $to');
+    ResultList<OHLC> items = await lm.getOHLC(token, ['US88160R1014'], OHLCType.h1, from: from, to: to, sorting: Sorting.newestFirst);
+    items.result.forEach((element) {
+      debugPrint('${LemonMarketsTimeConverter.getDateTimeForLemonMarket(element.time).toString()}: ${element.open}€ - ${element.close}');
+    });
+    ResultList<Quote> items1 = await lm.getQuotes(token, ['US88160R1014'], from: from, to: to, sorting: Sorting.newestFirst);
+    items1.result.forEach((element) {
+      debugPrint('${LemonMarketsTimeConverter.getDateTimeForLemonMarket(element.time).toString()}: ${element.bit}€ - ${element.ask}');
+    });
   });
 
   test('getQuotes', () async {
@@ -229,6 +252,17 @@ void main() {
     expect(items.result[0].isin, 'US88160R1014');
   });
 
+  test('getOHLCByDate', () async {
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    DateTime from = DateTime.fromMillisecondsSinceEpoch(1629109145919);
+    DateTime to = DateTime.fromMillisecondsSinceEpoch(1629109145919).add(Duration(hours: 8));
+    debugPrint('from $from to $to');
+    ResultList<OHLC> items = await lm.getOHLC(token, ['US88160R1014'], OHLCType.h1, from: from, to: to, sorting: Sorting.newestFirst);
+    items.result.forEach((element) {
+      debugPrint('${LemonMarketsTimeConverter.getDateTimeForLemonMarket(element.time).toString()}: ${element.open}€ - ${element.close}');
+    });
+  });
+
   test('getLatestOHLC', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
     ResultList<OHLC> items = await lm.getLatestOHLC(token, ['US88160R1014'], OHLCType.h1);
@@ -241,8 +275,22 @@ void main() {
   test('getTrades', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
     ResultList<Trade> items = await lm.getTrades(token, ['US88160R1014']);
+    items.result.forEach((element) {
+      debugPrint('${element.time} ${LemonMarketsTimeConverter.getDateTimeForLemonMarket(element.time).toString()}: ${element.price}€ - ${element.volume}');
+    });
     expect(items.result.length, greaterThan(0));
     expect(items.result[0].isin, 'US88160R1014');
+  });
+
+  test('getTradesByDate', () async {
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    DateTime from = DateTime.fromMillisecondsSinceEpoch(1629109145919);
+    DateTime to = DateTime.fromMillisecondsSinceEpoch(1629109145919).add(Duration(hours: 8));
+    debugPrint('from $from to $to');
+    ResultList<Trade> items = await lm.getTrades(token, ['US88160R1014'], to: to);
+    items.result.forEach((element) {
+      debugPrint('${LemonMarketsTimeConverter.getDateTimeForLemonMarket(element.time).toString()}: ${element.price}€ - ${element.volume}');
+    });
   });
 
   test('getLatestTrades', () async {
@@ -250,5 +298,20 @@ void main() {
     ResultList<Trade> items = await lm.getLatestTrade(token, ['US88160R1014']);
     expect(items.result.length, greaterThan(0));
   });
+
+  // Exceptions
+
+  test('getLemonMarketsInvalidQueryException', () async {
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    DateTime from = DateTime.fromMillisecondsSinceEpoch(1629109145919);
+    DateTime to = DateTime.fromMillisecondsSinceEpoch(1629109145919).add(Duration(hours: 8));
+    try {
+      await lm.getOHLC(token, ['US88160R1014'], OHLCType.h1, from: to, to: from, sorting: Sorting.newestFirst);
+    } on LemonMarketsException catch (e) {
+      expect(e.responseCode, 400);
+    }
+    //throwsA(TypeMatcher<LemonMarketsInvalidQueryException>());
+  }
+  );
 
 }

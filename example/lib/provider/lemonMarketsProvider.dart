@@ -58,7 +58,7 @@ class LemonMarketsProvider with ChangeNotifier {
     if (token != null) {
       try {
         notifyListeners();
-        return lm.searchInstruments(token!, search: searchString);
+        return lm.searchInstruments(token!, query: searchString);
       } on LemonMarketsException catch (e) {
         setErrorMessage(e.toString());
       }
@@ -70,7 +70,7 @@ class LemonMarketsProvider with ChangeNotifier {
     if (quantity != null && quantity! > 0 && spaces != null && spaces!.result.isNotEmpty && token != null) {
       try {
         debugPrint('create order for $isin');
-        CreatedOrder order = await lm.placeOrder(token!, spaces!.result[0].uuid, isin, sell, quantity!);
+        CreatedOrder order = await lm.placeOrder(token!, spaces!.result[0].uuid, isin, sell ? OrderSide.sell : OrderSide.buy, quantity!);
         debugPrint('created order:  ${order.uuid}');
         this.quantity = null;
         orderCreated = true;

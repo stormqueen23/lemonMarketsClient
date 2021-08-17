@@ -15,9 +15,9 @@ class LemonMarketsSearch {
   LemonMarketsSearch(this._client);
 
   Future<ResultList<Instrument>> searchInstruments(AccessToken token,
-      {List<String>? mic, List<String>? isin, String? search, SearchType? type, bool? tradable, String? currency, String? limit, int? offset}) async {
+      {List<String>? mic, List<String>? isin, String? query, List<SearchType>? types, bool? tradable, String? currency, String? limit, int? offset}) async {
     String url = LemonMarketsURL.BASE_URL_MARKET + '/instruments/';
-    String appendSearch = _generateInstrumentParamString(isin: isin, mic: mic, offset: offset, limit: limit, type: type, currency: currency, search: search, tradable: tradable);
+    String appendSearch = _generateInstrumentParamString(isin: isin, mic: mic, offset: offset, limit: limit, types: types, currency: currency, search: query, tradable: tradable);
     url = url += appendSearch;
     return searchInstrumentsByUrl(token, url);
   }
@@ -39,7 +39,7 @@ class LemonMarketsSearch {
     return result;
   }
 
-  String _generateInstrumentParamString({List<String>? mic, List<String>? isin, String? search, SearchType? type, bool? tradable, String? currency, String? limit, int? offset}) {
+  String _generateInstrumentParamString({List<String>? mic, List<String>? isin, String? search, List<SearchType>? types, bool? tradable, String? currency, String? limit, int? offset}) {
     List<String> query = [];
     if (mic != null && mic.isNotEmpty) {
       query.add("mic="+mic.join(','));
@@ -50,9 +50,11 @@ class LemonMarketsSearch {
     if (search != null && search.trim().isNotEmpty) {
       query.add("search="+search.trim());
     }
-    if (type != null && type != SearchType.none) {
-      String appendType = _convertType(type);
-      query.add("type="+appendType);
+    if (types != null) {
+      for (SearchType type in types) {
+        String appendType = _convertType(type);
+        query.add("type=" + appendType);
+      }
     }
     if (tradable != null) {
       query.add("tradable="+tradable.toString());

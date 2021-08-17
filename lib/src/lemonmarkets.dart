@@ -25,7 +25,6 @@ import 'package:lemon_markets_client/clients/lemonMarketsSpaces.dart';
 import 'package:lemon_markets_client/clients/lemonMarketsOrder.dart';
 import 'package:lemon_markets_client/data/tradingVenue.dart';
 import 'package:lemon_markets_client/data/transaction.dart';
-import 'package:lemon_markets_client/helper/lemonMarketsURLs.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 import 'package:logging/logging.dart';
 
@@ -35,8 +34,7 @@ enum OrderSide { buy, sell }
 enum OrderStatus { inactive, active, in_progress, executed, deleted, expired }
 enum OrderType { limit, market, stopLimit, stopMarket }
 enum OHLCType { m1, h1, d1 }
-
-const String defaultMic = 'XMUN';
+enum Sorting { newestFirst, oldestFirst }
 
 class LemonMarkets {
   final Logger log = Logger('LemonMarkets');
@@ -96,7 +94,7 @@ class LemonMarkets {
   // Spaces -> Orders
 
   Future<ResultList<ExistingOrder>> getOrders(AccessToken token, String spaceUuid,
-      {int? createdAtUntil, int? createdAtFrom, OrderSide? side, OrderType? type, OrderStatus? status, int? limit, int? offset}) async {
+      {DateTime? createdAtUntil, DateTime? createdAtFrom, OrderSide? side, OrderType? type, OrderStatus? status, int? limit, int? offset}) async {
     //isin as query parameter would be nice
     return _tradingClient.getOrders(token, spaceUuid, createdAtUntil, createdAtFrom, side, type, status, limit, offset);
   }
@@ -109,12 +107,10 @@ class LemonMarkets {
     return _tradingClient.getOrder(token, spaceUuid, orderUuid);
   }
 
-  Future<CreatedOrder> placeOrder(
-      AccessToken token, String spaceUuid, String isin, bool sell, int quantity, {double? validUntil, double? stopPrice, double? limitPrice}) async {
-    String side = sell ? LemonMarketsURL.SELL_CONST : LemonMarketsURL.BUY_CONST;
+  Future<CreatedOrder> placeOrder(AccessToken token, String spaceUuid, String isin, OrderSide side, int quantity,
+      {DateTime? validUntil, double? stopPrice, double? limitPrice}) async {
     if (validUntil == null) {
-      DateTime oneYear = DateTime.now().add(Duration(days: 365));
-      validUntil = LemonMarketsTimeConverter.getUTCUnixTimestamp(oneYear.toUtc());
+      validUntil = DateTime.now().add(Duration(days: 365));
     }
     CreatedOrder o = await _tradingClient.placeOrder(token, spaceUuid, isin, validUntil, side, quantity, stopPrice: stopPrice, limitPrice: limitPrice);
     return o;
@@ -141,8 +137,9 @@ class LemonMarkets {
   }
 
   Future<ResultList<PortfolioTransaction>> getPortfolioTransactions(AccessToken token, String spaceUuid,
-      {int? createdAtUntil, int? createdAtFrom, int? limit, int? offset}) async {
-    return _portfolioClient.getPortfolioTransactions(token, spaceUuid, createdAtFrom: createdAtFrom, createdAtUntil: createdAtUntil, limit: limit, offset: offset);
+      {DateTime? createdAtFrom, DateTime? createdAtUntil, int? limit, int? offset}) async {
+    return _portfolioClient.getPortfolioTransactions(token, spaceUuid,
+        createdAtFrom: createdAtFrom, createdAtUntil: createdAtUntil, limit: limit, offset: offset);
   }
 
   Future<ResultList<PortfolioTransaction>> getPortfolioTransactionsByUrl(AccessToken token, String url) async {
@@ -152,7 +149,7 @@ class LemonMarkets {
   // Spaces -> Transactions
 
   Future<ResultList<Transaction>> getTransactions(AccessToken token, String spaceUuid,
-      {DateTime? createdAtUntil, DateTime? createdAtFrom, int? limit, int? offset}) async {
+      { DateTime? createdAtFrom, DateTime? createdAtUntil,int? limit, int? offset}) async {
     return _transactionClient.getTransactions(token, spaceUuid, createdAtFrom: createdAtFrom, createdAtUntil: createdAtUntil, limit: limit, offset: offset);
   }
 
@@ -167,8 +164,9 @@ class LemonMarkets {
   // Instruments
 
   Future<ResultList<Instrument>> searchInstruments(AccessToken token,
-      {List<String>? mic, List<String>? isin, String? search, SearchType? type, bool? tradable, String? currency, String? limit, int? offset}) async {
-    ResultList<Instrument> result = await _searchClient.searchInstruments(token, mic: mic, isin: isin, search: search, type: type, tradable: tradable, currency: currency, limit: limit, offset: offset);
+      {List<String>? mic, List<String>? isin, String? query, List<SearchType>? types, bool? tradable, String? currency, String? limit, int? offset}) async {
+    ResultList<Instrument> result = await _searchClient.searchInstruments(token,
+        mic: mic, isin: isin, query: query, types: types, tradable: tradable, currency: currency, limit: limit, offset: offset);
     return result;
   }
 
@@ -191,13 +189,12 @@ class LemonMarkets {
 
   // Epoch parameter not supported yet. Its always true problem: epoch=true results in number and result=false results in string --> type cast problem!
   // type 'int' is not a subtype of type 'String' in type cast
-  Future<ResultList<Quote>> getLatestQuotes(AccessToken token, List<String> isin,
-      {List<String>? mic, bool? decimals, String? sorting}) async {
+  Future<ResultList<Quote>> getLatestQuotes(AccessToken token, List<String> isin, {List<String>? mic, bool? decimals, Sorting? sorting}) async {
     return _marketClient.getQuotes(token, isin, mic: mic, sorting: sorting, decimals: decimals, latest: true);
   }
 
   Future<ResultList<Quote>> getQuotes(AccessToken token, List<String> isin,
-      {List<String>? mic, bool? decimals, String? sorting, DateTime? from, DateTime? to}) async {
+      {List<String>? mic, bool? decimals, Sorting? sorting, DateTime? from, DateTime? to}) async {
     return _marketClient.getQuotes(token, isin, mic: mic, sorting: sorting, decimals: decimals, from: from, to: to);
   }
 
@@ -207,14 +204,13 @@ class LemonMarkets {
 
   // Data -> OHLC
 
-  Future<ResultList<OHLC>> getLatestOHLC(AccessToken token, List<String> isin,  OHLCType type,
-      {List<String>? mic, String? format, String? sorting}) async {
-    return _marketClient.getOHLC(token, isin, type, sorting: sorting, mics: mic, format: format, latest: true);
+  Future<ResultList<OHLC>> getLatestOHLC(AccessToken token, List<String> isin, OHLCType type, {List<String>? mic, bool? decimals, Sorting? sorting}) async {
+    return _marketClient.getOHLC(token, isin, type, sorting: sorting, mics: mic, decimals: decimals, latest: true);
   }
 
   Future<ResultList<OHLC>> getOHLC(AccessToken token, List<String> isin, OHLCType type,
-    {List<String>? mics, DateTime? from, DateTime? until, String? sorting, String? format}) async {
-    return _marketClient.getOHLC(token, isin, type, mics: mics, from: from, to: until, sorting: sorting, format: format);
+      {List<String>? mics, DateTime? from, DateTime? to, Sorting? sorting, bool? decimals}) async {
+    return _marketClient.getOHLC(token, isin, type, mics: mics, from: from, to: to, sorting: sorting, decimals: decimals);
   }
 
   Future<ResultList<OHLC>> getOHLCByUrl(AccessToken token, String url) async {
@@ -223,19 +219,16 @@ class LemonMarkets {
 
   // Data -> Latest Trades
 
-  Future<ResultList<Trade>> getLatestTrade(AccessToken token, List<String> isin,
-      {List<String>? mic, bool? decimals, String? sorting}) async {
-    return _marketClient.getTrades(token, isin, sorting: sorting, mic: mic, decimals: decimals, latest: true);
+  Future<ResultList<Trade>> getLatestTrade(AccessToken token, List<String> isin, {List<String>? mics, bool? decimals, Sorting? sorting}) async {
+    return _marketClient.getTrades(token, isin, sorting: sorting, mics: mics, decimals: decimals, latest: true);
   }
 
   Future<ResultList<Trade>> getTrades(AccessToken token, List<String> isin,
-      {List<String>? mic, bool? decimals, String? sorting,
-        DateTime? from, DateTime? until}) async {
-    return _marketClient.getTrades(token, isin, from: from, to: until, decimals: decimals, mic: mic, sorting: sorting);
+      {List<String>? mic, bool? decimals, Sorting? sorting, DateTime? from, DateTime? to}) async {
+    return _marketClient.getTrades(token, isin, from: from, to: to, decimals: decimals, mics: mic, sorting: sorting);
   }
 
   Future<ResultList<Trade>> getTradesByUrl(AccessToken token, String url) async {
     return _marketClient.getTradesByUrl(token, url);
   }
-
 }

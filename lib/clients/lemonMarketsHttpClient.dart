@@ -4,6 +4,7 @@ import 'package:http/http.dart';
 import 'package:lemon_markets_client/data/accessToken.dart';
 import 'package:lemon_markets_client/exception/lemonMarketsAuthException.dart';
 import 'package:lemon_markets_client/exception/lemonMarketsDecodeException.dart';
+import 'package:lemon_markets_client/exception/lemonMarketsInvalidQueryException.dart';
 import 'package:logging/logging.dart';
 
 class LemonMarketsClientResponse {
@@ -51,7 +52,11 @@ class LemonMarketsHttpClient {
       throw LemonMarketsAuthException(url, "401 Error", statusCode, response.body, null);
     }
     try {
-      Map<String, dynamic> decoded = response.body != null && response.body.isNotEmpty ? json.decode(response.body) : {};
+      Map<String, dynamic> decoded = response.body.isNotEmpty ? json.decode(response.body) : {};
+      if (statusCode == 400) {
+        log.info("400 statusCode");
+        throw LemonMarketsInvalidQueryException(url, decoded['message'], statusCode, response.body, null);
+      }
       return LemonMarketsClientResponse(statusCode, decoded);
     } catch (e, stackTrace) {
       log.warning(e.toString());

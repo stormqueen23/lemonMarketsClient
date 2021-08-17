@@ -6,6 +6,7 @@ import 'package:lemon_markets_client/data/resultList.dart';
 import 'package:lemon_markets_client/exception/lemonMarketsConvertException.dart';
 import 'package:lemon_markets_client/clients/lemonMarketsHttpClient.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsConverter.dart';
+import 'package:lemon_markets_client/helper/lemonMarketsTimeConverter.dart';
 import 'package:lemon_markets_client/src/lemonmarkets.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsURLs.dart';
 import 'package:logging/logging.dart';
@@ -17,13 +18,13 @@ class LemonMarketsOrder {
   LemonMarketsOrder(this._client);
 
   Future<CreatedOrder> placeOrder(
-      AccessToken token, String spaceUuid, String isin, double validUntil, String side,
+      AccessToken token, String spaceUuid, String isin, DateTime validUntil, OrderSide side,
       int quantity, {double? stopPrice, double? limitPrice}) async {
     String url = LemonMarketsURL.BASE_URL + '/spaces/' + spaceUuid + '/orders/';
     Map<String, dynamic> data = {};
     data['isin'] = isin;
-    data['side'] = side;
-    data['valid_until'] = validUntil.toString();
+    data['side'] = LemonMarketsConverter.convertSideForExecution(side);
+    data['valid_until'] = LemonMarketsTimeConverter.getDoubleTimeForDateTime(validUntil).toString();
     data['quantity'] = quantity.toString();
     if (limitPrice != null) {
       data['limit_price'] = limitPrice.toString();
@@ -84,7 +85,7 @@ class LemonMarketsOrder {
   }
 
   Future<ResultList<ExistingOrder>> getOrders(AccessToken token, String spaceUuid,
-      int? createdAtUntil, int? createdAtFrom, OrderSide? side, OrderType? type,
+      DateTime? createdAtUntil, DateTime? createdAtFrom, OrderSide? side, OrderType? type,
       OrderStatus? status, int? limit, int? offset) async {
     List<String> params = _getOrderQueryParams(createdAtUntil, createdAtFrom, side, type, status, limit, offset);
     String queryParams = LemonMarketsHttpClient.generateQueryParams(params);
@@ -103,17 +104,17 @@ class LemonMarketsOrder {
     }
   }
 
-  List<String> _getOrderQueryParams(int? createdAtUntil, int? createdAtFrom, OrderSide? side, OrderType? type,
+  List<String> _getOrderQueryParams(DateTime? createdAtUntil, DateTime? createdAtFrom, OrderSide? side, OrderType? type,
       OrderStatus? status, int? limit, int? offset) {
     List<String> result = [];
     if (createdAtUntil != null) {
-      result.add('created_at_until='+createdAtUntil.toString());
+      result.add('created_at_until='+LemonMarketsTimeConverter.getDoubleTimeForDateTime(createdAtUntil).toString());
     }
     if (createdAtFrom != null) {
-      result.add('created_at_from='+createdAtFrom.toString());
+      result.add('created_at_from='+LemonMarketsTimeConverter.getDoubleTimeForDateTime(createdAtFrom).toString());
     }
     if (side != null) {
-      String? sideString = LemonMarketsConverter.convertSide(side);
+      String? sideString = LemonMarketsConverter.convertSideForSearch(side);
       if (sideString != null)
         result.add('side='+sideString);
     }

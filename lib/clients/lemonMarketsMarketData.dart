@@ -20,13 +20,13 @@ class LemonMarketsMarketData {
   // Market Data -> Trade
 
   Future<ResultList<Trade>> getTrades(AccessToken token, List<String> isin,
-      {List<String>? mic, bool? decimals, String? sorting,
+      {List<String>? mics, bool? decimals, Sorting? sorting,
         DateTime? from, DateTime? to, bool? latest}) async {
     String url = LemonMarketsURL.BASE_URL_MARKET + '/trades/';
 
     List<String> query = [];
-    if (mic != null && mic.isNotEmpty) {
-      query.add("mic=" + mic.join(','));
+    if (mics != null && mics.isNotEmpty) {
+      query.add("mic=" + mics.join(','));
     }
     if (isin.isNotEmpty) {
       query.add("isin=" + isin.join(','));
@@ -35,18 +35,17 @@ class LemonMarketsMarketData {
       query.add("from=latest");
     } else {
       if (from != null) {
-        query.add("from=" + LemonMarketsTimeConverter.getUTCUnixTimestamp(from).toString());
+        query.add("from=" + LemonMarketsTimeConverter.getDoubleTimeForDateTime(from).toString());
       }
       if (to != null) {
-        query.add("to=" + LemonMarketsTimeConverter.getUTCUnixTimestamp(to).toString());
+        query.add("to=" + LemonMarketsTimeConverter.getDoubleTimeForDateTime(to).toString());
       }
     }
     if (decimals != null) {
       query.add("decimals=" + decimals.toString());
     }
     if (sorting != null) {
-      //TODO: enum
-      query.add("sorting=" + sorting.toString());
+      query.add("sorting=" + LemonMarketsConverter.convertSorting(sorting));
     }
     query.add("epoch=true");
 
@@ -70,7 +69,7 @@ class LemonMarketsMarketData {
   // Market Data -> Quote
 
   Future<ResultList<Quote>> getQuotes(AccessToken token, List<String> isin,
-      {List<String>? mic, bool? decimals, String? sorting,
+      {List<String>? mic, bool? decimals, Sorting? sorting,
         DateTime? from, DateTime? to, bool? latest}) async {
     String url = LemonMarketsURL.BASE_URL_MARKET + '/quotes/';
 
@@ -95,8 +94,7 @@ class LemonMarketsMarketData {
       query.add("decimals=" + decimals.toString());
     }
     if (sorting != null) {
-      //TODO: enum
-      query.add("sorting=" + sorting.toString());
+      query.add("sorting=" + LemonMarketsConverter.convertSorting(sorting));
     }
     query.add("epoch=true");
 
@@ -120,7 +118,7 @@ class LemonMarketsMarketData {
   // Market Data -> OHLC
 
   Future<ResultList<OHLC>> getOHLC(AccessToken token, List<String> isin, OHLCType type,
-      {List<String>? mics, String? format,  String? sorting,
+      {List<String>? mics, bool? decimals,  Sorting? sorting,
         DateTime? from, DateTime? to, bool? latest}) async {
 
     List<String> result = [];
@@ -134,19 +132,19 @@ class LemonMarketsMarketData {
       result.add('latest='+latest.toString());
     } else {
       if (from != null) {
-        double value = LemonMarketsTimeConverter.getDoubleTimeForDateTime(from);
+        int value = LemonMarketsTimeConverter.getDoubleTimeForDateTime(from);
         result.add('from=' + value.toString());
       }
       if (to != null) {
-        double value = LemonMarketsTimeConverter.getDoubleTimeForDateTime(to);
+        int value = LemonMarketsTimeConverter.getDoubleTimeForDateTime(to);
         result.add('to=' + value.toString());
       }
     }
-    if (format != null) {
-      result.add('format='+format.toString()); //TODO: enum
+    if (decimals != null) {
+      result.add('decimals='+decimals.toString());
     }
     if (sorting != null) {
-      result.add('sorting='+sorting);// oldest -> newest
+      result.add('sorting='+LemonMarketsConverter.convertSorting(sorting)); // oldest -> newest
     }
     result.add('epoch=true');
 

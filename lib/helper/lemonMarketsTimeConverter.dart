@@ -5,11 +5,11 @@ class LemonMarketsTimeConverter {
     return DateTime.fromMillisecondsSinceEpoch((time * factor).ceil());
   }
 
-  static double getDoubleTimeForDateTime(DateTime time) {
-    return time.millisecondsSinceEpoch / factor;
+  static int getDoubleTimeForDateTime(DateTime time) {
+    return (time.millisecondsSinceEpoch / factor).floor();
   }
 
-  static double getUTCUnixTimestamp(DateTime time) {
-    return time.millisecondsSinceEpoch / 1000;
+  static int getUTCUnixTimestamp(DateTime time) {
+    return (time.millisecondsSinceEpoch / 1000).floor();
   }
 }

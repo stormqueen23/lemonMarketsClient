@@ -5,8 +5,4 @@ class LemonMarketsURL {
 
   static String AUTH_URL = 'https://auth.lemon.markets/oauth2/token';
 
-  static String BUY_CONST = 'buy';
-
-  static String SELL_CONST = 'sell';
-
 }

@@ -12,7 +12,16 @@ class LemonMarketsConverter {
     }
   }
 
-  static String? convertSide(OrderSide value) {
+  static String? convertSideForSearch(OrderSide value) {
+    if (OrderSide.buy == value) {
+      return 'buy';
+    } else if (OrderSide.sell == value) {
+      return 'sell';
+    }
+    return null;
+  }
+
+  static String? convertSideForExecution(OrderSide value) {
     if (OrderSide.buy == value) {
       return 'buy';
     } else if (OrderSide.sell == value) {
@@ -71,6 +80,19 @@ class LemonMarketsConverter {
         break;
       case SearchType.none:
         result = "";
+        break;
+    }
+    return result;
+  }
+
+  static String convertSorting(Sorting sorting) {
+    String result = "asc";
+    switch (sorting) {
+      case Sorting.newestFirst:
+        result = "desc";
+        break;
+      case Sorting.oldestFirst:
+        result = "asc";
         break;
     }
     return result;
