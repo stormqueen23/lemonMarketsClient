@@ -5,6 +5,7 @@ import 'package:lemon_markets_client/data/accessToken.dart';
 import 'package:lemon_markets_client/exception/lemonMarketsAuthException.dart';
 import 'package:lemon_markets_client/exception/lemonMarketsDecodeException.dart';
 import 'package:lemon_markets_client/exception/lemonMarketsInvalidQueryException.dart';
+import 'package:lemon_markets_client/exception/lemonMarketsServerException.dart';
 import 'package:logging/logging.dart';
 
 class LemonMarketsClientResponse {
@@ -50,7 +51,11 @@ class LemonMarketsHttpClient {
     if (statusCode == 401) {
       log.info("401 statusCode");
       throw LemonMarketsAuthException(url, "401 Error", statusCode, response.body, null);
+    } else if (statusCode == 500) {
+      log.info("500 statusCode");
+      throw LemonMarketsServerException(url, response.body, statusCode, response.body, null);
     }
+
     try {
       Map<String, dynamic> decoded = response.body.isNotEmpty ? json.decode(response.body) : {};
       if (statusCode == 400) {
