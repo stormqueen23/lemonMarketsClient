@@ -6,7 +6,7 @@ part 'accessToken.g.dart';
 class AccessToken {
   @JsonKey(name: 'access_token')
   String token;
-  @JsonKey(name: 'expires_in')
+  @JsonKey(name: 'expires_in') //seconds
   int expiresIn;
   @JsonKey(name: 'scope')
   String scope;

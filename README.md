@@ -43,7 +43,7 @@ final String clientSecret = "YOUR_CLIENT_SECRET";
 final LemonMarkets lemonMarkets = LemonMarkets();
 try {
     AccessToken token = await lemonMarkets.requestToken(clientId, clientSecret);
-    ResultList<Instrument> result = await lemonMarkets.searchInstruments(token, search: searchString)
+    ResultList<Instrument> result = await lemonMarkets.searchInstruments(token, query: searchString)
 } on LemonMarketsException catch (e) {
     debugPrint(e.toString());
 }
@@ -85,6 +85,3 @@ If you want to run the example app, you need to create an asset folder with  a f
   "spaceUuid": "SPACE_UUID_FOR_CLIENT_ID"
 }
 ```
-
-## TODO
-New Error handling

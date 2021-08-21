@@ -1,8 +1,9 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lemon_markets_client/data/resultList.dart';
 import 'package:lemon_markets_client/data/transaction.dart';
-import 'package:lemon_markets_client/exception/lemonMarketsInvalidQueryException.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 import 'package:lemon_markets_client/src/lemonmarkets.dart';
 import 'package:logging/logging.dart';
@@ -29,8 +30,15 @@ void main() {
   // Authentication
 
   test('requestToken', () async {
+
     AccessToken token = await lm.requestToken(clientId, clientSecret);
+
+    //check if expiresIn is in seconds
+    int nowInSeconds = LemonMarketsTimeConverter.getUTCUnixTimestamp(DateTime.now()).floor();
+    DateTime expireDate = LemonMarketsTimeConverter.getUTXUnixDateTimeForLemonMarket((nowInSeconds+token.expiresIn).toDouble());
+
     expect(token, isNotNull);
+    expect(expireDate.year, greaterThan(DateTime.now().year-1));
   });
 
   // State -> Spaces
@@ -72,13 +80,20 @@ void main() {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
     ExistingOrder order = await lm.getOrder(token, Credentials.spaceUuid, Credentials.orderUuid);
     expect(order.uuid, Credentials.orderUuid);
+    expect(order.createdAt.year, 2021);
+    expect(order.validUntil.year, 2022);
+    expect(order.processedAt!.year, 2021);
   });
 
   test('deleteOrder', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
+
     CreatedOrder order = await lm.placeOrder(token, spaceUuid, 'DE000A0D6554', OrderSide.buy, 1);
+    expect(order.validUntil.year, greaterThan(2020));
+
     DeleteOrderResponse result = await lm.deleteOrder(token, spaceUuid, order.uuid);
     expect(result.success, true);
+
   });
 
   test('activateOrder', () async {
@@ -86,6 +101,25 @@ void main() {
     CreatedOrder order = await lm.placeOrder(token, spaceUuid, 'DE000A0D6554', OrderSide.buy, 1);
     ActivateOrderResponse result = await lm.activateOrder(token, spaceUuid, order.uuid);
     expect(result.success, true);
+  });
+
+  test('placeOrderStopAndLimit', () async {
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    CreatedOrder order = await lm.placeOrder(token, spaceUuid, 'DE000A0D6554', OrderSide.buy, 1, limitPrice: 2, stopPrice: 2.50,);
+    expect(order.limitPrice, 2);
+    expect(order.stopPrice, 2.5);
+  });
+
+  test('placeOrderDate', () async {
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    DateTime valid = DateTime.now().add(Duration(days: 30));
+    CreatedOrder order = await lm.placeOrder(token, spaceUuid, 'DE000A0D6554', OrderSide.buy, 1, validUntil: valid);
+    expect(order.validUntil.year, valid.year);
+    expect(order.validUntil.month, valid.month);
+    expect(order.validUntil.day, valid.day);
+    expect(order.validUntil.hour, valid.hour);
+    expect(order.validUntil.minute, valid.minute);
+    expect(order.validUntil.second, valid.second);
   });
 
   // State -> Portfolio
@@ -108,6 +142,7 @@ void main() {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
     ResultList<Transaction> list = await lm.getTransactions(token, spaceUuid);
     expect(list.result.length, greaterThan(0));
+    expect(list.result[0].createdAt.year, greaterThan(2020));
   });
 
   test('getTransaction', () async {
@@ -219,6 +254,7 @@ void main() {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
     ResultList<Quote> items = await lm.getLatestQuotes(token, ['US88160R1014'],);
     expect(items.result.length, greaterThan(0));
+    expect(items.result[0].time.year, greaterThan(2020));
   });
 
   test('getQByDate', () async {
@@ -226,13 +262,9 @@ void main() {
     DateTime from = DateTime.fromMillisecondsSinceEpoch(1629109145919);
     DateTime to = DateTime.fromMillisecondsSinceEpoch(1629109145919).add(Duration(hours: 8));
     debugPrint('from $from to $to');
-    ResultList<OHLC> items = await lm.getOHLC(token, ['US88160R1014'], OHLCType.h1, from: from, to: to, sorting: Sorting.newestFirst);
-    items.result.forEach((element) {
-      debugPrint('${LemonMarketsTimeConverter.getDateTimeForLemonMarket(element.time).toString()}: ${element.open}€ - ${element.close}');
-    });
     ResultList<Quote> items1 = await lm.getQuotes(token, ['US88160R1014'], from: from, to: to, sorting: Sorting.newestFirst);
     items1.result.forEach((element) {
-      debugPrint('${LemonMarketsTimeConverter.getDateTimeForLemonMarket(element.time).toString()}: ${element.bit}€ - ${element.ask}');
+      debugPrint('${element.time.toString()}: ${element.bit}€ - ${element.ask}');
     });
   });
 
@@ -250,16 +282,17 @@ void main() {
     ResultList<OHLC> items = await lm.getOHLC(token, ['US88160R1014'], OHLCType.h1);
     expect(items.result.length, greaterThan(0));
     expect(items.result[0].isin, 'US88160R1014');
+    expect(items.result[0].time.year, greaterThan(2020));
   });
 
   test('getOHLCByDate', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    DateTime from = DateTime.fromMillisecondsSinceEpoch(1629109145919);
-    DateTime to = DateTime.fromMillisecondsSinceEpoch(1629109145919).add(Duration(hours: 8));
+    DateTime from = DateTime.now().add(Duration(days: -3));
+    DateTime to = DateTime.now().add(Duration(days: -1));
     debugPrint('from $from to $to');
     ResultList<OHLC> items = await lm.getOHLC(token, ['US88160R1014'], OHLCType.h1, from: from, to: to, sorting: Sorting.newestFirst);
     items.result.forEach((element) {
-      debugPrint('${LemonMarketsTimeConverter.getDateTimeForLemonMarket(element.time).toString()}: ${element.open}€ - ${element.close}');
+      debugPrint('${(element.time).toString()}: ${element.open}€ - ${element.close}');
     });
   });
 
@@ -276,10 +309,11 @@ void main() {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
     ResultList<Trade> items = await lm.getTrades(token, ['US88160R1014']);
     items.result.forEach((element) {
-      debugPrint('${element.time} ${LemonMarketsTimeConverter.getDateTimeForLemonMarket(element.time).toString()}: ${element.price}€ - ${element.volume}');
+      debugPrint('${element.time} ${element.time.toString()}: ${element.price}€ - ${element.volume}');
     });
     expect(items.result.length, greaterThan(0));
     expect(items.result[0].isin, 'US88160R1014');
+    expect(items.result[0].time.year, greaterThan(2020));
   });
 
   test('getTradesByDate', () async {
@@ -289,7 +323,7 @@ void main() {
     debugPrint('from $from to $to');
     ResultList<Trade> items = await lm.getTrades(token, ['US88160R1014'], to: to);
     items.result.forEach((element) {
-      debugPrint('${LemonMarketsTimeConverter.getDateTimeForLemonMarket(element.time).toString()}: ${element.price}€ - ${element.volume}');
+      debugPrint('${element.time.toString()}: ${element.price}€ - ${element.volume}');
     });
   });
 

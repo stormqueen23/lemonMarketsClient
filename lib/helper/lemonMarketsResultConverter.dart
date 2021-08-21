@@ -12,12 +12,19 @@ class LemonMarketsResultConverter {
   }
 
   static ExistingOrderSide fromExistingOrderType(String typeAsString) {
-      if ('sell' == typeAsString) {
+    if ('sell' == typeAsString) {
         return ExistingOrderSide.sell;
       } else if ('buy' == typeAsString) {
         return ExistingOrderSide.buy;
       }
     return ExistingOrderSide.unknown;
+  }
+
+  static double? toDouble(String? value) {
+    if (value == null) {
+      return null;
+    }
+    return double.parse(value);
   }
 
 }

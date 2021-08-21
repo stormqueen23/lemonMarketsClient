@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:lemon_markets_client/helper/lemonMarketsTimeConverter.dart';
 
 part 'trade.g.dart';
 
@@ -13,8 +14,8 @@ class Trade {
   @JsonKey(name: 'v')
   double volume;
 
-  @JsonKey(name: 't')
-  double time;
+  @JsonKey(name: 't', fromJson: LemonMarketsTimeConverter.getDateTimeForLemonMarket, toJson: LemonMarketsTimeConverter.getDoubleTimeForDateTime)
+  DateTime time;
 
   Trade(this.isin, this.price, this.volume, this.time);
 

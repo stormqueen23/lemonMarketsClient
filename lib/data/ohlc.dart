@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:lemon_markets_client/helper/lemonMarketsTimeConverter.dart';
 
 part 'ohlc.g.dart';
 
@@ -19,8 +20,8 @@ class OHLC {
   @JsonKey(name: 'c')
   double close;
 
-  @JsonKey(name: 't')
-  double time;
+  @JsonKey(name: 't', fromJson: LemonMarketsTimeConverter.getDateTimeForLemonMarket, toJson: LemonMarketsTimeConverter.getDoubleTimeForDateTime)
+  DateTime time;
 
   OHLC(this.isin, this.open, this.high, this.low, this.close, this.time);
 

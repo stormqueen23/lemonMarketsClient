@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lemon_markets_client/data/orderInstrument.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsResultConverter.dart';
+import 'package:lemon_markets_client/helper/lemonMarketsTimeConverter.dart';
 
 part 'existingOrder.g.dart';
 
@@ -9,8 +10,8 @@ enum ExistingOrderSide {buy, sell, unknown}
 @JsonSerializable()
 class ExistingOrder {
 
-  @JsonKey(name: 'valid_until') //double
-  double validUntil;
+  @JsonKey(name: 'valid_until', fromJson: LemonMarketsTimeConverter.getUTXUnixDateTimeForLemonMarket, toJson: LemonMarketsTimeConverter.getUTCUnixTimestamp)
+  DateTime validUntil;
 
   @JsonKey(name: 'side', fromJson: LemonMarketsResultConverter.fromExistingOrderType, toJson: LemonMarketsResultConverter.toExistingOrderType)
   ExistingOrderSide side;
@@ -18,11 +19,11 @@ class ExistingOrder {
   @JsonKey(name: 'quantity')
   int quantity;
 
-  @JsonKey(name: 'stop_price')
-  String? stopPrice;
+  @JsonKey(name: 'stop_price', fromJson: LemonMarketsResultConverter.toDouble)
+  double? stopPrice;
 
-  @JsonKey(name: 'limit_price')
-  String? limitPrice;
+  @JsonKey(name: 'limit_price', fromJson: LemonMarketsResultConverter.toDouble)
+  double? limitPrice;
 
   @JsonKey(name: 'uuid')
   String uuid;
@@ -30,17 +31,17 @@ class ExistingOrder {
   @JsonKey(name: 'status')
   String status;
 
-  @JsonKey(name: 'average_price')
-  String? averagePrice;
+  @JsonKey(name: 'average_price', fromJson: LemonMarketsResultConverter.toDouble)
+  double? averagePrice;
 
-  @JsonKey(name: 'created_at')
-  double createdAt;
+  @JsonKey(name: 'created_at', fromJson: LemonMarketsTimeConverter.getUTXUnixDateTimeForLemonMarket, toJson: LemonMarketsTimeConverter.getUTCUnixTimestamp)
+  DateTime createdAt;
 
   @JsonKey(name: 'type')
   String type;
 
-  @JsonKey(name: 'processed_at')
-  double? processedAt;
+  @JsonKey(name: 'processed_at', fromJson: LemonMarketsTimeConverter.getUTXUnixDateTimeForLemonMarketNullable, toJson: LemonMarketsTimeConverter.getUTCUnixTimestampNullable)
+  DateTime? processedAt;
 
   @JsonKey(name: 'processed_quantity')
   int? processedQuantity;

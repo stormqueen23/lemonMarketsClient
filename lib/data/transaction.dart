@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lemon_markets_client/data/transactionOrder.dart';
+import 'package:lemon_markets_client/helper/lemonMarketsTimeConverter.dart';
 
 part 'transaction.g.dart';
 
@@ -11,8 +12,8 @@ class Transaction {
   @JsonKey(name: 'uuid')
   String uuid;
 
-  @JsonKey(name: 'created_at')
-  double createdAt;
+  @JsonKey(name: 'created_at', fromJson: LemonMarketsTimeConverter.getUTXUnixDateTimeForLemonMarket, toJson: LemonMarketsTimeConverter.getUTCUnixTimestamp)
+  DateTime createdAt;
 
   @JsonKey(name: 'type')
   String type;

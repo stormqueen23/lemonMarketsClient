@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:lemon_markets_client/helper/lemonMarketsTimeConverter.dart';
 
 part 'quote.g.dart';
 
@@ -19,8 +20,8 @@ class Quote {
   @JsonKey(name: 'b_v')
   double bitVolume;
 
-  @JsonKey(name: 't')
-  double time;
+  @JsonKey(name: 't', fromJson: LemonMarketsTimeConverter.getDateTimeForLemonMarket, toJson: LemonMarketsTimeConverter.getDoubleTimeForDateTime)
+  DateTime time;
 
   Quote(this.isin, this.ask, this.askVolume, this.bit, this.bitVolume, this.time);
 
