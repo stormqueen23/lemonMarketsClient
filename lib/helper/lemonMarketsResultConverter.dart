@@ -20,11 +20,25 @@ class LemonMarketsResultConverter {
     return ExistingOrderSide.unknown;
   }
 
-  static double? toDouble(String? value) {
+  static double toDouble(String value) {
+    return double.parse(value);
+  }
+
+  static double? toDoubleNullable(String? value) {
     if (value == null) {
       return null;
     }
     return double.parse(value);
   }
 
+  static int toInt(String value) {
+    return int.parse(value);
+  }
+
+  static int? toIntNullable(String? value) {
+    if (value == null) {
+      return null;
+    }
+    return int.parse(value);
+  }
 }

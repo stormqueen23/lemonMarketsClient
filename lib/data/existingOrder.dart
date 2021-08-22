@@ -19,10 +19,10 @@ class ExistingOrder {
   @JsonKey(name: 'quantity')
   int quantity;
 
-  @JsonKey(name: 'stop_price', fromJson: LemonMarketsResultConverter.toDouble)
+  @JsonKey(name: 'stop_price', fromJson: LemonMarketsResultConverter.toDoubleNullable)
   double? stopPrice;
 
-  @JsonKey(name: 'limit_price', fromJson: LemonMarketsResultConverter.toDouble)
+  @JsonKey(name: 'limit_price', fromJson: LemonMarketsResultConverter.toDoubleNullable)
   double? limitPrice;
 
   @JsonKey(name: 'uuid')
@@ -31,7 +31,7 @@ class ExistingOrder {
   @JsonKey(name: 'status')
   String status;
 
-  @JsonKey(name: 'average_price', fromJson: LemonMarketsResultConverter.toDouble)
+  @JsonKey(name: 'average_price', fromJson: LemonMarketsResultConverter.toDoubleNullable)
   double? averagePrice;
 
   @JsonKey(name: 'created_at', fromJson: LemonMarketsTimeConverter.getUTXUnixDateTimeForLemonMarket, toJson: LemonMarketsTimeConverter.getUTCUnixTimestamp)

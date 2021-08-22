@@ -1,13 +1,16 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:lemon_markets_client/helper/lemonMarketsResultConverter.dart';
 
 part 'spaceState.g.dart';
 
 @JsonSerializable()
 class SpaceState {
-  @JsonKey(name: 'balance')
-  String balance;
-  @JsonKey(name: 'cash_to_invest')
-  String cashToInvest;
+
+  @JsonKey(name: 'balance', fromJson: LemonMarketsResultConverter.toDouble)
+  double balance;
+
+  @JsonKey(name: 'cash_to_invest', fromJson: LemonMarketsResultConverter.toDouble)
+  double cashToInvest;
 
   SpaceState(this.balance, this.cashToInvest);
 

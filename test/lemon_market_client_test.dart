@@ -230,7 +230,7 @@ void main() {
   test('searchInstrumentsWithQueryAndLimit', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
     ResultList<Instrument> all = await lm.searchInstruments(token, query: 'Tesla', limit: "2");
-    expect(all.result.length, 2);
+    expect(all.result.length, 2, reason: "Expected result: 2, given result: ${all.result.length}");
   });
 
   test('searchInstrumentsWithQueryAndLimitAndOffset', () async {

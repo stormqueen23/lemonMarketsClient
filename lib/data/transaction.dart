@@ -1,13 +1,14 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lemon_markets_client/data/transactionOrder.dart';
+import 'package:lemon_markets_client/helper/lemonMarketsResultConverter.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsTimeConverter.dart';
 
 part 'transaction.g.dart';
 
 @JsonSerializable()
 class Transaction {
-  @JsonKey(name: 'amount')
-  String amount;
+  @JsonKey(name: 'amount', fromJson: LemonMarketsResultConverter.toDouble)
+  double amount;
 
   @JsonKey(name: 'uuid')
   String uuid;

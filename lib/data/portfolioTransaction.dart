@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lemon_markets_client/data/transactionOrderInstrument.dart';
+import 'package:lemon_markets_client/helper/lemonMarketsResultConverter.dart';
 
 part 'portfolioTransaction.g.dart';
 
@@ -14,8 +15,8 @@ class PortfolioTransaction {
   @JsonKey(name: 'uuid')
   String transactionUuid;
 
-  @JsonKey(name: 'average_price')
-  String averagePrice;
+  @JsonKey(name: 'average_price', fromJson: LemonMarketsResultConverter.toDouble)
+  double averagePrice;
 
   @JsonKey(name: 'side')
   String side;

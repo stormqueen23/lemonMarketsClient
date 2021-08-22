@@ -91,9 +91,9 @@ class SpacesInfoWidget extends StatelessWidget {
         Divider(),
         AttributeWidget(name: 'Uuid: ',value: space.uuid),
         Divider(),
-        AttributeWidget(name: 'Cash to invest: ',value: space.state.cashToInvest),
+        AttributeWidget(name: 'Cash to invest: ',value: space.state.cashToInvest.toString()),
         Divider(),
-        AttributeWidget(name: 'Balance: ',value: space.state.balance),
+        AttributeWidget(name: 'Balance: ',value: space.state.balance.toString()),
       ],
     );
   }
