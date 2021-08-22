@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:lemon_markets_client/data/orderInstrument.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsResultConverter.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsTimeConverter.dart';
+import 'package:lemon_markets_client/src/lemonmarkets.dart';
 
 part 'existingOrder.g.dart';
 
@@ -13,8 +14,8 @@ class ExistingOrder {
   @JsonKey(name: 'valid_until', fromJson: LemonMarketsTimeConverter.getUTXUnixDateTimeForLemonMarket, toJson: LemonMarketsTimeConverter.getUTCUnixTimestamp)
   DateTime validUntil;
 
-  @JsonKey(name: 'side', fromJson: LemonMarketsResultConverter.fromExistingOrderType, toJson: LemonMarketsResultConverter.toExistingOrderType)
-  ExistingOrderSide side;
+  @JsonKey(name: 'side', fromJson: LemonMarketsResultConverter.fromOrderSide, toJson: LemonMarketsResultConverter.toOrderSide)
+  OrderSide side;
 
   @JsonKey(name: 'quantity')
   int quantity;
@@ -28,8 +29,8 @@ class ExistingOrder {
   @JsonKey(name: 'uuid')
   String uuid;
 
-  @JsonKey(name: 'status')
-  String status;
+  @JsonKey(name: 'status', fromJson: LemonMarketsResultConverter.fromOrderStatus, toJson: LemonMarketsResultConverter.toOrderStatus)
+  OrderStatus status;
 
   @JsonKey(name: 'average_price', fromJson: LemonMarketsResultConverter.toDoubleNullable)
   double? averagePrice;
@@ -37,8 +38,8 @@ class ExistingOrder {
   @JsonKey(name: 'created_at', fromJson: LemonMarketsTimeConverter.getUTXUnixDateTimeForLemonMarket, toJson: LemonMarketsTimeConverter.getUTCUnixTimestamp)
   DateTime createdAt;
 
-  @JsonKey(name: 'type')
-  String type;
+  @JsonKey(name: 'type', fromJson: LemonMarketsResultConverter.fromOrderType, toJson: LemonMarketsResultConverter.toOrderType)
+  OrderType type;
 
   @JsonKey(name: 'processed_at', fromJson: LemonMarketsTimeConverter.getUTXUnixDateTimeForLemonMarketNullable, toJson: LemonMarketsTimeConverter.getUTCUnixTimestampNullable)
   DateTime? processedAt;

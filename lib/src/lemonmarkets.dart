@@ -30,9 +30,10 @@ import 'package:logging/logging.dart';
 
 //Alle, Aktie, Anleihe, Fond, ETF, Optionsschein
 enum SearchType { none, stock, bond, fund, etf, warrant }
-enum OrderSide { buy, sell }
-enum OrderStatus { inactive, active, in_progress, executed, deleted, expired }
-enum OrderType { limit, market, stopLimit, stopMarket }
+enum OrderSide { buy, sell, unknown }
+enum OrderStatus { inactive, active, in_progress, executed, deleted, expired, unknown }
+
+enum OrderType { limit, market, stopLimit, stopMarket, unknown }
 enum OHLCType { m1, h1, d1 }
 enum Sorting { newestFirst, oldestFirst }
 

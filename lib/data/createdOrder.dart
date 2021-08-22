@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsResultConverter.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsTimeConverter.dart';
+import 'package:lemon_markets_client/lemon_markets_client.dart';
 
 part 'createdOrder.g.dart';
 
@@ -12,8 +13,8 @@ class CreatedOrder {
   @JsonKey(name: 'valid_until', fromJson: LemonMarketsTimeConverter.getUTXUnixDateTimeForLemonMarket, toJson: LemonMarketsTimeConverter.getUTCUnixTimestamp)
   DateTime validUntil;
 
-  @JsonKey(name: 'side')
-  String side;
+  @JsonKey(name: 'side', fromJson: LemonMarketsResultConverter.fromOrderSide, toJson: LemonMarketsResultConverter.toOrderSide)
+  OrderSide side;
 
   @JsonKey(name: 'quantity')
   int quantity;
@@ -27,8 +28,8 @@ class CreatedOrder {
   @JsonKey(name: 'uuid')
   String uuid;
 
-  @JsonKey(name: 'status')
-  String status;
+  @JsonKey(name: 'status', fromJson: LemonMarketsResultConverter.fromOrderStatus, toJson: LemonMarketsResultConverter.toOrderStatus)
+  OrderStatus status;
 
   @JsonKey(name: 'trading_venue_mic')
   String? tradingVenueMic;
