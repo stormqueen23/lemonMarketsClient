@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lemon_markets_client/data/resultList.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 import 'package:lemon_markets_client/src/lemonmarkets.dart';
 import 'package:logging/logging.dart';
@@ -22,19 +23,24 @@ void main() {
   }
   );
 
-  // Exceptions
+  // Market data -> Tranding venues
 
-  test('getLemonMarketsInvalidQueryException', () async {
+  test('getTradingVenues', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    DateTime from = DateTime.fromMillisecondsSinceEpoch(1629109145919);
-    DateTime to = DateTime.fromMillisecondsSinceEpoch(1629109145919).add(Duration(hours: 8));
-    try {
-      await lm.getOHLC(token, ['US88160R1014'], OHLCType.h1, from: to, to: from, sorting: Sorting.newestFirst);
-    } on LemonMarketsException catch (e) {
-      expect(e.responseCode, 400);
-    }
-    //throwsA(TypeMatcher<LemonMarketsInvalidQueryException>());
-  }
-  );
+    ResultList<TradingVenue> tradingVenues = await lm.getTradingVenues(token);
+    expect(tradingVenues.result, isNotEmpty);
+  });
+
+  test('getXMUNTradingVenue', () async {
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    ResultList<TradingVenue> tradingVenue = await lm.getTradingVenues(token, mics: ['XMUN']);
+    expect(tradingVenue.result.length, 1);
+  });
+
+  test('getMultipleTradingVenue', () async {
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    ResultList<TradingVenue> tradingVenue = await lm.getTradingVenues(token, mics: ['XMUN', 'LMBPX']);
+    expect(tradingVenue.result.length, 2);
+  });
 
 }

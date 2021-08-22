@@ -1,9 +1,5 @@
-import 'dart:ui';
-
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lemon_markets_client/data/resultList.dart';
-import 'package:lemon_markets_client/data/transaction.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 import 'package:lemon_markets_client/src/lemonmarkets.dart';
 import 'package:logging/logging.dart';

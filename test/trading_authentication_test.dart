@@ -22,19 +22,19 @@ void main() {
   }
   );
 
-  // Exceptions
+  // Authentication
 
-  test('getLemonMarketsInvalidQueryException', () async {
+  test('requestToken', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    DateTime from = DateTime.fromMillisecondsSinceEpoch(1629109145919);
-    DateTime to = DateTime.fromMillisecondsSinceEpoch(1629109145919).add(Duration(hours: 8));
-    try {
-      await lm.getOHLC(token, ['US88160R1014'], OHLCType.h1, from: to, to: from, sorting: Sorting.newestFirst);
-    } on LemonMarketsException catch (e) {
-      expect(e.responseCode, 400);
-    }
-    //throwsA(TypeMatcher<LemonMarketsInvalidQueryException>());
-  }
-  );
+
+    //check if expiresIn is in seconds
+    int nowInSeconds = LemonMarketsTimeConverter.getUTCUnixTimestamp(DateTime.now()).floor();
+    DateTime expireDate = LemonMarketsTimeConverter.getUTXUnixDateTimeForLemonMarket((nowInSeconds + token.expiresIn).toDouble());
+
+    expect(token, isNotNull);
+    expect(expireDate.year, greaterThan(DateTime
+        .now()
+        .year - 1));
+  });
 
 }

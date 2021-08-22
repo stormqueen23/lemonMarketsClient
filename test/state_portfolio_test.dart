@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lemon_markets_client/data/resultList.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 import 'package:lemon_markets_client/src/lemonmarkets.dart';
 import 'package:logging/logging.dart';
@@ -22,19 +23,18 @@ void main() {
   }
   );
 
-  // Exceptions
+  // State -> Portfolio
 
-  test('getLemonMarketsInvalidQueryException', () async {
+  test('getPortfolioItems', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    DateTime from = DateTime.fromMillisecondsSinceEpoch(1629109145919);
-    DateTime to = DateTime.fromMillisecondsSinceEpoch(1629109145919).add(Duration(hours: 8));
-    try {
-      await lm.getOHLC(token, ['US88160R1014'], OHLCType.h1, from: to, to: from, sorting: Sorting.newestFirst);
-    } on LemonMarketsException catch (e) {
-      expect(e.responseCode, 400);
-    }
-    //throwsA(TypeMatcher<LemonMarketsInvalidQueryException>());
-  }
-  );
+    ResultList<PortfolioItem> items = await lm.getPortfolioItems(token, Credentials.spaceUuid);
+    expect(items.result.length, greaterThan(0));
+  });
+
+  test('getPortfolioTransactions', () async {
+    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    ResultList<PortfolioTransaction> items = await lm.getPortfolioTransactions(token, Credentials.spaceUuid);
+    expect(items.result.length, greaterThan(0));
+  });
 
 }
