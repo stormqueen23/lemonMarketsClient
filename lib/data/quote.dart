@@ -20,10 +20,13 @@ class Quote {
   @JsonKey(name: 'b_v')
   double bitVolume;
 
+  @JsonKey(name: 'mic')
+  String mic;
+
   @JsonKey(name: 't', fromJson: LemonMarketsTimeConverter.getDateTimeForLemonMarket, toJson: LemonMarketsTimeConverter.getDoubleTimeForDateTime)
   DateTime time;
 
-  Quote(this.isin, this.ask, this.askVolume, this.bit, this.bitVolume, this.time);
+  Quote(this.isin, this.ask, this.askVolume, this.bit, this.bitVolume, this.time, this.mic);
 
   factory Quote.fromJson(Map<String, dynamic> json) => _$QuoteFromJson(json);
 

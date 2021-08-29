@@ -33,7 +33,7 @@ Map<String, dynamic> _$ExistingOrderToJson(ExistingOrder instance) =>
     <String, dynamic>{
       'valid_until':
           LemonMarketsTimeConverter.getUTCUnixTimestamp(instance.validUntil),
-      'side': _$OrderSideEnumMap[instance.side],
+      'side': LemonMarketsResultConverter.toOrderSide(instance.side),
       'quantity': instance.quantity,
       'stop_price': instance.stopPrice,
       'limit_price': instance.limitPrice,
@@ -49,9 +49,3 @@ Map<String, dynamic> _$ExistingOrderToJson(ExistingOrder instance) =>
       'trading_venue_mic': instance.tradingVenueMic,
       'instrument': instance.instrument,
     };
-
-const _$OrderSideEnumMap = {
-  OrderSide.buy: 'buy',
-  OrderSide.sell: 'sell',
-  OrderSide.unknown: 'unknown',
-};

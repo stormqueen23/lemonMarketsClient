@@ -14,6 +14,7 @@ Quote _$QuoteFromJson(Map<String, dynamic> json) {
     (json['b'] as num).toDouble(),
     (json['b_v'] as num).toDouble(),
     LemonMarketsTimeConverter.getDateTimeForLemonMarket(json['t'] as int),
+    json['mic'] as String,
   );
 }
 
@@ -23,5 +24,6 @@ Map<String, dynamic> _$QuoteToJson(Quote instance) => <String, dynamic>{
       'a_v': instance.askVolume,
       'b': instance.bit,
       'b_v': instance.bitVolume,
+      'mic': instance.mic,
       't': LemonMarketsTimeConverter.getDoubleTimeForDateTime(instance.time),
     };

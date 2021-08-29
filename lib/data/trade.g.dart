@@ -12,6 +12,7 @@ Trade _$TradeFromJson(Map<String, dynamic> json) {
     (json['p'] as num).toDouble(),
     (json['v'] as num).toDouble(),
     LemonMarketsTimeConverter.getDateTimeForLemonMarket(json['t'] as int),
+    json['mic'] as String,
   );
 }
 
@@ -19,5 +20,6 @@ Map<String, dynamic> _$TradeToJson(Trade instance) => <String, dynamic>{
       'isin': instance.isin,
       'p': instance.price,
       'v': instance.volume,
+      'mic': instance.mic,
       't': LemonMarketsTimeConverter.getDoubleTimeForDateTime(instance.time),
     };

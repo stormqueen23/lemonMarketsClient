@@ -20,10 +20,13 @@ class OHLC {
   @JsonKey(name: 'c')
   double close;
 
+  @JsonKey(name: 'mic')
+  String mic;
+
   @JsonKey(name: 't', fromJson: LemonMarketsTimeConverter.getDateTimeForLemonMarket, toJson: LemonMarketsTimeConverter.getDoubleTimeForDateTime)
   DateTime time;
 
-  OHLC(this.isin, this.open, this.high, this.low, this.close, this.time);
+  OHLC(this.isin, this.open, this.high, this.low, this.close, this.time, this.mic);
 
   factory OHLC.fromJson(Map<String, dynamic> json) => _$OHLCFromJson(json);
 

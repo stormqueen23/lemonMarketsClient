@@ -29,7 +29,7 @@ AccessToken token = await lemonMarkets.requestToken('YOUR_CLIENT_ID', 'YOUR_CLIE
 ## Search for instrument
 One-liner:
 ```dart
-  ResultList<Instrument> result = await lemonMarkets.searchInstruments(token, search: 'Tesla');
+  ResultList<Instrument> result = await lemonMarkets.searchInstruments(token, query: 'Tesla');
 ```
 
 Complete example: 
@@ -56,13 +56,13 @@ First you must create an order and second you need to activate this order.\
 
 Short example for BUY:
 ```dart
-  CreatedOrder result = await lemonMarkets.placeOrder(token, 'SPACE_UUID', 'US88160R1014', false, 5);
+  CreatedOrder result = await lemonMarkets.placeOrder(token, 'SPACE_UUID', 'US88160R1014', OrderSide.buy, 5);
   String orderUuid = result.uuid;
   bool success = lemonMarkets.activateOrder(token, 'SPACE_UUID', orderUuid);  
 ```
 Short example for SELL:
 ```dart
-  CreatedOrder result = await lemonMarkets.placeOrder(token, 'SPACE_UUID', 'US88160R1014', true, 5);
+  CreatedOrder result = await lemonMarkets.placeOrder(token, 'SPACE_UUID', 'US88160R1014', OrderSide.sell, 5);
   String orderUuid = result.uuid;
   bool success =  lemonMarkets.activateOrder(token, 'SPACE_UUID', orderUuid);
 ```
