@@ -21,8 +21,10 @@ class ResultList<T> {
   String? previous;
   @JsonKey(name: 'results')
   List<T> result;
+  @JsonKey(name: 'count')
+  int? count;
 
-  ResultList(this.next, this.previous, this.result);
+  ResultList(this.next, this.previous, this.result, this.count);
 
   factory ResultList.fromJson(Map<String, dynamic> json) => _$ResultListFromJson(json, _dataFromJson);
 

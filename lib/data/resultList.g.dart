@@ -14,5 +14,6 @@ ResultList<T> _$ResultListFromJson<T>(
     json['next'] as String?,
     json['previous'] as String?,
     (json['results'] as List<dynamic>).map(fromJsonT).toList(),
+    json['count'] as int?,
   );
 }
