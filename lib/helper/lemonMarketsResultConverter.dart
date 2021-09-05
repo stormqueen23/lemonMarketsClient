@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:lemon_markets_client/src/lemonmarkets.dart';
 
 class LemonMarketsResultConverter {
@@ -61,8 +62,8 @@ class LemonMarketsResultConverter {
       return 'limit';
     } else if (OrderType.stopLimit == type) {
       return 'stop_limit';
-    } else if (OrderType.stopMarket == type) {
-      return 'stop_market';
+    } else if (OrderType.stop == type) {
+      return 'stop';
     }
     return '';
   }
@@ -74,8 +75,8 @@ class LemonMarketsResultConverter {
       return OrderType.limit;
     } else if ('stop_limit' == typeAsString) {
       return OrderType.stopLimit;
-    } else if ('stop_market' == typeAsString) {
-      return OrderType.stopMarket;
+    } else if ('stop' == typeAsString) {
+      return OrderType.stop;
     }
     return OrderType.unknown;
   }

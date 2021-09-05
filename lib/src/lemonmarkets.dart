@@ -33,7 +33,7 @@ enum SearchType { none, stock, bond, fund, etf, warrant }
 enum OrderSide { buy, sell, unknown }
 enum OrderStatus { inactive, active, in_progress, executed, deleted, expired, unknown }
 
-enum OrderType { limit, market, stopLimit, stopMarket, unknown }
+enum OrderType { limit, market, stopLimit, stop, unknown }
 enum OHLCType { m1, h1, d1 }
 enum Sorting { newestFirst, oldestFirst }
 

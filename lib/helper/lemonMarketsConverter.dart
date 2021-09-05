@@ -37,8 +37,8 @@ class LemonMarketsConverter {
       return 'limit';
     } else if (OrderType.stopLimit == value) {
       return 'stop_limit';
-    } else if (OrderType.stopMarket == value) {
-      return 'stop_market';
+    } else if (OrderType.stop == value) {
+      return 'stop';
     }
     return null;
   }
