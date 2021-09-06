@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:lemon_markets_client/data/resultList.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 import 'package:lemon_markets_client/src/lemonmarkets.dart';
 import 'package:logging/logging.dart';
+import 'package:test/test.dart';
 
 import 'credentials.dart';
 
@@ -38,11 +37,7 @@ void main() {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
     DateTime from = DateTime.now().add(Duration(days: -3));
     DateTime to = DateTime.now().add(Duration(days: -1));
-    debugPrint('from $from to $to');
     ResultList<OHLC> items = await lm.getOHLC(token, ['US88160R1014'], OHLCType.h1, from: from, to: to, sorting: Sorting.newestFirst);
-    items.result.forEach((element) {
-      debugPrint('${(element.time).toString()}: ${element.open}€ - ${element.close}');
-    });
   });
 
   test('getLatestOHLC', () async {

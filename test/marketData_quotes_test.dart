@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:lemon_markets_client/data/resultList.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 import 'package:lemon_markets_client/src/lemonmarkets.dart';
 import 'package:logging/logging.dart';
+import 'package:test/test.dart';
 
 import 'credentials.dart';
 
@@ -37,11 +36,7 @@ void main() {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
     DateTime from = DateTime.fromMillisecondsSinceEpoch(1629109145919);
     DateTime to = DateTime.fromMillisecondsSinceEpoch(1629109145919).add(Duration(hours: 8));
-    debugPrint('from $from to $to');
     ResultList<Quote> items1 = await lm.getQuotes(token, ['US88160R1014'], from: from, to: to, sorting: Sorting.newestFirst);
-    items1.result.forEach((element) {
-      debugPrint('${element.time.toString()}: ${element.bit}€ - ${element.ask}');
-    });
   });
 
   test('getQuotes', () async {

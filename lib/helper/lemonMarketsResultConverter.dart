@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:lemon_markets_client/src/lemonmarkets.dart';
 
 class LemonMarketsResultConverter {
