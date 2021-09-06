@@ -24,5 +24,7 @@ class PortfolioItem {
 
   Map<String, dynamic> toJson() => _$PortfolioItemToJson(this);
 
+  double get sumPrice => quantity * averagePrice;
+
 
 }
