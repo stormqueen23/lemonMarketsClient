@@ -133,8 +133,8 @@ class LemonMarkets {
     return _portfolioClient.getPortfolioItems(token, spaceUuid);
   }
 
-  Future<ResultList<PortfolioItem>> getPortfolioItemsByUrl(AccessToken token, String spaceUuid) async {
-    return _portfolioClient.getPortfolioItems(token, spaceUuid);
+  Future<ResultList<PortfolioItem>> getPortfolioItemsByUrl(AccessToken token, String url) async {
+    return _portfolioClient.getPortfolioItemsByUrl(token, url);
   }
 
   Future<ResultList<PortfolioTransaction>> getPortfolioTransactions(AccessToken token, String spaceUuid,
