@@ -27,7 +27,7 @@ void main() {
 
   test('getLatestQuotes', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
-    ResultList<Quote> items = await lm.getLatestQuotes(token, ['US88160R1014'],);
+    ResultList<Quote> items = await lm.getLatestQuote(token, ['US88160R1014'],);
     expect(items.result.length, greaterThan(0));
     expect(items.result[0].time.year, greaterThan(2020));
   });

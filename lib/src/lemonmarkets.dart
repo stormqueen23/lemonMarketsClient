@@ -190,8 +190,12 @@ class LemonMarkets {
 
   // Epoch parameter not supported yet. Its always true problem: epoch=true results in number and result=false results in string --> type cast problem!
   // type 'int' is not a subtype of type 'String' in type cast
-  Future<ResultList<Quote>> getLatestQuotes(AccessToken token, List<String> isin, {List<String>? mic, bool? decimals, Sorting? sorting}) async {
+  Future<ResultList<Quote>> getLatestQuote(AccessToken token, List<String> isin, {List<String>? mic, bool? decimals, Sorting? sorting}) async {
     return _marketClient.getQuotes(token, isin, mic: mic, sorting: sorting, decimals: decimals, latest: true);
+  }
+
+  Future<ResultList<Quote>> getLatestQuoteByUrl(AccessToken token, String url) async {
+    return _marketClient.getQuotesByUrl(token, url);
   }
 
   Future<ResultList<Quote>> getQuotes(AccessToken token, List<String> isin,
