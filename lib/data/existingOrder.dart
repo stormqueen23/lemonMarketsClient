@@ -56,27 +56,9 @@ class ExistingOrder {
   ExistingOrder(this.validUntil, this.side, this.quantity, this.stopPrice, this.limitPrice, this.uuid, this.status, this.averagePrice, this.createdAt,
       this.type, this.processedAt, this.processedQuantity, this.instrument);
 
-  /*
-"instrument": {
-        "title": "string",
-        "isin": "string"
-      },
-      "valid_until": "string",
-      "side": "string",
-      "quantity": int,
-      "stop_price": "string",
-      "limit_price": "string",
-      "uuid": "string",
-      "status": "string",
-      "average_price": "string",
-      "created_at": "string",
-      "type": "string",
-      "processed_at": "string",
-      "processed_quantity": int
- */
-
-
   factory ExistingOrder.fromJson(Map<String, dynamic> json) => _$ExistingOrderFromJson(json);
 
   Map<String, dynamic> toJson() => _$ExistingOrderToJson(this);
+
+  double get sumPrice => quantity * (averagePrice ?? 0);
 }

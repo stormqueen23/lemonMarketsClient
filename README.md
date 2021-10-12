@@ -85,3 +85,5 @@ If you want to run the example app, you need to create an asset folder with  a f
   "spaceUuid": "SPACE_UUID_FOR_CLIENT_ID"
 }
 ```
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Y8Y41V672)
