@@ -23,7 +23,7 @@ class LemonMarketsResultConverter {
   static String? toOrderStatus(OrderStatus status) {
     if (OrderStatus.inactive == status) {
       return 'inactive';
-    } else if (OrderStatus.active == status) {
+    } else if (OrderStatus.activated == status) {
       return 'active';
     } else if (OrderStatus.in_progress == status) {
       return 'in_progress';
@@ -41,7 +41,7 @@ class LemonMarketsResultConverter {
     if ('inactive' == typeAsString) {
       return OrderStatus.inactive;
     } else if ('active' == typeAsString || 'activated' == typeAsString) {
-      return OrderStatus.active;
+      return OrderStatus.activated;
     } else if ('in_progress' == typeAsString) {
       return OrderStatus.in_progress;
     } else if ('executed' == typeAsString) {
