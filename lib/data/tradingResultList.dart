@@ -1,31 +1,27 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:lemon_markets_client/data/trading/existingOrder.dart';
 import 'package:lemon_markets_client/data/market/quote.dart';
 import 'package:lemon_markets_client/data/market/ohlc.dart';
 import 'package:lemon_markets_client/data/trading/portfolioItem.dart';
 import 'package:lemon_markets_client/data/trading/space.dart';
 import 'package:lemon_markets_client/data/market/trade.dart';
-import 'package:lemon_markets_client/data/trading/existingOrder.dart';
 import 'package:lemon_markets_client/data/market/tradingVenue.dart';
 import 'package:lemon_markets_client/data/trading/transaction.dart';
 
 import 'market/instrument.dart';
 
-part 'resultList.g.dart';
+part 'tradingResultList.g.dart';
 
 @JsonSerializable(genericArgumentFactories: true, createToJson: false)
-class ResultList<T> {
-  @JsonKey(name: 'next')
-  String? next;
-  @JsonKey(name: 'previous')
-  String? previous;
-  @JsonKey(name: 'results')
+class TradingResultList<T> {
+  @JsonKey(name: 'status')
+  String status;
+  @JsonKey(name: 'result')
   List<T> result;
-  @JsonKey(name: 'count')
-  int? count;
 
-  ResultList(this.next, this.previous, this.result, this.count);
+  TradingResultList(this.status, this.result);
 
-  factory ResultList.fromJson(Map<String, dynamic> json) => _$ResultListFromJson(json, _dataFromJson);
+  factory TradingResultList.fromJson(Map<String, dynamic> json) => _$TradingResultListFromJson(json, _dataFromJson);
 
   static T _dataFromJson<T>(Object? json) {
     if (json != null && json is Map<String, dynamic>) {

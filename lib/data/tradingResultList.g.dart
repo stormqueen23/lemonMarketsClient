@@ -1,18 +1,16 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'resultList.dart';
+part of 'tradingResultList.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ResultList<T> _$ResultListFromJson<T>(
+TradingResultList<T> _$TradingResultListFromJson<T>(
   Map<String, dynamic> json,
   T Function(Object? json) fromJsonT,
 ) =>
-    ResultList<T>(
-      json['next'] as String?,
-      json['previous'] as String?,
-      (json['results'] as List<dynamic>).map(fromJsonT).toList(),
-      json['count'] as int?,
+    TradingResultList<T>(
+      json['status'] as String,
+      (json['result'] as List<dynamic>).map(fromJsonT).toList(),
     );

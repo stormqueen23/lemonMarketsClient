@@ -10,7 +10,7 @@ class LemonMarketsProvider with ChangeNotifier {
   AccessToken? token;
   bool showTokenData = false;
 
-  ResultList<Space>? spaces;
+  TradingResultList<Space>? spaces;
   bool showSpaceData = false;
 
   String? errorMessage;
@@ -74,7 +74,7 @@ class LemonMarketsProvider with ChangeNotifier {
         debugPrint('created order:  ${order.uuid}');
         this.quantity = null;
         orderCreated = true;
-        await lm.activateOrder(token!, spaces!.result[0].uuid, order.uuid);
+        await lm.activateOrder(token!, order.uuid, null);
       } on LemonMarketsException catch (e) {
         setErrorMessage(e.toString());
       }

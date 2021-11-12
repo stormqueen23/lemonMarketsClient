@@ -1,7 +1,6 @@
 import 'package:example/provider/lemonMarketsProvider.dart';
 import 'package:example/widgets/commonWidgets.dart';
 import 'package:flutter/material.dart';
-import 'package:lemon_markets_client/data/resultList.dart';
 import 'package:provider/provider.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 
@@ -61,7 +60,7 @@ class _SpacesAreaState extends State<SpacesArea> {
 }
 
 class SpacesInfoWidget extends StatelessWidget {
-  final ResultList<Space> spaces;
+  final TradingResultList<Space> spaces;
 
   SpacesInfoWidget({Key? key, required this.spaces}) : super(key: key);
 
@@ -87,13 +86,10 @@ class SpacesInfoWidget extends StatelessWidget {
         Divider(),
         AttributeWidget(name: 'Name: ',value: space.name),
         Divider(),
-        AttributeWidget(name: 'Type: ',value: space.type),
+        AttributeWidget(name: 'Type: ',value: space.type.toString()),
         Divider(),
         AttributeWidget(name: 'Uuid: ',value: space.uuid),
-        Divider(),
-        AttributeWidget(name: 'Cash to invest: ',value: space.state.cashToInvest.toString()),
-        Divider(),
-        AttributeWidget(name: 'Balance: ',value: space.state.balance.toString()),
+
       ],
     );
   }

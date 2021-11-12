@@ -52,4 +52,30 @@ class LemonMarketsTimeConverter {
   static DateTime getUTXUnixDateTimeForLemonMarket(double time) {
     return DateTime.fromMillisecondsSinceEpoch((time * 1000).ceil());
   }
+
+  static DateTime fromIsoTime(String value) {
+    return DateTime.parse(value).toLocal();
+  }
+
+  static String toIsoTime(DateTime value) {
+    String result = value.toUtc().toIso8601String();
+    //"expires_at":"2021-12-05T06:18:54.030093+00:00" --> in post request
+    //"expires_at":"2021-12-05T22:59:00.000+00:00" --> in response
+    result = result.replaceAll('Z', '+00:00');
+    return result;
+  }
+
+  static DateTime? fromIsoTimeNullable(String? value) {
+    if (value == null || value.isEmpty) {
+      return null;
+    }
+    return fromIsoTime(value);
+  }
+
+  static String? toIsoTimeNullable(DateTime? value) {
+    if (value == null) {
+      return null;
+    }
+    return toIsoTime(value);
+  }
 }
