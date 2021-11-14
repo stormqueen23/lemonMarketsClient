@@ -19,7 +19,7 @@ void main() {
   );
 
   test('getTransactions', () async {
-    AccessToken token = AccessToken(Credentials.JWT_TOKEN, 1, '', 'bearer');
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
     TradingResultList<Transaction> response = await lm.getTransactions(token);
     print('get transactions: ${response.status} (${response.result.length})');
     response.result.forEach((element) {
@@ -28,10 +28,18 @@ void main() {
   });
 
   test('getSingleTransactions', () async {
-    AccessToken token = AccessToken(Credentials.JWT_TOKEN, 1, '', 'bearer');
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
     // transaction pay_in --> {"status":"error","error_type":"does_not_exist","error_message":"Invalid 'transaction_id' (does not exist)"}
     Transaction transaction = await lm.getTransaction(token, 'tx_pyPLKHHVV3Xnknx729xPxZj8YHh6Xt8cLX');
     print('found transaction ${transaction.uuid}');
     print(transaction);
+  });
+
+  test('getSpaceTransactions', () async {
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
+    // transaction pay_in --> {"status":"error","error_type":"does_not_exist","error_message":"Invalid 'transaction_id' (does not exist)"}
+    TradingResultList<Transaction> response = await lm.getTransactions(token, spaceUuid: Credentials.default_space_uuid);
+    print('found ${response.result.length} transaction');
+
   });
 }

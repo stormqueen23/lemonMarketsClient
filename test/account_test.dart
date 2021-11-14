@@ -24,7 +24,7 @@ void main() {
 
   //ACCOUNT
   test('getAccountData', () async {
-    AccessToken token = AccessToken(Credentials.JWT_TOKEN, 1, '', 'bearer');
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
     Account data = await lm.getAccountData(token);
     expect(data, isNotNull);
     print('found account data for ${data.email}');

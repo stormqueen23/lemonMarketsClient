@@ -20,7 +20,8 @@ void main() {
   );
 
   test('createAndDeleteSpace', () async {
-    AccessToken token = AccessToken(Credentials.JWT_TOKEN, 1, '', 'bearer');
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
+
     TradingResultList<Space> spaces = await lm.getSpaces(token);
     int initialSize = spaces.result.length;
 
@@ -39,7 +40,8 @@ void main() {
   });
 
   test('getSpaces', () async {
-    AccessToken token = AccessToken(Credentials.JWT_TOKEN, 1, '', 'bearer');
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
+
     TradingResultList<Space> spaces = await lm.getSpaces(token);
     print('found ${spaces.result.length} spaces');
     spaces.result.forEach((element) {
@@ -48,21 +50,23 @@ void main() {
   });
 
   test('getSingleSpace', () async {
-    AccessToken token = AccessToken(Credentials.JWT_TOKEN, 1, '', 'bearer');
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
+
     Space spaces = await lm.getSpace(token, Credentials.default_space_uuid);
     print('found ${spaces.name} - ${spaces.description}');
     print(spaces);
   });
 
   test('alterSpace', () async {
-    AccessToken token = AccessToken(Credentials.JWT_TOKEN, 1, '', 'bearer');
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
+
     String now =  DateTime.now().toIso8601String();
     Space space = await lm.alterSpace(token, Credentials.default_space_uuid, description: now);
     print('space altered: ${space.uuid}: set description to $now');
   });
 
   test('changeRiskLimit', () async {
-    AccessToken token = AccessToken(Credentials.JWT_TOKEN, 1, '', 'bearer');
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
 
     Space space = await lm.createSpace(token, "Test 7", SpaceType.manual, Amount(value: 5.5), description: '5,50');
     print('space ${space.uuid} created');

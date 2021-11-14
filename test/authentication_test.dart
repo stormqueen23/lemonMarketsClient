@@ -23,7 +23,7 @@ void main() {
   );
 
   // Authentication
-
+/*
   test('requestToken', () async {
     AccessToken token = await lm.requestToken(clientId, clientSecret);
 
@@ -36,5 +36,5 @@ void main() {
         .now()
         .year - 1));
   });
-
+*/
 }

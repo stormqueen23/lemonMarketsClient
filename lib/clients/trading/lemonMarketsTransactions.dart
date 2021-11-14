@@ -64,7 +64,7 @@ class LemonMarketsTransaction {
     if (isin != null) {
       query.add("isin="+isin);
     }
-    query.add("type=order_buy");
+    //query.add("type=order_buy");
     String result = LemonMarketsHttpClient.generateQueryParams(query);
     return result;
   }

@@ -76,11 +76,7 @@ class AccessTokenInfoWidget extends StatelessWidget {
         Divider(),
         AttributeWidget(name: 'Type: ',value: token.type),
         Divider(),
-        AttributeWidget(name: 'Scope: ',value: token.scope),
-        Divider(),
-        AttributeWidget(name: 'Expires: ',value: token.expiresIn.toString()),
-        Divider(),
-        AttributeWidget(name: 'Expires (date): ',value: DateTime.now().add(Duration(seconds: token.expiresIn)).toLocal().toString()),
+
       ],
     );
   }

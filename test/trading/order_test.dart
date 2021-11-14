@@ -23,21 +23,22 @@ void main() {
   );
 
   test('createOrder', () async {
-    AccessToken token = AccessToken(Credentials.JWT_TOKEN, 1, '', 'bearer');
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
+
     CreatedOrder order = await lm.placeOrder(token, Credentials.default_space_uuid, 'DE000BASF111', OrderSide.buy, 1);
     print('order ${order.uuid} created. expires at ${order.validUntil} ${order.validUntil.toIso8601String()}');
     print(order);
   });
 
   test('deleteOrder', () async {
-    AccessToken token = AccessToken(Credentials.JWT_TOKEN, 1, '', 'bearer');
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
 
     DeleteOrderResponse response = await lm.deleteOrder(token, 'ord_pyPKVWWmmBZlFNKCcBTGssWlZnbJWt7V42');
     print('delete order: ${response.success} (${response.responseMap.toString()})');
   });
 
   test('createAndDeleteOrder', () async {
-    AccessToken token = AccessToken(Credentials.JWT_TOKEN, 1, '', 'bearer');
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
 
     CreatedOrder order = await lm.placeOrder(token, Credentials.default_space_uuid, 'DE000BASF111', OrderSide.buy, 2);
     print('order ${order.uuid} created. Estimated price: ${order.estimatedPrice.displayValue}');
@@ -48,7 +49,7 @@ void main() {
   });
 
   test('createAndDeleteStopOrder', () async {
-    AccessToken token = AccessToken(Credentials.JWT_TOKEN, 1, '', 'bearer');
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
 
     CreatedOrder order = await lm.placeOrder(token, Credentials.default_space_uuid, 'DE000BASF111', OrderSide.buy, 1, stopPrice: 1.5);
     print('order ${order.uuid} created. expires at ${order.validUntil} ${order.validUntil.toIso8601String()}, stopPrice: ${order.stopPrice?.displayValue} (${order.stopPrice?.apiValue})');
@@ -60,7 +61,7 @@ void main() {
   });
 
   test('activateAllInactiveOrders', () async {
-    AccessToken token = AccessToken(Credentials.JWT_TOKEN, 1, '', 'bearer');
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
     TradingResultList<ExistingOrder> orders = await lm.getOrders(token);
     print('found ${orders.result.length} orders');
     for (ExistingOrder element in orders.result) {
@@ -72,7 +73,7 @@ void main() {
   });
 
   test('getAllOrders', () async {
-    AccessToken token = AccessToken(Credentials.JWT_TOKEN, 1, '', 'bearer');
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
     TradingResultList<ExistingOrder> orders = await lm.getOrders(token);
     print('found ${orders.result.length} orders');
     for (ExistingOrder element in orders.result) {
@@ -81,14 +82,14 @@ void main() {
   });
 
   test('getOneOrder', () async {
-    AccessToken token = AccessToken(Credentials.JWT_TOKEN, 1, '', 'bearer');
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
     ExistingOrder order = await lm.getOrder(token, 'ord_pyPLYggttrFHJ2LFhC66Y5HXg2V0wYHDZV');
     print('found ${order.isin}');
     print(order);
   });
 
   test('activateOrder', () async {
-    AccessToken token = AccessToken(Credentials.JWT_TOKEN, 1, '', 'bearer');
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
 
     String orderToActivate = 'ord_pyPKWDDWWjrkXBhZfD81Zwn8C7T7xnRMdX';
     ActivateOrderResponse response = await lm.activateOrder(token, orderToActivate, null);
@@ -100,7 +101,7 @@ void main() {
   });
 
   test('createAndActivateBuyOrder', () async {
-    AccessToken token = AccessToken(Credentials.JWT_TOKEN, 1, '', 'bearer');
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
 
     CreatedOrder order = await lm.placeOrder(token, Credentials.default_space_uuid, 'DE0006048408', OrderSide.buy, 2);
     print('BUY order ${order.uuid} created. Estimated price: ${order.estimatedPrice} (${order.side})');
@@ -115,7 +116,7 @@ void main() {
   });
 
   test('createAndActivateSellOrder', () async {
-    AccessToken token = AccessToken(Credentials.JWT_TOKEN, 1, '', 'bearer');
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
 
     CreatedOrder order = await lm.placeOrder(token, Credentials.default_space_uuid, 'DE0006048408', OrderSide.sell, 1);
     print('SELL order ${order.uuid} created. Estimated price: ${order.estimatedPrice} (${order.side})');
@@ -126,7 +127,7 @@ void main() {
   });
 
   test('createActivateAndDeleteOrder', () async {
-    AccessToken token = AccessToken(Credentials.JWT_TOKEN, 1, '', 'bearer');
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
 
     CreatedOrder order = await lm.placeOrder(token, Credentials.default_space_uuid, 'DE000BASF111', OrderSide.buy, 1);
     print('order ${order.uuid} created.');

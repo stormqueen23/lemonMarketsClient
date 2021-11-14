@@ -23,7 +23,8 @@ void main() {
   );
 
   test('getPortfolioItems', () async {
-    AccessToken token = AccessToken(Credentials.JWT_TOKEN, 1, '', 'bearer');
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
+
     List<PortfolioItem> items = await lm.getPortfolioItems(token);
     print('found ${items.length} portfolioItems');
     items.forEach((element) {
