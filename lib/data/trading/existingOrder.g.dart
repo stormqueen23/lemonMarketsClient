@@ -39,7 +39,7 @@ Map<String, dynamic> _$ExistingOrderToJson(ExistingOrder instance) =>
     <String, dynamic>{
       'id': instance.uuid,
       'isin': instance.isin,
-      'expires_at': LemonMarketsTimeConverter.toIsoTime(instance.validUntil),
+      'expires_at': LemonMarketsTimeConverter.toIsoTime(instance.expiresAt),
       'created_at': LemonMarketsTimeConverter.toIsoTime(instance.createdAt),
       'side': LemonMarketsResultConverter.toOrderSide(instance.side),
       'quantity': instance.quantity,

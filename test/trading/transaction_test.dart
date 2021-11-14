@@ -38,7 +38,7 @@ void main() {
   test('getSpaceTransactions', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
     // transaction pay_in --> {"status":"error","error_type":"does_not_exist","error_message":"Invalid 'transaction_id' (does not exist)"}
-    TradingResultList<Transaction> response = await lm.getTransactions(token, spaceUuid: Credentials.default_space_uuid);
+    TradingResultList<Transaction> response = await lm.getTransactions(token, spaceUuid: 'sp_pyPRHhhqqHJHFSlklhPwnqdglBHXQS0pyx');
     print('found ${response.result.length} transaction');
 
   });

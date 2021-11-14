@@ -19,7 +19,7 @@ class ExistingOrder {
 
   @JsonKey(
       name: 'expires_at', fromJson: LemonMarketsTimeConverter.fromIsoTime, toJson: LemonMarketsTimeConverter.toIsoTime)
-  DateTime validUntil;
+  DateTime expiresAt;
 
   @JsonKey(
       name: 'created_at', fromJson: LemonMarketsTimeConverter.fromIsoTime, toJson: LemonMarketsTimeConverter.toIsoTime)
@@ -99,7 +99,7 @@ class ExistingOrder {
   ExistingOrder(
       this.uuid,
       this.isin,
-      this.validUntil,
+      this.expiresAt,
       this.createdAt,
       this.side,
       this.quantity,
@@ -128,7 +128,7 @@ class ExistingOrder {
     return 'ExistingOrder{\n'
         'uuid: $uuid,\n'
         'isin: $isin,\n'
-        'validUntil: $validUntil,\n'
+        'expiresAt: $expiresAt,\n'
         'createdAt: $createdAt,\n'
         'side: $side,\n'
         'quantity: $quantity,\n'
