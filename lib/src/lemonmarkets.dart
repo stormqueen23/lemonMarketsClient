@@ -17,7 +17,6 @@ import 'package:lemon_markets_client/data/trading/portfolioItem.dart';
 import 'package:lemon_markets_client/data/resultList.dart';
 import 'package:lemon_markets_client/data/trading/space.dart';
 import 'package:lemon_markets_client/clients/lemonMarketsHttpClient.dart';
-import 'package:lemon_markets_client/clients/auth/lemonMarketsAuth.dart';
 import 'package:lemon_markets_client/clients/market/lemonMarketsMarketData.dart';
 import 'package:lemon_markets_client/clients/trading/lemonMarketsPortfolio.dart';
 import 'package:lemon_markets_client/clients/trading/lemonMarketsSpaces.dart';
@@ -53,7 +52,7 @@ class LemonMarkets {
 
   late LemonMarketsSpaces _spacesClient;
   late LemonMarketsPortfolio _portfolioClient;
-  late LemonMarketsAuth _authClient;
+  //late LemonMarketsAuth _authClient;
   late LemonMarketsOrder _tradingClient;
   late LemonMarketsMarketData _marketClient;
   late LemonMarketsSearch _searchClient;
@@ -64,7 +63,7 @@ class LemonMarkets {
   LemonMarkets() {
     LemonMarketsHttpClient client = LemonMarketsHttpClient();
     _spacesClient = LemonMarketsSpaces(client);
-    _authClient = LemonMarketsAuth(client);
+    //_authClient = LemonMarketsAuth(client);
     _tradingClient = LemonMarketsOrder(client);
     _marketClient = LemonMarketsMarketData(client);
     _portfolioClient = LemonMarketsPortfolio(client);
@@ -75,12 +74,12 @@ class LemonMarkets {
   }
 
   // Authentication
-
+/*
   Future<AccessToken> requestToken(String clientId, String clientSecret) async {
     AccessToken token = await _authClient.requestToken(clientId, clientSecret);
     return token;
   }
-
+*/
   // Account
 
   Future<Account> getAccountData(AccessToken token) async {

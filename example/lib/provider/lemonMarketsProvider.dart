@@ -23,7 +23,7 @@ class LemonMarketsProvider with ChangeNotifier {
   Future<void> requestToken(BuildContext context) async {
     await credentials.init(context);
     try {
-      token = await lm.requestToken(credentials.clientId, credentials.clientSecret);
+      token = AccessToken(token: 'TOKEN', type: '');
       notifyListeners();
     } on LemonMarketsException catch (e) {
       setErrorMessage(e.toString());

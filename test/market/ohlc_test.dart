@@ -26,7 +26,7 @@ void main() {
   // Market data -> OHLC
   
   test('getOHLC', () async {
-    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
 
     ResultList<OHLC> items = await lm.getOHLC(token, ['US88160R1014'], OHLCType.h1);
     expect(items.result.length, greaterThan(0));
@@ -35,7 +35,7 @@ void main() {
   });
 
   test('getOHLCByDate', () async {
-    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
     DateTime from = DateTime.now().add(Duration(days: -3));
     DateTime to = DateTime.now().add(Duration(days: -1));
     ResultList<OHLC> items = await lm.getOHLC(token, ['US88160R1014'], OHLCType.h1, from: from, to: to, sorting: Sorting.newestFirst);
@@ -43,7 +43,7 @@ void main() {
   });
 
   test('getLatestOHLC', () async {
-    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
     ResultList<OHLC> items = await lm.getLatestOHLC(token, ['US88160R1014'], OHLCType.h1);
     expect(items.result.length, greaterThan(0));
     expect(items.result[0].isin, 'US88160R1014');

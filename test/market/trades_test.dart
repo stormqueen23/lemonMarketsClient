@@ -26,7 +26,7 @@ void main() {
   // Market data -> Trades
 
   test('getTrades', () async {
-    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
     ResultList<Trade> items = await lm.getTrades(token, ['US88160R1014']);
     expect(items.result.length, greaterThan(0));
     expect(items.result[0].isin, 'US88160R1014');
@@ -34,7 +34,7 @@ void main() {
   });
 
   test('getTradesByDate', () async {
-    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
     //DateTime from = DateTime.fromMillisecondsSinceEpoch(1629109145919);
     DateTime to = DateTime.now().add(Duration(hours: -8));
     ResultList<Trade> items = await lm.getTrades(token, ['US88160R1014'], to: to);
@@ -42,7 +42,7 @@ void main() {
   });
 
   test('getLatestTrades', () async {
-    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
     ResultList<Trade> items = await lm.getLatestTrade(token, ['US88160R1014']);
     expect(items.result.length, greaterThan(0));
   });

@@ -26,7 +26,7 @@ void main() {
   // Exceptions
 
   test('getLemonMarketsInvalidQueryException', () async {
-    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
     DateTime from = DateTime.fromMillisecondsSinceEpoch(1629109145919);
     DateTime to = DateTime.fromMillisecondsSinceEpoch(1629109145919).add(Duration(hours: 8));
     try {

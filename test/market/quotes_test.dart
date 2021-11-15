@@ -26,14 +26,14 @@ void main() {
   // Market data -> Quotes
 
   test('getLatestQuotes', () async {
-    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
     ResultList<Quote> items = await lm.getLatestQuote(token, ['US88160R1014'],);
     expect(items.result.length, greaterThan(0));
     expect(items.result[0].time.year, greaterThan(2020));
   });
 
   test('getQByDate', () async {
-    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
     DateTime from = DateTime.now().add(Duration(days: -5));
     DateTime to = DateTime.now().add(Duration(hours: -5));
     ResultList<Quote> items = await lm.getQuotes(token, ['US88160R1014'], from: from, to: to, sorting: Sorting.newestFirst);
@@ -41,7 +41,7 @@ void main() {
   });
 
   test('getQuotes', () async {
-    AccessToken token = await lm.requestToken(clientId, clientSecret);
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
     ResultList<Quote> items = await lm.getQuotes(token, ['US88160R1014'],);
     expect(items.result.length, greaterThan(0));
   });

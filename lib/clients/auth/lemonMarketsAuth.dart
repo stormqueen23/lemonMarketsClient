@@ -5,6 +5,7 @@ import 'package:lemon_markets_client/exception/lemonMarketsStatusCodeException.d
 import 'package:lemon_markets_client/helper/lemonMarketsURLs.dart';
 import 'package:logging/logging.dart';
 
+/*
 class LemonMarketsAuth {
   final log = Logger('LemonMarketsAuth');
   LemonMarketsHttpClient _client;
@@ -35,3 +36,4 @@ class LemonMarketsAuth {
     }
   }
 }
+*/
