@@ -16,7 +16,7 @@ part 'tradingResultList.g.dart';
 class TradingResultList<T> {
   @JsonKey(name: 'status')
   String status;
-  @JsonKey(name: 'result')
+  @JsonKey(name: 'results')
   List<T> result;
 
   TradingResultList(this.status, this.result);

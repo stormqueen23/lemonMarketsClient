@@ -12,5 +12,5 @@ TradingResultList<T> _$TradingResultListFromJson<T>(
 ) =>
     TradingResultList<T>(
       json['status'] as String,
-      (json['result'] as List<dynamic>).map(fromJsonT).toList(),
+      (json['results'] as List<dynamic>).map(fromJsonT).toList(),
     );

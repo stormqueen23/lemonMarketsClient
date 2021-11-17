@@ -1,10 +1,3 @@
-import 'package:lemon_markets_client/data/auth/accessToken.dart';
-import 'package:lemon_markets_client/clients/lemonMarketsHttpClient.dart';
-import 'package:lemon_markets_client/exception/lemonMarketsConvertException.dart';
-import 'package:lemon_markets_client/exception/lemonMarketsStatusCodeException.dart';
-import 'package:lemon_markets_client/helper/lemonMarketsURLs.dart';
-import 'package:logging/logging.dart';
-
 /*
 class LemonMarketsAuth {
   final log = Logger('LemonMarketsAuth');
