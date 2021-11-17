@@ -12,7 +12,7 @@ part 'tradingResult.g.dart';
 class TradingResult<T> {
   @JsonKey(name: 'status')
   String status;
-  @JsonKey(name: 'result')
+  @JsonKey(name: 'results')
   T? result;
 
   TradingResult(this.status);

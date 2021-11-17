@@ -10,7 +10,7 @@ class Portfolio {
   @JsonKey(name: 'status')
   String status;
 
-  @JsonKey(name: 'result')
+  @JsonKey(name: 'results')
   Map<String, dynamic> result;
 
   Portfolio(this.status, this.result);

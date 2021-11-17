@@ -12,7 +12,7 @@ TradingResult<T> _$TradingResultFromJson<T>(
 ) =>
     TradingResult<T>(
       json['status'] as String,
-    )..result = _$nullableGenericFromJson(json['result'], fromJsonT);
+    )..result = _$nullableGenericFromJson(json['results'], fromJsonT);
 
 T? _$nullableGenericFromJson<T>(
   Object? input,
