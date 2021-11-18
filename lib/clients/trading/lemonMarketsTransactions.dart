@@ -59,7 +59,7 @@ class LemonMarketsTransaction {
       query.add("created_at_from="+LemonMarketsTimeConverter.toIsoTime(createdAtFrom).toString());
     }
     if (spaceUuid != null) {
-      query.add("space="+spaceUuid);
+      query.add("space_id="+spaceUuid);
     }
     if (isin != null) {
       query.add("isin="+isin);

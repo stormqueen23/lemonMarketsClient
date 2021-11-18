@@ -23,7 +23,7 @@ void main() {
     TradingResultList<Transaction> response = await lm.getTransactions(token);
     print('get transactions: ${response.status} (${response.result.length})');
     response.result.forEach((element) {
-      print('${element.type.toString()} ${element.isin}: ${element.amount.displayValue} - ${element.uuid}');
+      print('${element.type.toString()} ${element.isin}: ${element.amount.displayValue} - ${element.uuid} space: ${element.spaceId}');
     });
   });
 
@@ -38,8 +38,10 @@ void main() {
   test('getSpaceTransactions', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
     // transaction pay_in --> {"status":"error","error_type":"does_not_exist","error_message":"Invalid 'transaction_id' (does not exist)"}
-    TradingResultList<Transaction> response = await lm.getTransactions(token, spaceUuid: 'sp_pyPRHhhqqHJHFSlklhPwnqdglBHXQS0pyx');
+    TradingResultList<Transaction> response = await lm.getTransactions(token, spaceUuid: Credentials.default_space_uuid);
     print('found ${response.result.length} transaction');
-
+    response.result.forEach((element) {
+      print('${element.createdAt} uuid: ${element.uuid} space: ${element.spaceId} ${element.isin} orderUuid: ${element.orderId}');
+    });
   });
 }
