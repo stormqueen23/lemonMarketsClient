@@ -40,12 +40,22 @@ void main() {
   test('createAndDeleteOrder', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
 
-    CreatedOrder order = await lm.placeOrder(token, Credentials.default_space_uuid, 'DE000BASF111', OrderSide.buy, 2);
+    TradingResultList<ExistingOrder> orders = await lm.getOrders(token);
+    print('found ${orders.result.length} orders');
+
+    CreatedOrder order = await lm.placeOrder(token, Credentials.default_space_uuid, 'DE000BASF111', OrderSide.buy, 2, limitPrice: 1000);
     print('order ${order.uuid} created. Estimated price: ${order.estimatedPrice.displayValue}');
     print(order);
-
+    orders = await lm.getOrders(token);
+    print('found ${orders.result.length} orders');
+    ActivateOrderResponse activate = await lm.activateOrder(token, order.uuid, {});
+    print('activate order: ${activate.success} ${activate.statusCode}');
     DeleteOrderResponse response = await lm.deleteOrder(token, order.uuid);
     print('delete order: ${response.success} (${response.responseMap.toString()})');
+
+    orders = await lm.getOrders(token);
+    print('found ${orders.result.length} orders');
+
   });
 
   test('createAndDeleteStopOrder', () async {

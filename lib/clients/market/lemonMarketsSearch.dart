@@ -15,9 +15,9 @@ class LemonMarketsSearch {
   LemonMarketsSearch(this._client);
 
   Future<ResultList<Instrument>> searchInstruments(AccessToken token,
-      {List<String>? mic, List<String>? isin, String? query, List<SearchType>? types, bool? tradable, String? currency, String? limit, int? offset}) async {
+      {String? search, List<String>? mic, List<String>? isin, List<SearchType>? types, bool? tradable, String? currency, String? limit, int? offset}) async {
     String url = LemonMarketsURL.BASE_URL_MARKET + '/instruments/';
-    String appendSearch = _generateInstrumentParamString(isin: isin, mic: mic, offset: offset, limit: limit, types: types, currency: currency, search: query, tradable: tradable);
+    String appendSearch = _generateInstrumentParamString(isin: isin, mic: mic, offset: offset, limit: limit, types: types, currency: currency, search: search, tradable: tradable);
     url = url += appendSearch;
     return searchInstrumentsByUrl(token, url);
   }

@@ -58,7 +58,7 @@ class LemonMarketsProvider with ChangeNotifier {
     if (token != null) {
       try {
         notifyListeners();
-        return lm.searchInstruments(token!, query: searchString);
+        return lm.searchInstruments(token!, search: searchString);
       } on LemonMarketsException catch (e) {
         setErrorMessage(e.toString());
       }
