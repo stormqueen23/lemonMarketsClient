@@ -13,4 +13,5 @@ TradingResultList<T> _$TradingResultListFromJson<T>(
     TradingResultList<T>(
       json['status'] as String,
       (json['results'] as List<dynamic>).map(fromJsonT).toList(),
+      LemonMarketsTimeConverter.fromIsoTime(json['time'] as String),
     );

@@ -15,7 +15,7 @@ Transaction _$TransactionFromJson(Map<String, dynamic> json) => Transaction(
       LemonMarketsAmountConverter.fromAmount(json['amount'] as int),
       json['isin'] as String?,
       LemonMarketsTimeConverter.fromIsoTime(json['created_at'] as String),
-    );
+    )..title = json['isin_title'] as String?;
 
 Map<String, dynamic> _$TransactionToJson(Transaction instance) =>
     <String, dynamic>{
@@ -26,5 +26,6 @@ Map<String, dynamic> _$TransactionToJson(Transaction instance) =>
       'type': LemonMarketsResultConverter.toTransactionType(instance.type),
       'amount': LemonMarketsAmountConverter.toAmount(instance.amount),
       'isin': instance.isin,
+      'isin_title': instance.title,
       'created_at': LemonMarketsTimeConverter.toIsoTime(instance.createdAt),
     };

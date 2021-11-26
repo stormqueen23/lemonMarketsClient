@@ -17,6 +17,9 @@ class ExistingOrder {
  @JsonKey(name: 'isin')
   String isin;
 
+  @JsonKey(name: 'isin_title')
+  String? title;
+
   @JsonKey(
       name: 'expires_at', fromJson: LemonMarketsTimeConverter.fromIsoTime, toJson: LemonMarketsTimeConverter.toIsoTime)
   DateTime expiresAt;
@@ -128,6 +131,7 @@ class ExistingOrder {
     return 'ExistingOrder{\n'
         'uuid: $uuid,\n'
         'isin: $isin,\n'
+        'title: $title,\n'
         'expiresAt: $expiresAt,\n'
         'createdAt: $createdAt,\n'
         'side: $side,\n'

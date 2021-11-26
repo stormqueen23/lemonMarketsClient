@@ -32,13 +32,16 @@ ExistingOrder _$ExistingOrderFromJson(Map<String, dynamic> json) =>
       LemonMarketsTimeConverter.fromIsoTimeNullable(
           json['rejected_at'] as String?),
       json['notes'] as String?,
-    )..activatedAt = LemonMarketsTimeConverter.fromIsoTimeNullable(
-        json['activated_at'] as String?);
+    )
+      ..title = json['isin_title'] as String?
+      ..activatedAt = LemonMarketsTimeConverter.fromIsoTimeNullable(
+          json['activated_at'] as String?);
 
 Map<String, dynamic> _$ExistingOrderToJson(ExistingOrder instance) =>
     <String, dynamic>{
       'id': instance.uuid,
       'isin': instance.isin,
+      'isin_title': instance.title,
       'expires_at': LemonMarketsTimeConverter.toIsoTime(instance.expiresAt),
       'created_at': LemonMarketsTimeConverter.toIsoTime(instance.createdAt),
       'side': LemonMarketsResultConverter.toOrderSide(instance.side),

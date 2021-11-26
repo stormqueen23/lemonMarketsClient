@@ -39,7 +39,7 @@ void main() {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
     // transaction pay_in --> {"status":"error","error_type":"does_not_exist","error_message":"Invalid 'transaction_id' (does not exist)"}
     TradingResultList<Transaction> response = await lm.getTransactions(token, spaceUuid: Credentials.default_space_uuid);
-    print('found ${response.result.length} transaction');
+    print('found ${response.result.length} transaction. time: ${response.time}');
     response.result.forEach((element) {
       print('${element.createdAt} uuid: ${element.uuid} space: ${element.spaceId} ${element.isin} orderUuid: ${element.orderId}');
     });

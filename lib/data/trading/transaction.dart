@@ -34,6 +34,9 @@ class Transaction {
   @JsonKey(name: 'isin')
   String? isin;
 
+  @JsonKey(name: 'isin_title')
+  String? title;
+
   @JsonKey(name: 'created_at', fromJson: LemonMarketsTimeConverter.fromIsoTime, toJson: LemonMarketsTimeConverter.toIsoTime)
   DateTime createdAt;
 
@@ -52,6 +55,7 @@ class Transaction {
         'orderId: $orderId,\n'
         'type: $type,\n'
         'amount: $amount,\n'
-        'isin: $isin}';
+        'isin: $isin,\n'
+        'title: $title}';
   }
 }

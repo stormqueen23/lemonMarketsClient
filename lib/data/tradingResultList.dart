@@ -7,6 +7,7 @@ import 'package:lemon_markets_client/data/trading/space.dart';
 import 'package:lemon_markets_client/data/market/trade.dart';
 import 'package:lemon_markets_client/data/market/tradingVenue.dart';
 import 'package:lemon_markets_client/data/trading/transaction.dart';
+import 'package:lemon_markets_client/helper/lemonMarketsTimeConverter.dart';
 
 import 'market/instrument.dart';
 
@@ -14,12 +15,17 @@ part 'tradingResultList.g.dart';
 
 @JsonSerializable(genericArgumentFactories: true, createToJson: false)
 class TradingResultList<T> {
+  @JsonKey(
+      name: 'time', fromJson: LemonMarketsTimeConverter.fromIsoTime, toJson: LemonMarketsTimeConverter.toIsoTime)
+  DateTime time;
+
   @JsonKey(name: 'status')
   String status;
+
   @JsonKey(name: 'results')
   List<T> result;
 
-  TradingResultList(this.status, this.result);
+  TradingResultList(this.status, this.result, this.time);
 
   factory TradingResultList.fromJson(Map<String, dynamic> json) => _$TradingResultListFromJson(json, _dataFromJson);
 
