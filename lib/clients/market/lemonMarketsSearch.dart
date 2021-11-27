@@ -35,7 +35,7 @@ class LemonMarketsSearch {
 
 
   String _convertType(SearchType type) {
-    String result = LemonMarketsConverter.convertSearchType(type);
+    String result = LemonMarketsQueryConverter.convertSearchType(type);
     return result;
   }
 

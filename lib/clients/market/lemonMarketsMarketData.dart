@@ -45,7 +45,7 @@ class LemonMarketsMarketData {
       query.add("decimals=" + decimals.toString());
     }
     if (sorting != null) {
-      query.add("sorting=" + LemonMarketsConverter.convertSorting(sorting));
+      query.add("sorting=" + LemonMarketsQueryConverter.convertSorting(sorting));
     }
     query.add("epoch=true");
 
@@ -94,7 +94,7 @@ class LemonMarketsMarketData {
       query.add("decimals=" + decimals.toString());
     }
     if (sorting != null) {
-      query.add("sorting=" + LemonMarketsConverter.convertSorting(sorting));
+      query.add("sorting=" + LemonMarketsQueryConverter.convertSorting(sorting));
     }
     query.add("epoch=true");
 
@@ -144,13 +144,13 @@ class LemonMarketsMarketData {
       result.add('decimals='+decimals.toString());
     }
     if (sorting != null) {
-      result.add('sorting='+LemonMarketsConverter.convertSorting(sorting)); // oldest -> newest
+      result.add('sorting='+LemonMarketsQueryConverter.convertSorting(sorting)); // oldest -> newest
     }
     result.add('epoch=true');
 
     String query = LemonMarketsHttpClient.generateQueryParams(result);
 
-    String typeAsString = LemonMarketsConverter.convertOHLCType(type) ?? 'h1';
+    String typeAsString = LemonMarketsQueryConverter.convertOHLCType(type) ?? 'h1';
     String url = LemonMarketsURL.BASE_URL_MARKET + '/ohlc/'+typeAsString+'/'+query;
 
     return getOHLCFromUrl(token, url);

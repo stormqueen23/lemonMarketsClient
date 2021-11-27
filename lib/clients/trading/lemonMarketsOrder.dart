@@ -25,7 +25,7 @@ class LemonMarketsOrder {
     String url = LemonMarketsURL.BASE_URL_TRADING_DEV + '/orders/';
     Map<String, dynamic> data = {};
     data['isin'] = isin;
-    data['side'] = LemonMarketsConverter.convertSideForExecution(side) ?? '';
+    data['side'] = LemonMarketsQueryConverter.convertSideForExecution(side) ?? '';
     data['expires_at'] = LemonMarketsTimeConverter.toIsoTime(expiresAt);
     data['quantity'] = quantity;
     data['venue'] = venue;
@@ -157,15 +157,15 @@ class LemonMarketsOrder {
       result.add('isin=' + isin);
     }
     if (side != null) {
-      String? sideString = LemonMarketsConverter.convertSideForSearch(side);
+      String? sideString = LemonMarketsQueryConverter.convertSideForSearch(side);
       if (sideString != null) result.add('side=' + sideString);
     }
     if (status != null) {
-      String? statusString = LemonMarketsConverter.convertOrderStatus(status);
+      String? statusString = LemonMarketsQueryConverter.convertOrderStatus(status);
       if (statusString != null) result.add('status=' + statusString);
     }
     if (type != null) {
-      String? typeString = LemonMarketsConverter.convertOrderType(type);
+      String? typeString = LemonMarketsQueryConverter.convertOrderType(type);
       if (typeString != null) result.add('type=' + typeString);
     }
     return result;

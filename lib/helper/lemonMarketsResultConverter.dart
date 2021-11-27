@@ -139,7 +139,7 @@ class LemonMarketsResultConverter {
     if (OrderStatus.inactive == status) {
       return 'inactive';
     } else if (OrderStatus.activated == status) {
-      return 'active';
+      return 'activated';
     } else if (OrderStatus.in_progress == status) {
       return 'in_progress';
     } else if (OrderStatus.executed == status) {

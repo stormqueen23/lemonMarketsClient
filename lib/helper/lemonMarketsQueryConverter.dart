@@ -1,6 +1,6 @@
 import 'package:lemon_markets_client/src/lemonmarkets.dart';
 
-class LemonMarketsConverter {
+class LemonMarketsQueryConverter {
 
   static String? convertOHLCType(OHLCType type) {
     if (OHLCType.d1 == type) {
@@ -45,7 +45,7 @@ class LemonMarketsConverter {
 
   static String? convertOrderStatus(OrderStatus value) {
     if (OrderStatus.activated == value) {
-      return 'active'; //activated?
+      return 'activated';
     } else if (OrderStatus.inactive == value) {
       return 'inactive';
     } else if (OrderStatus.in_progress == value) {
