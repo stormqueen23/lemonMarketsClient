@@ -1,11 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lemon_markets_client/data/trading/existingOrder.dart';
-import 'package:lemon_markets_client/data/market/quote.dart';
-import 'package:lemon_markets_client/data/market/ohlc.dart';
 import 'package:lemon_markets_client/data/trading/portfolioItem.dart';
 import 'package:lemon_markets_client/data/trading/space.dart';
-import 'package:lemon_markets_client/data/market/trade.dart';
-import 'package:lemon_markets_client/data/market/tradingVenue.dart';
 import 'package:lemon_markets_client/data/trading/transaction.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsTimeConverter.dart';
 
@@ -16,14 +12,25 @@ part 'tradingResultList.g.dart';
 @JsonSerializable(genericArgumentFactories: true, createToJson: false)
 class TradingResultList<T> {
   @JsonKey(
-      name: 'time', fromJson: LemonMarketsTimeConverter.fromIsoTime, toJson: LemonMarketsTimeConverter.toIsoTime)
-  DateTime time;
+      name: 'time', fromJson: LemonMarketsTimeConverter.fromIsoTimeNullable, toJson: LemonMarketsTimeConverter.toIsoTimeNullable)
+  DateTime? time;
 
   @JsonKey(name: 'status')
-  String status;
+  String? status;
 
   @JsonKey(name: 'results')
   List<T> result;
+
+  @JsonKey(name: 'next')
+  String? next;
+  @JsonKey(name: 'previous')
+  String? previous;
+  @JsonKey(name: 'total')
+  int? count;
+  @JsonKey(name: 'page')
+  int? page;
+  @JsonKey(name: 'pages')
+  int? pages;
 
   TradingResultList(this.status, this.result, this.time);
 
@@ -41,14 +48,6 @@ class TradingResultList<T> {
         return Instrument.fromJson(json) as T;
       } else if (T == ExistingOrder) {
         return ExistingOrder.fromJson(json) as T;
-      }  else if (T == Quote) {
-        return Quote.fromJson(json) as T;
-      }else if (T == OHLC) {
-        return OHLC.fromJson(json) as T;
-      } else if (T == TradingVenue) {
-        return TradingVenue.fromJson(json) as T;
-      } else if (T == Trade) {
-        return Trade.fromJson(json) as T;
       } else if (T == Transaction) {
         return Transaction.fromJson(json) as T;
       }
@@ -56,7 +55,7 @@ class TradingResultList<T> {
     throw ArgumentError.value(
       json,
       'json',
-      'Unknown type $T: Add $T in resultList.dart',
+      'Unknown type $T: Add $T in tradingResultList.dart',
     );
   }
 }

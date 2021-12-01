@@ -25,7 +25,7 @@ void main() {
   test('getPortfolioItems', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
 
-    List<PortfolioItem> items = await lm.getPortfolioItems(token);
+    List<PortfolioItem> items = await lm.getPortfolioItems(token, spaceUuid: 'sp_pyPHTyyLL03WRlBjjpRss8FrgMP9gTDD9x');
     print('found ${items.length} portfolioItems');
     items.forEach((element) {
       print(element);

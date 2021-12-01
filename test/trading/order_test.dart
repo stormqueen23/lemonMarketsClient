@@ -25,7 +25,7 @@ void main() {
   test('createOrder', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
 
-    CreatedOrder order = await lm.placeOrder(token, Credentials.default_space_uuid, 'DE000BASF111', OrderSide.buy, 1);
+    CreatedOrder order = await lm.placeOrder(token, Credentials.default_space_uuid, 'DE000BASF111', OrderSide.buy, 1, venue: 'ALLDAY');
     print('order ${order.uuid} created. expires at ${order.validUntil} ${order.validUntil.toIso8601String()}');
     print(order);
   });
@@ -54,7 +54,7 @@ void main() {
     print('delete order: ${response.success} (${response.responseMap.toString()})');
 
     orders = await lm.getOrders(token);
-    print('found ${orders.result.length} orders');
+    print('found ${orders.count} orders');
 
   });
 
@@ -91,6 +91,14 @@ void main() {
     }
   });
 
+  //(expected: inactive, in_progress, executed, expired, activated, canceled, deactivated, open, rejected)
+  test('getByStatus', () async {
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
+    TradingResultList<ExistingOrder> order = await lm.getOrders(token, status: OrderStatus.activated);
+    print('found ${order.result} orders');
+    print(order);
+  });
+
   test('getOneOrder', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
     ExistingOrder order = await lm.getOrder(token, 'ord_pyPLYggttrFHJ2LFhC66Y5HXg2V0wYHDZV');
@@ -101,7 +109,7 @@ void main() {
   test('activateOrder', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
 
-    String orderToActivate = 'ord_pyPKWDDWWjrkXBhZfD81Zwn8C7T7xnRMdX';
+    String orderToActivate = 'ord_pyPhGFF99KYCTKjFLCtmF8fjdPFmLPjcxw';
     ActivateOrderResponse response = await lm.activateOrder(token, orderToActivate, null);
     print('activate order: ${response.success} (${response.responseMap.toString()})');
 

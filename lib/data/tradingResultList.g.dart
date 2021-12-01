@@ -11,7 +11,12 @@ TradingResultList<T> _$TradingResultListFromJson<T>(
   T Function(Object? json) fromJsonT,
 ) =>
     TradingResultList<T>(
-      json['status'] as String,
+      json['status'] as String?,
       (json['results'] as List<dynamic>).map(fromJsonT).toList(),
-      LemonMarketsTimeConverter.fromIsoTime(json['time'] as String),
-    );
+      LemonMarketsTimeConverter.fromIsoTimeNullable(json['time'] as String?),
+    )
+      ..next = json['next'] as String?
+      ..previous = json['previous'] as String?
+      ..count = json['total'] as int?
+      ..page = json['page'] as int?
+      ..pages = json['pages'] as int?;
