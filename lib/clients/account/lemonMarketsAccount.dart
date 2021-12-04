@@ -15,7 +15,7 @@ class LemonMarketsAccount {
   LemonMarketsAccount(this._client);
 
   Future<Account> getAccountData(AccessToken token) async {
-    String url = LemonMarketsURL.BASE_URL_TRADING_DEV+'/account';
+    String url = LemonMarketsURL.BASE_URL_TRADING_PAPER+'/account';
 
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {

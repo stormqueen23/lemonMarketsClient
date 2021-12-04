@@ -116,7 +116,7 @@ class LemonMarkets {
   // Trading -> Orders
 
   Future<CreatedOrder> placeOrder(AccessToken token, String spaceUuid, String isin, OrderSide side, int quantity,
-      {DateTime? validUntil, double? stopPrice, double? limitPrice, String venue = 'XMUN', String? notes}) async {
+      {DateTime? validUntil, Amount? stopPrice, Amount? limitPrice, String venue = 'XMUN', String? notes}) async {
     if (validUntil == null) {
       validUntil = DateTime.now().add(Duration(days: 29));
     }

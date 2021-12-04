@@ -17,14 +17,14 @@ class LemonMarketsTransaction {
 
   Future<TradingResultList<Transaction>> getTransactions(AccessToken token,
       {String? spaceUuid, DateTime? createdAtUntil, DateTime? createdAtFrom, String? isin}) async {
-    String url = LemonMarketsURL.BASE_URL_TRADING_DEV + '/transactions/';
+    String url = LemonMarketsURL.BASE_URL_TRADING_PAPER + '/transactions/';
     String append = _generateParamString(createdAtUntil: createdAtUntil, createdAtFrom: createdAtFrom, spaceUuid: spaceUuid, isin: isin);
     url += append;
     return getTransactionsByUrl(token, url);
   }
 
   Future<Transaction> getTransaction(AccessToken token, String transactionUuid) async {
-    String url = LemonMarketsURL.BASE_URL_TRADING_DEV + '/transactions/' + transactionUuid+'/';
+    String url = LemonMarketsURL.BASE_URL_TRADING_PAPER + '/transactions/' + transactionUuid+'/';
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
       TradingResult<Transaction> result = TradingResult<Transaction>.fromJson(response.decodedBody);

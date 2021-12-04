@@ -14,10 +14,14 @@ Space _$SpaceFromJson(Map<String, dynamic> json) => Space(
       LemonMarketsAmountConverter.fromAmount(json['buying_power'] as int),
       LemonMarketsAmountConverter.fromAmount(json['earnings'] as int),
       LemonMarketsAmountConverter.fromAmount(json['backfire'] as int),
-    )..description = json['description'] as String?;
+      LemonMarketsTimeConverter.fromIsoTime(json['created_at'] as String),
+    )
+      ..description = json['description'] as String?
+      ..linked = json['linked'] as String?;
 
 Map<String, dynamic> _$SpaceToJson(Space instance) => <String, dynamic>{
       'id': instance.uuid,
+      'created_at': LemonMarketsTimeConverter.toIsoTime(instance.createdAt),
       'name': instance.name,
       'description': instance.description,
       'type': LemonMarketsResultConverter.toSpaceType(instance.type),
@@ -26,4 +30,5 @@ Map<String, dynamic> _$SpaceToJson(Space instance) => <String, dynamic>{
           LemonMarketsAmountConverter.toAmount(instance.buyingPower),
       'earnings': LemonMarketsAmountConverter.toAmount(instance.earnings),
       'backfire': LemonMarketsAmountConverter.toAmount(instance.backfire),
+      'linked': instance.linked,
     };

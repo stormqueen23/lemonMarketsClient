@@ -8,6 +8,11 @@ class Amount {
   late int apiValue;
   late double value;
 
+  /// [apiValue] is the value for the lemonMarkesAPI<br/>
+  /// [value] is the value in the currency<br/><br/>
+  /// eg.: creating an Amount with 2.50€<br/>
+  /// Amount(apiValue: 2500) or <br/>
+  /// Amount(value: 2.5)
   Amount({int? apiValue, double? value, this.currency = '€'}) {
     if (apiValue != null) {
       this.apiValue = apiValue;

@@ -10,8 +10,13 @@ part 'space.g.dart';
 class Space {
   @JsonKey(name: 'id')
   String uuid;
+
+  @JsonKey(name: 'created_at', fromJson: LemonMarketsTimeConverter.fromIsoTime, toJson: LemonMarketsTimeConverter.toIsoTime)
+  DateTime createdAt;
+
   @JsonKey(name: 'name')
   String name;
+
   @JsonKey(name: 'description')
   String? description;
 
@@ -22,23 +27,27 @@ class Space {
       fromJson: LemonMarketsAmountConverter.fromAmount,
       toJson: LemonMarketsAmountConverter.toAmount)
   Amount riskLimit;
+
   @JsonKey(name: 'buying_power',
       fromJson: LemonMarketsAmountConverter.fromAmount,
       toJson: LemonMarketsAmountConverter.toAmount)
   Amount buyingPower;
+
   @JsonKey(name: 'earnings',
       fromJson: LemonMarketsAmountConverter.fromAmount,
       toJson: LemonMarketsAmountConverter.toAmount)
   Amount earnings;
+
   @JsonKey(name: 'backfire',
       fromJson: LemonMarketsAmountConverter.fromAmount,
       toJson: LemonMarketsAmountConverter.toAmount)
   Amount backfire;
 
-  //@JsonKey(name: 'linked')
+  @JsonKey(name: 'linked')
+  String? linked;
 
 
-  Space(this.uuid, this.name, this.type, this.riskLimit, this.buyingPower, this.earnings, this.backfire);
+  Space(this.uuid, this.name, this.type, this.riskLimit, this.buyingPower, this.earnings, this.backfire, this.createdAt);
 
   factory Space.fromJson(Map<String, dynamic> json) => _$SpaceFromJson(json);
 
@@ -47,6 +56,7 @@ class Space {
   @override
   String toString() {
     return 'Space{\n'
+        'createdAt: $createdAt,\n'
         'uuid: $uuid,\n'
         'name: $name,\n'
         'description: $description,\n'
