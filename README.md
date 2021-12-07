@@ -4,49 +4,30 @@ A simple way to access the lemon markets API (https://www.lemon.markets/) in flu
 ## Create account for lemon markets
 Currently the lemon market api is in beta and you can join the waitlist to get access (https://www.lemon.markets/waitlist)
 
-## Request Access Token
-If you have your credentials for the lemon market API you can request an access token:
+## Create an API-Key for accessing the lemon markets API
+Get/Create your API-key from the https://dashboard.lemon.markets/ 
+
+For this SDK you will always need an instance of LemonMarkets and an instance of AccessToken.
+You can specify in the AccessToken if you want to use real-money trading for this token.
 
 ```dart
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 ...
-final String clientId = "YOUR_CLIENT_ID";
-final String clientSecret = "YOUR_CLIENT_SECRET";
 
 final LemonMarkets lemonMarkets = LemonMarkets();
-try {
-    AccessToken token = await lemonMarkets.requestToken(clientId, clientSecret);
-} on LemonMarketsException catch (e) {
-    debugPrint(e.toString());
-}
+AccessToken token = AccessToken(token: 'ADD_YOUR_TOKEN_HERE');
 ```
-## Information for all endpoints
-You always need an instance of LemonMarkets and an Access Token for calling an endpoint. 
-```dart
-final LemonMarkets lemonMarkets = LemonMarkets();
-AccessToken token = await lemonMarkets.requestToken('YOUR_CLIENT_ID', 'YOUR_CLIENT_SECRET');
-```
+
 ## Search for instrument
-One-liner:
-```dart
-  ResultList<Instrument> result = await lemonMarkets.searchInstruments(token, query: 'Tesla');
-```
-
-Complete example: 
 
 ```dart
-import 'package:lemon_markets_client/lemon_markets_client.dart';
-...
-final String clientId = "YOUR_CLIENT_ID";
-final String clientSecret = "YOUR_CLIENT_SECRET";
-
-final LemonMarkets lemonMarkets = LemonMarkets();
-try {
-    AccessToken token = await lemonMarkets.requestToken(clientId, clientSecret);
-    ResultList<Instrument> result = await lemonMarkets.searchInstruments(token, query: searchString)
-} on LemonMarketsException catch (e) {
+  final LemonMarkets lemonMarkets = LemonMarkets();
+  AccessToken token = AccessToken(token: 'ADD_YOUR_TOKEN_HERE');
+  try {
+    ResultList<Instrument> result = await lemonMarkets.searchInstruments(token, search: 'Tesla');
+  } on LemonMarketsException catch (e) {
     debugPrint(e.toString());
-}
+  }
 ```
 
 ## Create and activate an order
@@ -56,18 +37,22 @@ First you must create an order and second you need to activate this order.\
 
 Short example for BUY:
 ```dart
+  final LemonMarkets lemonMarkets = LemonMarkets();
+  AccessToken token = AccessToken(token: 'ADD_YOUR_TOKEN_HERE');
+
   CreatedOrder result = await lemonMarkets.placeOrder(token, 'SPACE_UUID', 'US88160R1014', OrderSide.buy, 5);
   String orderUuid = result.uuid;
   bool success = lemonMarkets.activateOrder(token, 'SPACE_UUID', orderUuid);  
 ```
 Short example for SELL:
 ```dart
+  final LemonMarkets lemonMarkets = LemonMarkets();
+  AccessToken token = AccessToken(token: 'ADD_YOUR_TOKEN_HERE');
+
   CreatedOrder result = await lemonMarkets.placeOrder(token, 'SPACE_UUID', 'US88160R1014', OrderSide.sell, 5);
   String orderUuid = result.uuid;
   bool success =  lemonMarkets.activateOrder(token, 'SPACE_UUID', orderUuid);
 ```
-
-
 
 ## Building this plugin
 To generate the missing *.g.dart classes run:\

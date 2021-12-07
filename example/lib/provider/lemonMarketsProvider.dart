@@ -1,13 +1,11 @@
-import 'package:example/credentials.dart';
 import 'package:flutter/material.dart';
 import 'package:lemon_markets_client/data/resultList.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 
 class LemonMarketsProvider with ChangeNotifier {
   final LemonMarkets lm = LemonMarkets();
-  Credentials credentials = Credentials();
 
-  AccessToken? token;
+  AccessToken token = AccessToken(token: 'ADD_YOUR_TOKEN_HERE');
   bool showTokenData = false;
 
   TradingResultList<Space>? spaces;
@@ -19,17 +17,6 @@ class LemonMarketsProvider with ChangeNotifier {
 
   int? quantity;
   bool orderCreated = false;
-
-  Future<void> requestToken(BuildContext context) async {
-    await credentials.init(context);
-    try {
-      token = AccessToken(token: 'TOKEN', type: '');
-      notifyListeners();
-    } on LemonMarketsException catch (e) {
-      setErrorMessage(e.toString());
-    }
-
-  }
 
   void switchShowTokenData() {
     showTokenData = !showTokenData;

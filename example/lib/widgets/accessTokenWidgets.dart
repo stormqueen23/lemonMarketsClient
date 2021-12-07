@@ -16,7 +16,6 @@ class _AccessTokenAreaState extends State<AccessTokenArea> {
 
   @override
   Widget build(BuildContext context) {
-    bool hasToken = context.watch<LemonMarketsProvider>().token != null;
     bool showToken = context.watch<LemonMarketsProvider>().showTokenData;
 
     return Column(
@@ -25,31 +24,14 @@ class _AccessTokenAreaState extends State<AccessTokenArea> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextButton(
-              onPressed: () {
-                setState(
-                      () {
-                    loadingToken = true;
-                  },
-                );
-                context.read<LemonMarketsProvider>().requestToken(context).then(
-                      (value) => setState(
-                        () {
-                      loadingToken = false;
-                    },
-                  ),
-                );
-              },
-              child: Text('Request token'),
-            ),
-            TextButton(
-              onPressed: hasToken ? () => context.read<LemonMarketsProvider>().switchShowTokenData() : null,
+              onPressed: () => context.read<LemonMarketsProvider>().switchShowTokenData(),
               child: Text(showToken ? 'Hide token details' : 'Show token details'),
             )
           ],
         ),
         loadingToken
             ? Center(child: CircularProgressIndicator())
-            : hasToken && showToken
+            : showToken
             ? AccessTokenInfoWidget(
           token: context.watch<LemonMarketsProvider>().token!,
         )
