@@ -1,4 +1,4 @@
-##![](https://www.lemon.markets/images/logo.svg?auto=format&fit=max)
+## ![](https://www.lemon.markets/images/logo.svg?auto=format&fit=max)
 
 # Lemon Markets SDK
 A simple way to access the lemon markets API (https://www.lemon.markets/) in dart / flutter
