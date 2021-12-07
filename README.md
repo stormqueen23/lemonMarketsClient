@@ -1,4 +1,4 @@
-## ![](https://www.lemon.markets/images/logo.svg?auto=format&fit=max)
+![](https://www.lemon.markets/images/logo.svg?auto=format&fit=max)
 
 # Lemon Markets SDK
 A simple way to access the lemon markets API (https://www.lemon.markets/) in dart / flutter
@@ -63,17 +63,7 @@ flutter packages pub run build_runner build --delete-conflicting-outputs
  ```
 
 ## Running the example app
-If you want to run the example app, you need to create an asset folder with  a file 'credentials.json' 
-(example\assets\credentials.json)
-```
-{
-  "clientId": "YOUR_CLIENT_ID",
-  "clientSecret": "YOUR_CLIENT_SECRET",
-  "spaceUuid": "SPACE_UUID_FOR_CLIENT_ID"
-}
+If you want to run the example app, you need to replace 'ADD_YOUR_TOKEN_HERE' in the LemonMarketsProvider with your token!
 ```
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Y8Y41V672)
-
-
-** account_id ist nicht dokumentiert im response von GET /account
