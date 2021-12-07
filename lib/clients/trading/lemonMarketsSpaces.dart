@@ -18,7 +18,7 @@ class LemonMarketsSpaces {
   LemonMarketsSpaces(this._client);
 
   Future<Space> createSpace(AccessToken token, String name, SpaceType type, Amount riskLimit, {String? description}) async {
-    String url = LemonMarketsURL.BASE_URL_TRADING_PAPER+'/spaces/';
+    String url = LemonMarketsURL.getTradingUrl(token)+'/spaces/';
     Map<String, String> data = {};
     data['name'] = name;
     if (description != null && description.isNotEmpty) {
@@ -48,7 +48,7 @@ class LemonMarketsSpaces {
       queryParamList.add('type='+(LemonMarketsResultConverter.toSpaceType(type) ?? ''));
     }
     String query = LemonMarketsHttpClient.generateQueryParams(queryParamList);
-    String url = LemonMarketsURL.BASE_URL_TRADING_PAPER+'/spaces/'+query;
+    String url = LemonMarketsURL.getTradingUrl(token)+'/spaces/'+query;
     return getSpacesByUrl(token, url);
   }
 
@@ -64,7 +64,7 @@ class LemonMarketsSpaces {
   }
 
   Future<Space> getSpace(AccessToken token, String uuid) async {
-    String url = LemonMarketsURL.BASE_URL_TRADING_PAPER+'/spaces/'+uuid+'/';
+    String url = LemonMarketsURL.getTradingUrl(token)+'/spaces/'+uuid+'/';
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
       TradingResult<Space> result = TradingResult<Space>.fromJson(response.decodedBody);
@@ -80,7 +80,7 @@ class LemonMarketsSpaces {
   }
 
   Future<Space> alterSpace(AccessToken token, String uuid, {String? name, Amount? riskLimit, String? description}) async {
-    String url = LemonMarketsURL.BASE_URL_TRADING_PAPER+'/spaces/'+uuid+'/';
+    String url = LemonMarketsURL.getTradingUrl(token)+'/spaces/'+uuid+'/';
     Map<String, dynamic> data = {};
     if (name != null && name.isNotEmpty) {
       data['name'] = name;
@@ -107,7 +107,7 @@ class LemonMarketsSpaces {
   }
 
   Future<bool> deleteSpace(AccessToken token, String uuid) async {
-    String url = LemonMarketsURL.BASE_URL_TRADING_PAPER+'/spaces/'+uuid+'/';
+    String url = LemonMarketsURL.getTradingUrl(token)+'/spaces/'+uuid+'/';
     LemonMarketsClientResponse response = await _client.sendDelete(url, token);
     try {
       TradingResult<Space> result = TradingResult<Space>.fromJson(response.decodedBody);

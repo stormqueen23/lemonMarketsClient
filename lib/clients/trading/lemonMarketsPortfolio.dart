@@ -13,7 +13,7 @@ class LemonMarketsPortfolio {
   LemonMarketsPortfolio(this._client);
 
   Future<List<PortfolioItem>> getPortfolioItems(AccessToken token, {String? spaceUuid, String? isin}) async {
-    String url = LemonMarketsURL.BASE_URL_TRADING_PAPER + '/portfolio/';
+    String url = LemonMarketsURL.getTradingUrl(token) + '/portfolio/';
     String params = _generateParamString(isin: isin, spaceUuid: spaceUuid);
     url = url+params;
     return getPortfolioItemsByUrl(token, url);

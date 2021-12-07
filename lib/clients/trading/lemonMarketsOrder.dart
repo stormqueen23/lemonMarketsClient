@@ -23,7 +23,7 @@ class LemonMarketsOrder {
   Future<CreatedOrder> placeOrder(
       AccessToken token, String spaceUuid, String isin, DateTime expiresAt, OrderSide side, int quantity, String venue,
       {Amount? stopPrice, Amount? limitPrice, String? notes}) async {
-    String url = LemonMarketsURL.BASE_URL_TRADING_PAPER + '/orders/';
+    String url = LemonMarketsURL.getTradingUrl(token) + '/orders/';
     Map<String, dynamic> data = {};
     data['isin'] = isin;
     data['side'] = LemonMarketsQueryConverter.convertSideForExecution(side) ?? '';
@@ -58,7 +58,7 @@ class LemonMarketsOrder {
   }
 
   Future<ActivateOrderResponse> activateOrder(AccessToken token, String orderUuid, Map<String, String>? body) async {
-    String url = LemonMarketsURL.BASE_URL_TRADING_PAPER + '/orders/' + orderUuid + '/activate/';
+    String url = LemonMarketsURL.getTradingUrl(token) + '/orders/' + orderUuid + '/activate/';
     LemonMarketsClientResponse response = await _client.sendPost(url, token, body, true);
     try {
       String status = response.decodedBody['status'];
@@ -73,7 +73,7 @@ class LemonMarketsOrder {
   }
 
   Future<DeleteOrderResponse> deleteOrder(AccessToken token, String orderUuid) async {
-    String url = LemonMarketsURL.BASE_URL_TRADING_PAPER + '/orders/' + orderUuid;
+    String url = LemonMarketsURL.getTradingUrl(token) + '/orders/' + orderUuid;
     LemonMarketsClientResponse response = await _client.sendDelete(url, token);
     try {
       String status = response.decodedBody['status'];
@@ -92,7 +92,7 @@ class LemonMarketsOrder {
   }
 
   Future<ExistingOrder> getOrder(AccessToken token, String orderUuid) async {
-    String url = LemonMarketsURL.BASE_URL_TRADING_PAPER  + '/orders/' + orderUuid;
+    String url = LemonMarketsURL.getTradingUrl(token)  + '/orders/' + orderUuid;
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
       TradingResult<ExistingOrder> result = TradingResult<ExistingOrder>.fromJson(response.decodedBody);
@@ -120,7 +120,7 @@ class LemonMarketsOrder {
         spaceUuid: spaceUuid,
         type: type);
     String queryParams = LemonMarketsHttpClient.generateQueryParams(params);
-    String url = LemonMarketsURL.BASE_URL_TRADING_PAPER + '/orders/' + queryParams;
+    String url = LemonMarketsURL.getTradingUrl(token) + '/orders/' + queryParams;
     return getOrdersByUrl(token, url);
   }
 
