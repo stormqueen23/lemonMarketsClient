@@ -75,8 +75,8 @@ class LemonMarketsHttpClient {
 
   LemonMarketsClientResponse _decode(Response response, String url) {
     int statusCode = response.statusCode;
-    String x = String.fromCharCodes(response.bodyBytes);
-    log.fine("response: ${x} with statusCode $statusCode (length: ${response.contentLength}, body is not empty: ${response.body.isNotEmpty})");
+    String responseString = utf8.decode(response.bodyBytes);
+    log.fine("response: ${responseString} with statusCode $statusCode (length: ${response.contentLength}, body is not empty: ${response.body.isNotEmpty})");
     if (statusCode == 401) {
       log.info("401 statusCode");
       throw LemonMarketsAuthException(url, "401 Error", statusCode, response.body, null);
@@ -89,10 +89,10 @@ class LemonMarketsHttpClient {
     }
 
     try {
-      Map<String, dynamic> decoded = response.body.isNotEmpty ? json.decode(response.body) : {};
+      Map<String, dynamic> decoded = responseString.isNotEmpty ? json.decode(responseString) : {};
       if (statusCode == 400) {
         log.info("400 statusCode");
-        throw LemonMarketsInvalidQueryException(url, decoded['message'] ?? '', statusCode, response.body, null);
+        throw LemonMarketsInvalidQueryException(url, decoded['message'] ?? '', statusCode, responseString, null);
       }
       return LemonMarketsClientResponse(statusCode, decoded);
     } catch (e, stackTrace) {
@@ -109,9 +109,9 @@ class LemonMarketsHttpClient {
       throw LemonMarketsAuthException(url, "Unknown token type ${_token.type}", null, "", null);
     }
     if (asJson) {
-      return {'Authorization': prefix + ' ' + _token.token, 'Content-Type': 'application/json'};
+      return {'Authorization': prefix + ' ' + _token.token, 'Content-Type': 'application/json', 'charset': 'utf-8'};
     } else {
-      return {'Authorization': prefix + ' ' + _token.token};
+      return {'Authorization': prefix + ' ' + _token.token, 'charset': 'utf-8'};
     }
   }
 

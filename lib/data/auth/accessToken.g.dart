@@ -9,10 +9,12 @@ part of 'accessToken.dart';
 AccessToken _$AccessTokenFromJson(Map<String, dynamic> json) => AccessToken(
       token: json['access_token'] as String,
       type: json['token_type'] as String? ?? 'bearer',
+      realMoneyAccess: json['realMoneyAccess'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$AccessTokenToJson(AccessToken instance) =>
     <String, dynamic>{
       'access_token': instance.token,
       'token_type': instance.type,
+      'realMoneyAccess': instance.realMoneyAccess,
     };
