@@ -32,15 +32,14 @@ class _AccessTokenAreaState extends State<AccessTokenArea> {
         loadingToken
             ? Center(child: CircularProgressIndicator())
             : showToken
-            ? AccessTokenInfoWidget(
-          token: context.watch<LemonMarketsProvider>().token!,
-        )
-            : Container(),
+                ? AccessTokenInfoWidget(
+                    token: context.watch<LemonMarketsProvider>().token,
+                  )
+                : Container(),
       ],
     );
   }
 }
-
 
 class AccessTokenInfoWidget extends StatelessWidget {
   final AccessToken token;
@@ -56,11 +55,12 @@ class AccessTokenInfoWidget extends StatelessWidget {
           children: [Text('Token data:')],
         ),
         Divider(),
-        AttributeWidget(name: 'Type: ',value: token.type),
+        AttributeWidget(name: 'Type: ', value: token.type),
         Divider(),
-
+        AttributeWidget(name: 'Token: ', value: token.token),
+        Divider(),
+        AttributeWidget(name: 'Reals Money: ', value: token.realMoneyAccess.toString()),
       ],
     );
   }
-
 }

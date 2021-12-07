@@ -12,7 +12,8 @@ class InstrumentDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool hasSpaceData = context.watch<LemonMarketsProvider>().spaces != null && context.watch<LemonMarketsProvider>().spaces!.result.isNotEmpty;
+    bool hasSpaceData = context.watch<LemonMarketsProvider>().spaces != null &&
+        context.watch<LemonMarketsProvider>().spaces!.result.isNotEmpty;
     return Scaffold(
       appBar: AppBar(
         title: Text(instrument.title),
@@ -26,21 +27,23 @@ class InstrumentDetailScreen extends StatelessWidget {
             AttributeWidget(name: 'Isin: ', value: instrument.isin),
             AttributeWidget(name: 'WKN: ', value: instrument.wkn),
             AttributeWidget(name: 'Symbol: ', value: instrument.symbol),
-
             Container(
               height: 16,
             ),
-           !hasSpaceData ? Text('You can only create an order if you have requested space details', textScaleFactor: 0.8,) : Container(),
+            !hasSpaceData
+                ? Text(
+                    'You can only create an order if you have requested space details',
+                    textScaleFactor: 0.8,
+                  )
+                : Container(),
             TextButton(
-                onPressed: !hasSpaceData
-                    ? null
-                    : () {
-                        context.read<LemonMarketsProvider>().orderCreated = false;
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => OrderScreen(instrument: instrument, sell: false)),
-                        );
-                      },
+                onPressed: () {
+                  context.read<LemonMarketsProvider>().orderCreated = false;
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => OrderScreen(instrument: instrument, sell: false)),
+                  );
+                },
                 child: Text('Create buy order'))
           ],
         ),
