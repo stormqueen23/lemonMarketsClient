@@ -1,7 +1,7 @@
 import 'package:lemon_markets_client/data/auth/accessToken.dart';
-import 'package:lemon_markets_client/data/trading/intern/portfolio.dart';
 import 'package:lemon_markets_client/data/trading/portfolioItem.dart';
 import 'package:lemon_markets_client/clients/lemonMarketsHttpClient.dart';
+import 'package:lemon_markets_client/data/tradingResultList.dart';
 import 'package:lemon_markets_client/exception/lemonMarketsConvertException.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsURLs.dart';
 import 'package:logging/logging.dart';
@@ -12,18 +12,18 @@ class LemonMarketsPortfolio {
 
   LemonMarketsPortfolio(this._client);
 
-  Future<List<PortfolioItem>> getPortfolioItems(AccessToken token, {String? spaceUuid, String? isin}) async {
+  Future<TradingResultList<PortfolioItem>> getPortfolioItems(AccessToken token, {String? spaceUuid, String? isin}) async {
     String url = LemonMarketsURL.getTradingUrl(token) + '/portfolio/';
     String params = _generateParamString(isin: isin, spaceUuid: spaceUuid);
     url = url+params;
     return getPortfolioItemsByUrl(token, url);
   }
 
-  Future<List<PortfolioItem>> getPortfolioItemsByUrl(AccessToken token, String url) async {
+  Future<TradingResultList<PortfolioItem>> getPortfolioItemsByUrl(AccessToken token, String url) async {
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
-      Portfolio result = Portfolio.fromJson(response.decodedBody);
-      return result.getPortfolioItems();
+      TradingResultList<PortfolioItem> result = TradingResultList<PortfolioItem>.fromJson(response.decodedBody);
+      return result;
     } catch (e, stackTrace) {
       log.warning(e.toString());
       throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString(), stackTrace);

@@ -9,7 +9,8 @@ part of 'portfolioItem.dart';
 PortfolioItem _$PortfolioItemFromJson(Map<String, dynamic> json) =>
     PortfolioItem(
       json['isin'] as String,
-      json['spaceUuid'] as String,
+      json['isin_title'] as String,
+      json['space_id'] as String,
       json['quantity'] as int,
       json['buy_quantity'] as int,
       json['sell_quantity'] as int?,
@@ -35,7 +36,8 @@ PortfolioItem _$PortfolioItemFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$PortfolioItemToJson(PortfolioItem instance) =>
     <String, dynamic>{
       'isin': instance.isin,
-      'spaceUuid': instance.spaceUuid,
+      'isin_title': instance.isinTitle,
+      'space_id': instance.spaceUuid,
       'quantity': instance.quantity,
       'buy_quantity': instance.quantityBuy,
       'sell_quantity': instance.quantitySell,

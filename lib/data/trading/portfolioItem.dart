@@ -9,7 +9,10 @@ class PortfolioItem {
   @JsonKey(name: 'isin')
   String isin;
 
-  @JsonKey(name: 'spaceUuid')
+  @JsonKey(name: 'isin_title')
+  String isinTitle;
+
+  @JsonKey(name: 'space_id')
   String spaceUuid;
 
   @JsonKey(name: 'quantity')
@@ -77,6 +80,7 @@ class PortfolioItem {
 
   PortfolioItem(
       this.isin,
+      this.isinTitle,
       this.spaceUuid,
       this.quantity,
       this.quantityBuy,
@@ -115,6 +119,7 @@ class PortfolioItem {
         'sellOrdersTotal: $sellOrdersTotal,\n'
         'buyOrdersTotal: $buyOrdersTotal,\n'
         'isin: $isin,\n'
+        'title: $isinTitle,\n'
         'spaceUuid: $spaceUuid\n'
         '}';
   }
