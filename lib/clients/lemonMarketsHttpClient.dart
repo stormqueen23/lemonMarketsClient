@@ -108,11 +108,12 @@ class LemonMarketsHttpClient {
     } else {
       throw LemonMarketsAuthException(url, "Unknown token type ${_token.type}", null, "", null);
     }
+    Map<String, String> headers = {};
+    headers['Authorization'] = prefix + ' ' + _token.token;
     if (asJson) {
-      return {'Authorization': prefix + ' ' + _token.token, 'Content-Type': 'application/json', 'charset': 'utf-8'};
-    } else {
-      return {'Authorization': prefix + ' ' + _token.token, 'charset': 'utf-8'};
+      headers['Content-Type'] = 'application/json';
     }
+    return headers;
   }
 
   static String generateQueryParams(List<String> params) {
