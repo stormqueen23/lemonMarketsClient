@@ -148,6 +148,12 @@ class LemonMarketsResultConverter {
       return 'deleted';
     } else if (OrderStatus.expired == status) {
       return 'expired';
+    } else if (OrderStatus.open == status) {
+      return 'open';
+    } else if (OrderStatus.cancelling == status) {
+      return 'cancelling';
+    } else if (OrderStatus.cancelled == status) {
+      return 'cancelled';
     }
     return null;
   }
@@ -165,6 +171,12 @@ class LemonMarketsResultConverter {
       return OrderStatus.deleted;
     } else if ('expired' == typeAsString) {
       return OrderStatus.expired;
+    } else if ('open' == typeAsString) {
+      return OrderStatus.open;
+    } else if ('cancelling' == typeAsString) {
+      return OrderStatus.cancelling;
+    } else if ('cancelled' == typeAsString) {
+      return OrderStatus.cancelled;
     }
     return OrderStatus.unknown;
   }
