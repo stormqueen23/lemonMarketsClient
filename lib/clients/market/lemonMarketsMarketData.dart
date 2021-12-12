@@ -70,7 +70,7 @@ class LemonMarketsMarketData {
 
   Future<ResultList<Quote>> getQuotes(AccessToken token, List<String> isin,
       {List<String>? mic, bool? decimals, Sorting? sorting,
-        DateTime? from, DateTime? to, bool? latest}) async {
+        DateTime? from, DateTime? to, bool? latest, int? limit}) async {
     String url = LemonMarketsURL.BASE_URL_MARKET + '/quotes/';
 
     List<String> query = [];
@@ -79,6 +79,9 @@ class LemonMarketsMarketData {
     }
     if (isin.isNotEmpty) {
       query.add("isin=" + isin.join(','));
+    }
+    if (limit != null) {
+      query.add("limit=" + limit.toString());
     }
     if (latest != null && latest) {
       query.add("from=latest");
@@ -119,11 +122,14 @@ class LemonMarketsMarketData {
 
   Future<ResultList<OHLC>> getOHLC(AccessToken token, List<String> isin, OHLCType type,
       {List<String>? mics, bool? decimals,  Sorting? sorting,
-        DateTime? from, DateTime? to, bool? latest}) async {
+        DateTime? from, DateTime? to, bool? latest, int? limit}) async {
 
     List<String> result = [];
     if (isin.isNotEmpty) {
       result.add("isin="+isin.join(','));
+    }
+    if (limit != null) {
+      result.add("limit="+limit.toString());
     }
     if (mics != null && mics.isNotEmpty) {
       result.add("mic="+mics.join(','));

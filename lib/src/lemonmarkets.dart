@@ -238,8 +238,8 @@ class LemonMarkets {
   }
 
   Future<ResultList<Quote>> getQuotes(AccessToken token, List<String> isin,
-      {List<String>? mic, bool? decimals, Sorting? sorting, DateTime? from, DateTime? to}) async {
-    return _marketClient.getQuotes(token, isin, mic: mic, sorting: sorting, decimals: decimals, from: from, to: to);
+      {List<String>? mic, bool? decimals, Sorting? sorting, DateTime? from, DateTime? to, int? limit}) async {
+    return _marketClient.getQuotes(token, isin, mic: mic, sorting: sorting, decimals: decimals, from: from, to: to, limit: limit);
   }
 
   Future<ResultList<Quote>> getQuotesByUrl(AccessToken token, String url) async {
@@ -254,9 +254,9 @@ class LemonMarkets {
   }
 
   Future<ResultList<OHLC>> getOHLC(AccessToken token, List<String> isin, OHLCType type,
-      {List<String>? mics, DateTime? from, DateTime? to, Sorting? sorting, bool? decimals}) async {
+      {List<String>? mics, DateTime? from, DateTime? to, Sorting? sorting, bool? decimals, int? limit}) async {
     return _marketClient.getOHLC(token, isin, type,
-        mics: mics, from: from, to: to, sorting: sorting, decimals: decimals);
+        mics: mics, from: from, to: to, sorting: sorting, decimals: decimals, limit: limit);
   }
 
   Future<ResultList<OHLC>> getOHLCByUrl(AccessToken token, String url) async {
