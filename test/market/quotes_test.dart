@@ -25,11 +25,19 @@ void main() {
 
   // Market data -> Quotes
 
+  test('determineBitAskSpread', () async {
+    Quote item = Quote('TEST', 100, 1, 99, 1, DateTime.now(), 'TEST');
+    print('bid: ${item.bit}, ask: ${item.ask}, spread: ${item.bidAskSpread}');
+    expect(item.bidAskSpread, 1.0);
+  });
+
   test('getLatestQuotes', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
-    ResultList<Quote> items = await lm.getLatestQuote(token, ['US88160R1014'],);
+    ResultList<Quote> items = await lm.getLatestQuote(token, ['DE000PSM7770'],);
     expect(items.result.length, greaterThan(0));
     expect(items.result[0].time.year, greaterThan(2020));
+    Quote item = items.result[0];
+    print('bid: ${item.bit}, ask: ${item.ask}, spread: ${item.bidAskSpread}');
   });
 
   test('getQByDate', () async {

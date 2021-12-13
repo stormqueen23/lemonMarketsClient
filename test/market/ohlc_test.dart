@@ -28,9 +28,9 @@ void main() {
   test('getOHLC', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
 
-    ResultList<OHLC> items = await lm.getOHLC(token, ['US88160R1014'], OHLCType.h1);
+    ResultList<OHLC> items = await lm.getOHLC(token, ['IL0011582033'], OHLCType.h1, from: DateTime.now().add(Duration(hours: -9)));
     expect(items.result.length, greaterThan(0));
-    expect(items.result[0].isin, 'US88160R1014');
+    expect(items.result[0].isin, 'IL0011582033');
     expect(items.result[0].time.year, greaterThan(2020));
   });
 
@@ -45,6 +45,13 @@ void main() {
   test('getLatestOHLC', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
     ResultList<OHLC> items = await lm.getLatestOHLC(token, ['US88160R1014'], OHLCType.h1);
+    expect(items.result.length, greaterThan(0));
+    expect(items.result[0].isin, 'US88160R1014');
+  });
+
+  test('getXOHLC', () async {
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
+    ResultList<OHLC> items = await lm.getOHLC(token, ['US88160R1014'], OHLCType.d1);
     expect(items.result.length, greaterThan(0));
     expect(items.result[0].isin, 'US88160R1014');
   });

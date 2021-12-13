@@ -82,4 +82,13 @@ void main() {
     expect(all.result.length, greaterThan(0));
   });
 
+  test('queryAllInstruments', () async {
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
+    ResultList<Instrument> all = await lm.searchInstruments(token, types: [SearchType.etf]);
+    print('found ${all.count} ETF instruments');
+    all = await lm.searchInstruments(token, types: [SearchType.stock]);
+    print('found ${all.count} stock instruments');
+
+
+  });
 }

@@ -19,14 +19,14 @@ void main() {
   }
   );
 
-  test('createAndDeleteSpace', () async {
+  test('createAndDeleteSpace', () async { 
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
 
     TradingResultList<Space> spaces = await lm.getSpaces(token);
     int initialSize = spaces.result.length;
 
-    Space space = await lm.createSpace(token, "Test2", SpaceType.manual, Amount(value: 5.5), description: 'Hallo Welt');
-    print('space ${space.uuid} created');
+    Space space = await lm.createSpace(token, "Test2", SpaceType.manual, Amount(value: 1000000), description: 'Hallöchen Welt');
+    print('space ${space.uuid} ${space.description} created');
     print(space.toString());
     spaces = await lm.getSpaces(token);
     int afterCreating = spaces.result.length;
@@ -41,7 +41,6 @@ void main() {
 
   test('getSpaces', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
-
     TradingResultList<Space> spaces = await lm.getSpaces(token);
     print('found ${spaces.result.length} spaces');
     spaces.result.forEach((element) {
