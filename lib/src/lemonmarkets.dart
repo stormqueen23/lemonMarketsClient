@@ -31,7 +31,7 @@ import 'package:logging/logging.dart';
 enum SearchType { none, stock, bond, fund, etf, warrant }
 
 enum OrderSide { buy, sell, unknown }
-enum OrderStatus { inactive, activated, open, in_progress, executed, deleted, expired, cancelling, cancelled, unknown }
+enum OrderStatus { inactive, activated, open, in_progress, executed, expired, cancelling, cancelled, unknown }
 enum OrderType { limit, market, stopLimit, stop, unknown }
 
 enum OHLCType { m1, h1, d1 }

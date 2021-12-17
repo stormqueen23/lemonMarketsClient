@@ -54,8 +54,6 @@ class LemonMarketsQueryConverter {
       return 'executed';
     } else if (OrderStatus.expired == value) {
       return 'expired';
-    } else if (OrderStatus.deleted == value) {
-      return 'deleted';
     } else if (OrderStatus.open == value) {
       return 'open';
     } else if (OrderStatus.cancelled == value) {

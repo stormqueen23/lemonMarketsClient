@@ -52,6 +52,16 @@ class ExistingOrder {
       toJson: LemonMarketsAmountConverter.toNullableAmount)
   Amount? estimatedPrice;
 
+  @JsonKey(
+      name: 'charge',
+      fromJson: LemonMarketsAmountConverter.fromAmount,
+      toJson: LemonMarketsAmountConverter.toAmount)
+  Amount chargePrice;
+
+  @JsonKey(
+      name: 'chargeable_at', fromJson: LemonMarketsTimeConverter.fromIsoTimeNullable, toJson: LemonMarketsTimeConverter.toIsoTimeNullable)
+  DateTime? chargableAt;
+
   @JsonKey(name: 'venue')
   String tradingVenueMic;
 
@@ -117,7 +127,9 @@ class ExistingOrder {
       this.executedPrice,
       this.executedAt,
       this.rejectedAt,
-      this.notes
+      this.notes,
+      this.chargableAt,
+      this.chargePrice
       );
 
   factory ExistingOrder.fromJson(Map<String, dynamic> json) => _$ExistingOrderFromJson(json);
@@ -148,6 +160,8 @@ class ExistingOrder {
         'activatedAt: $activatedAt,\n'
         'executedAt: $executedAt,\n'
         'rejectedAt: $rejectedAt,\n'
+        'charge: $chargePrice,\n'
+        'chargableAtAt: $chargableAt,\n'
         'notes: $notes\n'
         '}';
   }

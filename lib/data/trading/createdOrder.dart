@@ -48,6 +48,16 @@ class CreatedOrder {
   Amount estimatedPrice;
 
   @JsonKey(
+      name: 'charge',
+      fromJson: LemonMarketsAmountConverter.fromAmount,
+      toJson: LemonMarketsAmountConverter.toAmount)
+  Amount chargePrice;
+
+  @JsonKey(
+      name: 'chargeable_at', fromJson: LemonMarketsTimeConverter.fromIsoTimeNullable, toJson: LemonMarketsTimeConverter.toIsoTimeNullable)
+  DateTime? chargableAt;
+
+  @JsonKey(
       name: 'status',
       fromJson: LemonMarketsResultConverter.fromOrderStatus,
       toJson: LemonMarketsResultConverter.toOrderStatus)
@@ -66,7 +76,8 @@ class CreatedOrder {
   RegulatoryInformation regulatoryInformation;
 
   CreatedOrder(this.isin, this.validUntil, this.side, this.quantity, this.stopPrice, this.limitPrice, this.uuid,
-      this.status, this.tradingVenueMic, this.estimatedPrice, this.notes, this.regulatoryInformation, this.spaceUuid);
+      this.status, this.tradingVenueMic, this.estimatedPrice, this.notes, this.regulatoryInformation, this.spaceUuid,
+      this.chargableAt, this.chargePrice);
 
   factory CreatedOrder.fromJson(Map<String, dynamic> json) => _$CreatedOrderFromJson(json);
 
@@ -87,6 +98,8 @@ class CreatedOrder {
         'tradingVenueMic: $tradingVenueMic,\n'
         'notes: $notes,\n'
         'spaceUuid: $spaceUuid,\n'
+        'charge: $chargePrice,\n'
+        'chargableAtAt: $chargableAt,\n'
         'regulatoryInformation: $regulatoryInformation\n'
         '}';
   }

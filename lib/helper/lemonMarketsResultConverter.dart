@@ -144,8 +144,6 @@ class LemonMarketsResultConverter {
       return 'in_progress';
     } else if (OrderStatus.executed == status) {
       return 'executed';
-    } else if (OrderStatus.deleted == status) {
-      return 'deleted';
     } else if (OrderStatus.expired == status) {
       return 'expired';
     } else if (OrderStatus.open == status) {
@@ -167,8 +165,6 @@ class LemonMarketsResultConverter {
       return OrderStatus.in_progress;
     } else if ('executed' == typeAsString) {
       return OrderStatus.executed;
-    } else if ('deleted' == typeAsString) {
-      return OrderStatus.deleted;
     } else if ('expired' == typeAsString) {
       return OrderStatus.expired;
     } else if ('open' == typeAsString) {
