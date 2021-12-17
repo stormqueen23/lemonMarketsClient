@@ -26,12 +26,14 @@ CreatedOrder _$CreatedOrderFromJson(Map<String, dynamic> json) => CreatedOrder(
       LemonMarketsTimeConverter.fromIsoTimeNullable(
           json['chargeable_at'] as String?),
       LemonMarketsAmountConverter.fromAmount(json['charge'] as int),
+      LemonMarketsTimeConverter.fromIsoTime(json['created_at'] as String),
     );
 
 Map<String, dynamic> _$CreatedOrderToJson(CreatedOrder instance) =>
     <String, dynamic>{
       'id': instance.uuid,
       'isin': instance.isin,
+      'created_at': LemonMarketsTimeConverter.toIsoTime(instance.createdAt),
       'expires_at': LemonMarketsTimeConverter.toIsoTime(instance.validUntil),
       'side': LemonMarketsResultConverter.toOrderSide(instance.side),
       'quantity': instance.quantity,

@@ -17,6 +17,10 @@ class CreatedOrder {
   String isin;
 
   @JsonKey(
+      name: 'created_at', fromJson: LemonMarketsTimeConverter.fromIsoTime, toJson: LemonMarketsTimeConverter.toIsoTime)
+  DateTime createdAt;
+
+  @JsonKey(
       name: 'expires_at', fromJson: LemonMarketsTimeConverter.fromIsoTime, toJson: LemonMarketsTimeConverter.toIsoTime)
   DateTime validUntil;
 
@@ -77,7 +81,7 @@ class CreatedOrder {
 
   CreatedOrder(this.isin, this.validUntil, this.side, this.quantity, this.stopPrice, this.limitPrice, this.uuid,
       this.status, this.tradingVenueMic, this.estimatedPrice, this.notes, this.regulatoryInformation, this.spaceUuid,
-      this.chargableAt, this.chargePrice);
+      this.chargableAt, this.chargePrice, this.createdAt);
 
   factory CreatedOrder.fromJson(Map<String, dynamic> json) => _$CreatedOrderFromJson(json);
 
