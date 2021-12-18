@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class LemonMarketsTimeConverter {
 
   /// converts from milliseconds
@@ -78,4 +80,19 @@ class LemonMarketsTimeConverter {
     }
     return toIsoTime(value);
   }
+
+  static DateFormat dayFormatter = DateFormat('yyyy-MM-dd');
+
+  static DateTime fromIsoDay(String value) {
+    DateTime d =  dayFormatter.parse(value);
+    DateTime result = DateTime(d.year, d.month, d.day, 23, 59);
+    return result;
+  }
+
+  static String toIsoDay(DateTime value) {
+    String result = dayFormatter.format(value);
+    return result;
+  }
+
+
 }

@@ -1,9 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:lemon_markets_client/data/amount.dart';
-import 'package:lemon_markets_client/data/trading/regulatoryInformation.dart';
-import 'package:lemon_markets_client/helper/lemonMarketsAmountConverter.dart';
-import 'package:lemon_markets_client/helper/lemonMarketsResultConverter.dart';
-import 'package:lemon_markets_client/helper/lemonMarketsTimeConverter.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 
 part 'createdOrder.g.dart';

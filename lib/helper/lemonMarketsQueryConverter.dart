@@ -101,4 +101,29 @@ class LemonMarketsQueryConverter {
     }
     return result;
   }
+
+  static String bDividend = 'dividend';
+  static String bOrderBuy = 'order_buy';
+  static String bOrderSell = 'order_sell';
+  static String bPayIn = 'pay_in';
+  static String bPayOut = 'pay_out';
+  static String bEndOfDayBalance = 'eod_balance';
+
+
+  static String convertBankStatementType(BankStatementType value) {
+    if (BankStatementType.dividend == value) {
+      return bDividend;
+    } else if (BankStatementType.orderBuy == value) {
+      return bOrderBuy;
+    } else if (BankStatementType.orderSell == value) {
+      return bOrderSell;
+    } else if (BankStatementType.payIn == value) {
+      return bPayIn;
+    } else if (BankStatementType.payOut == value) {
+      return bPayOut;
+    } else if (BankStatementType.endOfDayBalance == value) {
+      return bEndOfDayBalance;
+    }
+    return bPayIn;
+  }
 }

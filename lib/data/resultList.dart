@@ -1,10 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:lemon_markets_client/data/market/quote.dart';
-import 'package:lemon_markets_client/data/market/ohlc.dart';
-import 'package:lemon_markets_client/data/market/trade.dart';
-import 'package:lemon_markets_client/data/market/tradingVenue.dart';
-
-import 'market/instrument.dart';
+import 'package:lemon_markets_client/lemon_markets_client.dart';
 
 part 'resultList.g.dart';
 

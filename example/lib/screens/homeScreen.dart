@@ -37,7 +37,7 @@ class HomeScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     LemonErrorWidget(),
-                    DataReceivedWidget(hasData: context.watch<LemonMarketsProvider>().token != null, description: 'Token:',),
+                    DataReceivedWidget(hasData: true, description: 'Token:',),
                     AccessTokenArea(),
                     Divider(
                       thickness: 3,

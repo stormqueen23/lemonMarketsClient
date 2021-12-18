@@ -1,12 +1,5 @@
-import 'package:lemon_markets_client/data/amount.dart';
-import 'package:lemon_markets_client/data/auth/accessToken.dart';
-import 'package:lemon_markets_client/data/trading/space.dart';
 import 'package:lemon_markets_client/clients/lemonMarketsHttpClient.dart';
 import 'package:lemon_markets_client/data/tradingResult.dart';
-import 'package:lemon_markets_client/data/tradingResultList.dart';
-import 'package:lemon_markets_client/exception/lemonMarketsConvertException.dart';
-import 'package:lemon_markets_client/exception/lemonMarketsNoResultException.dart';
-import 'package:lemon_markets_client/helper/lemonMarketsResultConverter.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsURLs.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 import 'package:logging/logging.dart';

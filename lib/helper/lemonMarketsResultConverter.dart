@@ -1,5 +1,4 @@
 import 'package:lemon_markets_client/lemon_markets_client.dart';
-import 'package:lemon_markets_client/src/lemonmarkets.dart';
 
 class LemonMarketsResultConverter {
 
@@ -42,6 +41,48 @@ class LemonMarketsResultConverter {
       return TransactionType.tax;
     }
     return TransactionType.unknown;
+  }
+
+  static String bDividend = 'dividend';
+  static String bOrderBuy = 'order_buy';
+  static String bOrderSell = 'order_sell';
+  static String bPayIn = 'pay_in';
+  static String bPayOut = 'pay_out';
+  static String bEndOfDayBalance = 'eod_balance';
+
+
+  static String? toBankStatementType(BankStatementType value) {
+    if (BankStatementType.dividend == value) {
+      return bDividend;
+    } else if (BankStatementType.orderBuy == value) {
+      return bOrderBuy;
+    } else if (BankStatementType.orderSell == value) {
+      return bOrderSell;
+    } else if (BankStatementType.payIn == value) {
+      return bPayIn;
+    } else if (BankStatementType.payOut == value) {
+      return bPayOut;
+    } else if (BankStatementType.endOfDayBalance == value) {
+      return bEndOfDayBalance;
+    }
+    return null;
+  }
+
+  static BankStatementType fromBankStatement(String value) {
+    if (bPayOut == value) {
+      return BankStatementType.payOut;
+    } else if (bPayIn == value) {
+      return BankStatementType.payIn;
+    } else if (bDividend == value) {
+      return BankStatementType.dividend;
+    } else if (bEndOfDayBalance == value) {
+      return BankStatementType.endOfDayBalance;
+    } else if (bOrderBuy == value) {
+      return BankStatementType.orderBuy;
+    } else if (bOrderSell == value) {
+      return BankStatementType.orderSell;
+    }
+    throw LemonMarketsException('', 'cannot map accountMode $value', null, value, null);
   }
 
   static String aPaper = 'paper';

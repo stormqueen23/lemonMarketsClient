@@ -16,8 +16,9 @@ export 'package:lemon_markets_client/exception/lemonMarketsServerException.dart'
 export 'package:lemon_markets_client/exception/lemonMarketsStatusCodeException.dart';
 
 //CONVERTER
-
 export 'package:lemon_markets_client/helper/lemonMarketsTimeConverter.dart';
+export 'package:lemon_markets_client/helper/lemonMarketsResultConverter.dart';
+export 'package:lemon_markets_client/helper/lemonMarketsAmountConverter.dart';
 
 // DATA
 export 'package:lemon_markets_client/data/amount.dart';
@@ -25,6 +26,7 @@ export 'package:lemon_markets_client/data/amount.dart';
 export 'package:lemon_markets_client/data/auth/accessToken.dart';
 
 export 'package:lemon_markets_client/data/account/account.dart';
+export 'package:lemon_markets_client/data/account/bankStatement.dart';
 
 export 'package:lemon_markets_client/data/trading/createdOrder.dart';
 export 'package:lemon_markets_client/data/trading/existingOrder.dart';

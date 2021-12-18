@@ -1,14 +1,10 @@
 import 'package:lemon_markets_client/lemon_markets_client.dart';
-import 'package:lemon_markets_client/src/lemonmarkets.dart';
 import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 
-import 'credentials.dart';
+import '../credentials.dart';
 
-String clientId = Credentials.clientId;
-String clientSecret = Credentials.clientSecret;
 String spaceUuid = Credentials.spaceUuid;
-String transactionUuidPayIn = Credentials.transactionUuidPayIn;
 
 final LemonMarkets lm = LemonMarkets();
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lemon_markets_client/data/resultList.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 
 class LemonMarketsProvider with ChangeNotifier {

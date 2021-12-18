@@ -2,7 +2,6 @@ import 'package:example/provider/lemonMarketsProvider.dart';
 import 'package:example/screens/instrumentDetailScreen.dart';
 import 'package:example/widgets/commonWidgets.dart';
 import 'package:flutter/material.dart';
-import 'package:lemon_markets_client/data/resultList.dart';
 import 'package:provider/provider.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 
@@ -37,12 +36,10 @@ class _SearchInstrumentsAreaState extends State<SearchInstrumentsArea> {
 
   @override
   Widget build(BuildContext context) {
-    bool hasToken = context.watch<LemonMarketsProvider>().token != null;
     return Column(
       children: [
         LemonErrorWidget(),
         Text('Instrument search', textScaleFactor: 1.2,),
-        !hasToken ? Text('You can only search if you have requested a token', textScaleFactor: 0.8,) : Container(),
         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Container(
             width: MediaQuery.of(context).size.width / 1.5,
@@ -70,9 +67,7 @@ class _SearchInstrumentsAreaState extends State<SearchInstrumentsArea> {
             ),
           ),
           TextButton(
-            onPressed: !hasToken
-                ? null
-                : () {
+            onPressed: () {
                     setState(
                       () {
                         loadingInstruments = true;

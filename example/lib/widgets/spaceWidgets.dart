@@ -16,7 +16,7 @@ class _SpacesAreaState extends State<SpacesArea> {
 
   @override
   Widget build(BuildContext context) {
-    bool hasToken = context.watch<LemonMarketsProvider>().token != null;
+    bool hasToken = true;
     bool showData = context.watch<LemonMarketsProvider>().showSpaceData;
 
     return Column(
@@ -42,7 +42,7 @@ class _SpacesAreaState extends State<SpacesArea> {
               child: Text('Request space details'),
             ),
             TextButton(
-              onPressed: hasToken ? () => context.read<LemonMarketsProvider>().switchShowSpaceData() : null,
+              onPressed: () => context.read<LemonMarketsProvider>().switchShowSpaceData(),
               child: Text(showData ? 'Hide space details' : 'Show space details'),
             )
           ],

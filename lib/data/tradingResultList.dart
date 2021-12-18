@@ -1,11 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:lemon_markets_client/data/trading/existingOrder.dart';
-import 'package:lemon_markets_client/data/trading/portfolioItem.dart';
-import 'package:lemon_markets_client/data/trading/space.dart';
-import 'package:lemon_markets_client/data/trading/transaction.dart';
-import 'package:lemon_markets_client/helper/lemonMarketsTimeConverter.dart';
-
-import 'market/instrument.dart';
+import 'package:lemon_markets_client/lemon_markets_client.dart';
 
 part 'tradingResultList.g.dart';
 
@@ -50,6 +44,8 @@ class TradingResultList<T> {
         return ExistingOrder.fromJson(json) as T;
       } else if (T == Transaction) {
         return Transaction.fromJson(json) as T;
+      } else if (T == BankStatement) {
+        return BankStatement.fromJson(json) as T;
       }
     }
     throw ArgumentError.value(

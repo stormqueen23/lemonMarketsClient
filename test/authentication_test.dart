@@ -5,10 +5,7 @@ import 'package:test/test.dart';
 
 import 'credentials.dart';
 
-String clientId = Credentials.clientId;
-String clientSecret = Credentials.clientSecret;
 String spaceUuid = Credentials.spaceUuid;
-String transactionUuidPayIn = Credentials.transactionUuidPayIn;
 
 final LemonMarkets lm = LemonMarkets();
 

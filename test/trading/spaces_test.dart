@@ -1,13 +1,11 @@
-import 'package:lemon_markets_client/data/amount.dart';
-import 'package:lemon_markets_client/data/tradingResultList.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
-import 'package:lemon_markets_client/src/lemonmarkets.dart';
 import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 
 import '../credentials.dart';
 
 final LemonMarkets lm = LemonMarkets();
+String spaceUuid = Credentials.spaceUuid;
 
 void main() {
   setUp(() {
@@ -51,7 +49,7 @@ void main() {
   test('getSingleSpace', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
 
-    Space spaces = await lm.getSpace(token, Credentials.default_space_uuid);
+    Space spaces = await lm.getSpace(token, spaceUuid);
     print('found ${spaces.name} - ${spaces.description}');
     print(spaces);
   });
@@ -60,7 +58,7 @@ void main() {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
 
     String now =  DateTime.now().toIso8601String();
-    Space space = await lm.alterSpace(token, Credentials.default_space_uuid, description: now);
+    Space space = await lm.alterSpace(token, spaceUuid, description: now);
     print('space altered: ${space.uuid}: set description to $now');
   });
 

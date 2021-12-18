@@ -1,12 +1,9 @@
 import 'package:lemon_markets_client/clients/lemonMarketsHttpClient.dart';
-import 'package:lemon_markets_client/data/account/account.dart';
-import 'package:lemon_markets_client/data/auth/accessToken.dart';
 import 'package:lemon_markets_client/data/tradingResult.dart';
-import 'package:lemon_markets_client/exception/lemonMarketsConvertException.dart';
-import 'package:lemon_markets_client/exception/lemonMarketsNoResultException.dart';
+import 'package:lemon_markets_client/helper/lemonMarketsQueryConverter.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsURLs.dart';
+import 'package:lemon_markets_client/lemon_markets_client.dart';
 import 'package:logging/logging.dart';
-
 
 class LemonMarketsAccount {
   final log = Logger('LemonMarketsAccount');
@@ -15,7 +12,7 @@ class LemonMarketsAccount {
   LemonMarketsAccount(this._client);
 
   Future<Account> getAccountData(AccessToken token) async {
-    String url = LemonMarketsURL.getTradingUrl(token)+'/account';
+    String url = LemonMarketsURL.getTradingUrl(token) + '/account';
 
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
@@ -31,6 +28,41 @@ class LemonMarketsAccount {
       throw LemonMarketsConvertException(
           url, e.toString(), response.statusCode, response.decodedBody.toString(), stackTrace);
     }
+  }
 
+  Future<TradingResultList<BankStatement>> getBankStatements(AccessToken token,
+      {BankStatementType? type, DateTime? from, DateTime? to, int? limit, int? page}) async {
+    String url = LemonMarketsURL.getTradingUrl(token) + '/account/bankstatements/';
+    List<String> result = [];
+    if (type != null) {
+      result.add('type='+LemonMarketsQueryConverter.convertBankStatementType(type));
+    }
+    if (from != null) {
+      result.add('from='+LemonMarketsTimeConverter.toIsoDay(from));
+    }
+    if (to != null) {
+      result.add('to='+LemonMarketsTimeConverter.toIsoDay(to));
+    }
+    if (page != null) {
+      result.add("page="+page.toString());
+    }
+    if (limit != null) {
+      result.add("limit="+limit.toString());
+    }
+    String query = LemonMarketsHttpClient.generateQueryParams(result);
+    url = url+query;
+    return getBankStatementsFromUrl(token, url);
+  }
+
+  Future<TradingResultList<BankStatement>> getBankStatementsFromUrl(AccessToken token, String url) async {
+    LemonMarketsClientResponse response = await _client.sendGet(url, token);
+    try {
+      TradingResultList<BankStatement> result = TradingResultList<BankStatement>.fromJson(response.decodedBody);
+      return result;
+    } catch (e, stackTrace) {
+      log.warning(e.toString());
+      throw LemonMarketsConvertException(
+          url, e.toString(), response.statusCode, response.decodedBody.toString(), stackTrace);
+    }
   }
 }
