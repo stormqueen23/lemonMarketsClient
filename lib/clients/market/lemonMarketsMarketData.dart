@@ -159,10 +159,10 @@ class LemonMarketsMarketData {
     String typeAsString = LemonMarketsQueryConverter.convertOHLCType(type) ?? 'h1';
     String url = LemonMarketsURL.BASE_URL_MARKET + '/ohlc/'+typeAsString+'/'+query;
 
-    return getOHLCFromUrl(token, url);
+    return getOHLCByUrl(token, url);
   }
 
-  Future<ResultList<OHLC>> getOHLCFromUrl(AccessToken token, String url) async {
+  Future<ResultList<OHLC>> getOHLCByUrl(AccessToken token, String url) async {
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
       ResultList<OHLC> result = ResultList<OHLC>.fromJson(response.decodedBody);

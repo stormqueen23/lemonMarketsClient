@@ -51,10 +51,10 @@ class LemonMarketsAccount {
     }
     String query = LemonMarketsHttpClient.generateQueryParams(result);
     url = url+query;
-    return getBankStatementsFromUrl(token, url);
+    return getBankStatementsByUrl(token, url);
   }
 
-  Future<TradingResultList<BankStatement>> getBankStatementsFromUrl(AccessToken token, String url) async {
+  Future<TradingResultList<BankStatement>> getBankStatementsByUrl(AccessToken token, String url) async {
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
       TradingResultList<BankStatement> result = TradingResultList<BankStatement>.fromJson(response.decodedBody);

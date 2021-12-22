@@ -110,7 +110,7 @@ class LemonMarketsOrder {
   }
 
   Future<TradingResultList<ExistingOrder>> getOrders(AccessToken token, {String? spaceUuid, DateTime? createdAtUntil,
-      DateTime? createdAtFrom, OrderSide? side, OrderType? type, OrderStatus? status, String? isin}) async {
+      DateTime? createdAtFrom, OrderSide? side, OrderType? type, OrderStatus? status, String? isin, int? limit, int? page}) async {
     List<String> params = _getOrderQueryParams(
         side: side,
         status: status,
@@ -118,7 +118,9 @@ class LemonMarketsOrder {
         createdAtUntil: createdAtUntil,
         isin: isin,
         spaceUuid: spaceUuid,
-        type: type);
+        type: type,
+        limit: limit,
+        page: page);
     String queryParams = LemonMarketsHttpClient.generateQueryParams(params);
     String url = LemonMarketsURL.getTradingUrl(token) + '/orders/' + queryParams;
     return getOrdersByUrl(token, url);
@@ -143,7 +145,9 @@ class LemonMarketsOrder {
       OrderType? type,
       OrderStatus? status,
       String? spaceUuid,
-      String? isin}) {
+      String? isin,
+      int? limit,
+      int? page}) {
     List<String> result = [];
     if (spaceUuid != null) {
       result.add('space_id=' + spaceUuid);
@@ -168,6 +172,12 @@ class LemonMarketsOrder {
     if (type != null) {
       String? typeString = LemonMarketsQueryConverter.convertOrderType(type);
       if (typeString != null) result.add('type=' + typeString);
+    }
+    if (limit != null) {
+      result.add('limit=' + limit.toString());
+    }
+    if (page != null) {
+      result.add('limit=' + page.toString());
     }
     return result;
   }

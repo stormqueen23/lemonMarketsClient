@@ -48,7 +48,7 @@ void main() {
     print('delete order: ${response.success} (${response.responseMap.toString()})');
 
     orders = await lm.getOrders(token, spaceUuid: spaceUuid);
-    int numberOfOrdersAfterDeletion = orders.count ?? 0;
+    //int numberOfOrdersAfterDeletion = orders.count ?? 0;
     //expect(numberOfOrdersAfterDeletion, equals(numberOfOrders));
     print('found ${orders.count} orders');
 

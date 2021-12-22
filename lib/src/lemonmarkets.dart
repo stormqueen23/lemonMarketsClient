@@ -78,8 +78,8 @@ class LemonMarkets {
     return _accountClient.getBankStatements(token, type: type, from: from, to: to, limit: limit, page: page);
   }
 
-  Future<TradingResultList<BankStatement>> getBankStatementsFromUrl(AccessToken token, String url) async {
-    return _accountClient.getBankStatementsFromUrl(token, url);
+  Future<TradingResultList<BankStatement>> getBankStatementsByUrl(AccessToken token, String url) async {
+    return _accountClient.getBankStatementsByUrl(token, url);
   }
   // Trading -> Spaces
 
@@ -121,21 +121,25 @@ class LemonMarkets {
   }
 
   Future<TradingResultList<ExistingOrder>> getOrders(AccessToken token,
-      {DateTime? createdAtUntil,
-      DateTime? createdAtFrom,
+      {DateTime? to,
+      DateTime? from,
       OrderSide? side,
       OrderType? type,
       OrderStatus? status,
+      int? limit,
+      int? page,
       String? spaceUuid,
       String? isin}) async {
     return _tradingClient.getOrders(token,
         type: type,
         spaceUuid: spaceUuid,
         isin: isin,
-        createdAtFrom: createdAtFrom,
-        createdAtUntil: createdAtUntil,
+        createdAtFrom: from,
+        createdAtUntil: to,
         status: status,
-        side: side);
+        side: side,
+        page: page,
+        limit: limit);
   }
 
   Future<TradingResultList<ExistingOrder>> getOrdersByUrl(AccessToken token, String url) async {
@@ -257,7 +261,7 @@ class LemonMarkets {
   }
 
   Future<ResultList<OHLC>> getOHLCByUrl(AccessToken token, String url) async {
-    return _marketClient.getOHLCFromUrl(token, url);
+    return _marketClient.getOHLCByUrl(token, url);
   }
 
   // Data -> Latest Trades
