@@ -42,8 +42,6 @@ class TradingResultList<T> {
         return Instrument.fromJson(json) as T;
       } else if (T == ExistingOrder) {
         return ExistingOrder.fromJson(json) as T;
-      } else if (T == Transaction) {
-        return Transaction.fromJson(json) as T;
       } else if (T == BankStatement) {
         return BankStatement.fromJson(json) as T;
       }

@@ -210,9 +210,9 @@ class LemonMarketsResultConverter {
       return OrderStatus.expired;
     } else if ('open' == typeAsString) {
       return OrderStatus.open;
-    } else if ('cancelling' == typeAsString) {
+    } else if ('cancelling' == typeAsString || 'canceling' == typeAsString) {
       return OrderStatus.cancelling;
-    } else if ('cancelled' == typeAsString) {
+    } else if ('cancelled' == typeAsString || 'canceled' == typeAsString) {
       return OrderStatus.cancelled;
     }
     return OrderStatus.unknown;

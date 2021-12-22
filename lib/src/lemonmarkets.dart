@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:lemon_markets_client/clients/account/lemonMarketsAccount.dart';
 import 'package:lemon_markets_client/clients/market/lemonMarketsSearch.dart';
 import 'package:lemon_markets_client/clients/market/lemonMarketsTradingVenue.dart';
-import 'package:lemon_markets_client/clients/trading/lemonMarketsTransactions.dart';
 import 'package:lemon_markets_client/clients/lemonMarketsHttpClient.dart';
 import 'package:lemon_markets_client/clients/market/lemonMarketsMarketData.dart';
 import 'package:lemon_markets_client/clients/trading/lemonMarketsPortfolio.dart';
@@ -43,7 +42,6 @@ class LemonMarkets {
   late LemonMarketsOrder _tradingClient;
   late LemonMarketsMarketData _marketClient;
   late LemonMarketsSearch _searchClient;
-  late LemonMarketsTransaction _transactionClient;
   late LemonMarketsTradingVenue _tradingVenueClient;
   late LemonMarketsAccount _accountClient;
 
@@ -55,7 +53,6 @@ class LemonMarkets {
     _marketClient = LemonMarketsMarketData(client);
     _portfolioClient = LemonMarketsPortfolio(client);
     _searchClient = LemonMarketsSearch(client);
-    _transactionClient = LemonMarketsTransaction(client);
     _tradingVenueClient = LemonMarketsTradingVenue(client);
     _accountClient = LemonMarketsAccount(client);
   }
@@ -169,22 +166,6 @@ class LemonMarkets {
 
   Future<TradingResultList<PortfolioItem>> getPortfolioItemsByUrl(AccessToken token, String url) async {
     return _portfolioClient.getPortfolioItemsByUrl(token, url);
-  }
-
-  // Trading -> Transactions
-
-  Future<TradingResultList<Transaction>> getTransactions(AccessToken token,
-      {String? spaceUuid, DateTime? createdAtFrom, DateTime? createdAtUntil, String? isin}) async {
-    return _transactionClient.getTransactions(token,
-        spaceUuid: spaceUuid, createdAtFrom: createdAtFrom, createdAtUntil: createdAtUntil, isin: isin);
-  }
-
-  Future<TradingResultList<Transaction>> getTransactionsByURL(AccessToken token, String url) async {
-    return _transactionClient.getTransactionsByUrl(token, url);
-  }
-
-  Future<Transaction> getTransaction(AccessToken token, String transactionUuid) async {
-    return _transactionClient.getTransaction(token, transactionUuid);
   }
 
   // Instruments

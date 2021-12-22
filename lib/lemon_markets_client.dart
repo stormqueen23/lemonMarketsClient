@@ -33,7 +33,6 @@ export 'package:lemon_markets_client/data/trading/existingOrder.dart';
 export 'package:lemon_markets_client/data/trading/portfolioItem.dart';
 export 'package:lemon_markets_client/data/trading/regulatoryInformation.dart';
 export 'package:lemon_markets_client/data/trading/space.dart';
-export 'package:lemon_markets_client/data/trading/transaction.dart';
 
 
 export 'package:lemon_markets_client/data/market/instrument.dart';

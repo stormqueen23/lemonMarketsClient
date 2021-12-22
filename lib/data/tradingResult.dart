@@ -4,7 +4,6 @@ import 'package:lemon_markets_client/data/trading/createdOrder.dart';
 import 'package:lemon_markets_client/data/trading/existingOrder.dart';
 import 'package:lemon_markets_client/data/trading/portfolioItem.dart';
 import 'package:lemon_markets_client/data/trading/space.dart';
-import 'package:lemon_markets_client/data/trading/transaction.dart';
 
 part 'tradingResult.g.dart';
 
@@ -31,8 +30,6 @@ class TradingResult<T> {
         return ExistingOrder.fromJson(json) as T;
       }  else if (T == Account) {
         return Account.fromJson(json) as T;
-      } else if (T == Transaction) {
-        return Transaction.fromJson(json) as T;
       } else if (T == CreatedOrder) {
         return CreatedOrder.fromJson(json) as T;
       }
