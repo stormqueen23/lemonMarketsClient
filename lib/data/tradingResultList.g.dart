@@ -14,6 +14,7 @@ TradingResultList<T> _$TradingResultListFromJson<T>(
       json['status'] as String?,
       (json['results'] as List<dynamic>).map(fromJsonT).toList(),
       LemonMarketsTimeConverter.fromIsoTimeNullable(json['time'] as String?),
+      LemonMarketsResultConverter.fromAccountMode(json['mode'] as String),
     )
       ..next = json['next'] as String?
       ..previous = json['previous'] as String?

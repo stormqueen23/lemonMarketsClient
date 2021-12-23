@@ -45,3 +45,4 @@ export 'package:lemon_markets_client/data/market/tradingVenue.dart';
 
 export 'package:lemon_markets_client/data/resultList.dart';
 export 'package:lemon_markets_client/data/tradingResultList.dart';
+export 'package:lemon_markets_client/data/tradingResult.dart';

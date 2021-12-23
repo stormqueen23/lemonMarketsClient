@@ -4,17 +4,31 @@ import 'package:lemon_markets_client/data/trading/createdOrder.dart';
 import 'package:lemon_markets_client/data/trading/existingOrder.dart';
 import 'package:lemon_markets_client/data/trading/portfolioItem.dart';
 import 'package:lemon_markets_client/data/trading/space.dart';
+import 'package:lemon_markets_client/helper/lemonMarketsResultConverter.dart';
+import 'package:lemon_markets_client/helper/lemonMarketsTimeConverter.dart';
+import 'package:lemon_markets_client/src/lemonmarkets.dart';
 
 part 'tradingResult.g.dart';
 
 @JsonSerializable(genericArgumentFactories: true, createToJson: false)
 class TradingResult<T> {
+  @JsonKey(
+      name: 'time', fromJson: LemonMarketsTimeConverter.fromIsoTimeNullable, toJson: LemonMarketsTimeConverter.toIsoTimeNullable)
+  DateTime? time;
+
   @JsonKey(name: 'status')
   String status;
+
   @JsonKey(name: 'results')
   T? result;
 
-  TradingResult(this.status);
+  @JsonKey(
+      name: 'mode',
+      fromJson: LemonMarketsResultConverter.fromAccountMode,
+      toJson: LemonMarketsResultConverter.toAccountMode)
+  AccountMode mode;
+
+  TradingResult(this.status, this.mode);
 
   factory TradingResult.fromJson(Map<String, dynamic> json) => _$TradingResultFromJson(json, _dataFromJson);
 

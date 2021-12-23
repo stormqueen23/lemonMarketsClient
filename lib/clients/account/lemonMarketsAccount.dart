@@ -1,5 +1,4 @@
 import 'package:lemon_markets_client/clients/lemonMarketsHttpClient.dart';
-import 'package:lemon_markets_client/data/tradingResult.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsQueryConverter.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsURLs.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';

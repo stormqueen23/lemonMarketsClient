@@ -1,16 +1,43 @@
-class DeleteOrderResponse {
+import 'package:lemon_markets_client/lemon_markets_client.dart';
+
+class DeleteOrderResult {
   bool success;
   int statusCode;
+  AccountMode mode;
   Map<String, dynamic> responseMap;
 
-  DeleteOrderResponse(this.success, this.statusCode, this.responseMap);
+  DeleteOrderResult(this.success, this.statusCode, this.mode, this.responseMap);
+
+  @override
+  String toString() {
+    return 'DeleteOrderResult{success: $success, statusCode: $statusCode, mode: $mode, responseMap: $responseMap}';
+  }
 }
 
-class ActivateOrderResponse {
+class ActivateOrderResult {
   bool success;
   int statusCode;
+  AccountMode mode;
   Map<String, dynamic> responseMap;
 
-  ActivateOrderResponse(this.success, this.statusCode, this.responseMap);
+  ActivateOrderResult(this.success, this.statusCode, this.mode, this.responseMap);
+
+  @override
+  String toString() {
+    return 'ActivateOrderResult{success: $success, statusCode: $statusCode, mode: $mode, responseMap: $responseMap}';
+  }
 }
 
+class DeleteSpaceResult {
+  bool success;
+  int statusCode;
+  AccountMode mode;
+  Map<String, dynamic> responseMap;
+
+  DeleteSpaceResult(this.success, this.statusCode, this.mode, this.responseMap);
+
+  @override
+  String toString() {
+    return 'DeleteSpaceResult{success: $success, statusCode: $statusCode, mode: $mode, responseMap: $responseMap}';
+  }
+}

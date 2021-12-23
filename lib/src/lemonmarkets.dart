@@ -80,7 +80,7 @@ class LemonMarkets {
   }
   // Trading -> Spaces
 
-  Future<Space> createSpace(AccessToken token, String name, SpaceType type, Amount riskLimit,
+  Future<TradingResult<Space>> createSpace(AccessToken token, String name, SpaceType type, Amount riskLimit,
       {String? description}) async {
     return _spacesClient.createSpace(token, name, type, riskLimit, description: description);
   }
@@ -93,22 +93,22 @@ class LemonMarkets {
     return _spacesClient.getSpacesByUrl(token, url);
   }
 
-  Future<Space> getSpace(AccessToken token, String spaceUuid) async {
+  Future<TradingResult<Space>> getSpace(AccessToken token, String spaceUuid) async {
     return _spacesClient.getSpace(token, spaceUuid);
   }
 
-  Future<Space> alterSpace(AccessToken token, String uuid,
+  Future<TradingResult<Space>> alterSpace(AccessToken token, String uuid,
       {String? name, Amount? riskLimit, String? description}) async {
     return _spacesClient.alterSpace(token, uuid, name: name, description: description, riskLimit: riskLimit);
   }
 
-  Future<bool> deleteSpace(AccessToken token, String spaceUuid) async {
+  Future<DeleteSpaceResult> deleteSpace(AccessToken token, String spaceUuid) async {
     return _spacesClient.deleteSpace(token, spaceUuid);
   }
 
   // Trading -> Orders
 
-  Future<CreatedOrder> placeOrder(AccessToken token, String spaceUuid, String isin, OrderSide side, int quantity,
+  Future<TradingResult<CreatedOrder>> placeOrder(AccessToken token, String spaceUuid, String isin, OrderSide side, int quantity,
       {DateTime? validUntil, Amount? stopPrice, Amount? limitPrice, String venue = 'XMUN', String? notes}) async {
     if (validUntil == null) {
       validUntil = DateTime.now().add(Duration(days: 29));
@@ -143,17 +143,17 @@ class LemonMarkets {
     return _tradingClient.getOrdersByUrl(token, url);
   }
 
-  Future<ExistingOrder> getOrder(AccessToken token, String orderUuid) async {
+  Future<TradingResult<ExistingOrder>> getOrder(AccessToken token, String orderUuid) async {
     return _tradingClient.getOrder(token, orderUuid);
   }
 
-  Future<ActivateOrderResponse> activateOrder(AccessToken token, String orderUuid, Map<String, String>? body) async {
-    ActivateOrderResponse result = await _tradingClient.activateOrder(token, orderUuid, body);
+  Future<ActivateOrderResult> activateOrder(AccessToken token, String orderUuid, Map<String, String>? body) async {
+    ActivateOrderResult result = await _tradingClient.activateOrder(token, orderUuid, body);
     return result;
   }
 
-  Future<DeleteOrderResponse> deleteOrder(AccessToken token, String orderUuid) async {
-    DeleteOrderResponse result = await _tradingClient.deleteOrder(token, orderUuid);
+  Future<DeleteOrderResult> deleteOrder(AccessToken token, String orderUuid) async {
+    DeleteOrderResult result = await _tradingClient.deleteOrder(token, orderUuid);
     return result;
   }
 

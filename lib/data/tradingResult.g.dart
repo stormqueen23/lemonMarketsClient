@@ -12,7 +12,11 @@ TradingResult<T> _$TradingResultFromJson<T>(
 ) =>
     TradingResult<T>(
       json['status'] as String,
-    )..result = _$nullableGenericFromJson(json['results'], fromJsonT);
+      LemonMarketsResultConverter.fromAccountMode(json['mode'] as String),
+    )
+      ..time =
+          LemonMarketsTimeConverter.fromIsoTimeNullable(json['time'] as String?)
+      ..result = _$nullableGenericFromJson(json['results'], fromJsonT);
 
 T? _$nullableGenericFromJson<T>(
   Object? input,

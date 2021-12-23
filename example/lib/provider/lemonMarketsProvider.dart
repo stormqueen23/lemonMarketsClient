@@ -57,7 +57,7 @@ class LemonMarketsProvider with ChangeNotifier {
     if (quantity != null && quantity! > 0) {
       try {
         debugPrint('create order for $isin');
-        CreatedOrder order = await lm.placeOrder(token, spaceIdForCreatingOrders, isin, sell ? OrderSide.sell : OrderSide.buy, quantity!);
+        CreatedOrder order = (await lm.placeOrder(token, spaceIdForCreatingOrders, isin, sell ? OrderSide.sell : OrderSide.buy, quantity!)).result!;
         debugPrint('created order:  ${order.uuid}');
         this.quantity = null;
         orderCreated = true;

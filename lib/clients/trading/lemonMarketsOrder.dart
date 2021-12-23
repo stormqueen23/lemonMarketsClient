@@ -7,8 +7,8 @@ import 'package:lemon_markets_client/data/tradingResult.dart';
 import 'package:lemon_markets_client/data/tradingResultList.dart';
 import 'package:lemon_markets_client/exception/lemonMarketsConvertException.dart';
 import 'package:lemon_markets_client/clients/lemonMarketsHttpClient.dart';
-import 'package:lemon_markets_client/exception/lemonMarketsNoResultException.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsQueryConverter.dart';
+import 'package:lemon_markets_client/helper/lemonMarketsResultConverter.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsTimeConverter.dart';
 import 'package:lemon_markets_client/src/lemonmarkets.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsURLs.dart';
@@ -20,7 +20,7 @@ class LemonMarketsOrder {
 
   LemonMarketsOrder(this._client);
 
-  Future<CreatedOrder> placeOrder(
+  Future<TradingResult<CreatedOrder>> placeOrder(
       AccessToken token, String spaceUuid, String isin, DateTime expiresAt, OrderSide side, int quantity, String venue,
       {Amount? stopPrice, Amount? limitPrice, String? notes}) async {
     String url = LemonMarketsURL.getTradingUrl(token) + '/orders/';
@@ -44,12 +44,7 @@ class LemonMarketsOrder {
     LemonMarketsClientResponse response = await _client.sendPost(url, token, data, true);
     try {
       TradingResult<CreatedOrder> result = TradingResult<CreatedOrder>.fromJson(response.decodedBody);
-      if (result.result != null) {
-        return result.result!;
-      } else {
-        throw LemonMarketsNoResultException(
-            url, 'status: ' + result.status, response.statusCode, response.decodedBody.toString());
-      }
+      return result;
     } catch (e, stackTrace) {
       log.warning(e.toString());
       throw LemonMarketsConvertException(
@@ -57,14 +52,16 @@ class LemonMarketsOrder {
     }
   }
 
-  Future<ActivateOrderResponse> activateOrder(AccessToken token, String orderUuid, Map<String, String>? body) async {
+  Future<ActivateOrderResult> activateOrder(AccessToken token, String orderUuid, Map<String, String>? body) async {
     String url = LemonMarketsURL.getTradingUrl(token) + '/orders/' + orderUuid + '/activate/';
     LemonMarketsClientResponse response = await _client.sendPost(url, token, body, true);
     try {
       String status = response.decodedBody['status'];
-      log.fine('status for orderActivation: $status');
-      return ActivateOrderResponse(
-          'ok'.compareTo(status) == 0 && response.statusCode == 200, response.statusCode, response.decodedBody);
+      String modeString = response.decodedBody['mode'];
+      AccountMode mode = LemonMarketsResultConverter.fromAccountMode(modeString);
+      log.fine('status for orderActivation: $status in mode $modeString');
+      return ActivateOrderResult(
+          'ok'.compareTo(status) == 0 && response.statusCode == 200, response.statusCode, mode, response.decodedBody);
     } catch (e, stackTrace) {
       log.warning(e.toString());
       throw LemonMarketsConvertException(
@@ -72,17 +69,19 @@ class LemonMarketsOrder {
     }
   }
 
-  Future<DeleteOrderResponse> deleteOrder(AccessToken token, String orderUuid) async {
+  Future<DeleteOrderResult> deleteOrder(AccessToken token, String orderUuid) async {
     String url = LemonMarketsURL.getTradingUrl(token) + '/orders/' + orderUuid;
     LemonMarketsClientResponse response = await _client.sendDelete(url, token);
     try {
       String status = response.decodedBody['status'];
-      log.fine('response from delete order: ${response.decodedBody} - $status');
+      String modeString = response.decodedBody['mode'];
+      AccountMode mode = LemonMarketsResultConverter.fromAccountMode(modeString);
+      log.fine('response from delete order: ${response.decodedBody} - $status, mode: $modeString');
       TradingResult<ExistingOrder> result = TradingResult<ExistingOrder>.fromJson(response.decodedBody);
       if (result.status == 'ok') {
-        return DeleteOrderResponse(true, response.statusCode, response.decodedBody);
+        return DeleteOrderResult(true, response.statusCode, mode, response.decodedBody);
       } else {
-        return DeleteOrderResponse(false, response.statusCode, response.decodedBody);
+        return DeleteOrderResult(false, response.statusCode, mode, response.decodedBody);
       }
     } catch (e, stackTrace) {
       log.warning(e.toString());
@@ -91,17 +90,12 @@ class LemonMarketsOrder {
     }
   }
 
-  Future<ExistingOrder> getOrder(AccessToken token, String orderUuid) async {
+  Future<TradingResult<ExistingOrder>> getOrder(AccessToken token, String orderUuid) async {
     String url = LemonMarketsURL.getTradingUrl(token)  + '/orders/' + orderUuid;
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
       TradingResult<ExistingOrder> result = TradingResult<ExistingOrder>.fromJson(response.decodedBody);
-      if(result.result != null) {
-        return result.result!;
-      } else {
-        throw LemonMarketsNoResultException(url, 'status: '+result.status, response.statusCode, response.decodedBody.toString());
-      }
-
+      return result;
     } catch (e, stackTrace) {
       log.warning(e.toString());
       throw LemonMarketsConvertException(

@@ -26,7 +26,13 @@ class TradingResultList<T> {
   @JsonKey(name: 'pages')
   int? pages;
 
-  TradingResultList(this.status, this.result, this.time);
+  @JsonKey(
+      name: 'mode',
+      fromJson: LemonMarketsResultConverter.fromAccountMode,
+      toJson: LemonMarketsResultConverter.toAccountMode)
+  AccountMode mode;
+
+  TradingResultList(this.status, this.result, this.time, this.mode);
 
   factory TradingResultList.fromJson(Map<String, dynamic> json) => _$TradingResultListFromJson(json, _dataFromJson);
 

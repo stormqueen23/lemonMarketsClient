@@ -23,14 +23,14 @@ void main() {
     TradingResultList<Space> spaces = await lm.getSpaces(token);
     int initialSize = spaces.result.length;
 
-    Space space = await lm.createSpace(token, "Test2", SpaceType.manual, Amount(value: 1000000), description: 'Hallöchen Welt');
+    Space space = (await lm.createSpace(token, "Test2", SpaceType.manual, Amount(value: 1000000), description: 'Hallöchen Welt')).result!;
     print('space ${space.uuid} ${space.description} created');
     print(space.toString());
     spaces = await lm.getSpaces(token);
     int afterCreating = spaces.result.length;
     expect(afterCreating, equals(initialSize+1));
 
-    bool success = await lm.deleteSpace(token, space.uuid);
+    DeleteSpaceResult success = await lm.deleteSpace(token, space.uuid);
     print('space deleted: $success');
     spaces = await lm.getSpaces(token);
     int afterDeleting = spaces.result.length;
@@ -49,7 +49,7 @@ void main() {
   test('getSingleSpace', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
 
-    Space spaces = await lm.getSpace(token, spaceUuid);
+    Space spaces = (await lm.getSpace(token, spaceUuid)).result!;
     print('found ${spaces.name} - ${spaces.description}');
     print(spaces);
   });
@@ -58,23 +58,23 @@ void main() {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
 
     String now =  DateTime.now().toIso8601String();
-    Space space = await lm.alterSpace(token, spaceUuid, description: now);
+    Space space = (await lm.alterSpace(token, spaceUuid, description: now)).result!;
     print('space altered: ${space.uuid}: set description to $now');
   });
 
   test('changeRiskLimit', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
 
-    Space space = await lm.createSpace(token, "Test 7", SpaceType.manual, Amount(value: 5.5), description: '5,50');
+    Space space = (await lm.createSpace(token, "Test 7", SpaceType.manual, Amount(value: 5.5), description: '5,50')).result!;
     print('space ${space.uuid} created');
     print(space.toString());
 
     String now =  DateTime.now().toIso8601String();
-    space = await lm.alterSpace(token, space.uuid, description: now, riskLimit: Amount(value: 20));
+    space = (await lm.alterSpace(token, space.uuid, description: now, riskLimit: Amount(value: 20))).result!;
     print('space altered: ${space.uuid}: set description to $now and risk limit to ${space.riskLimit}');
     print(space.toString());
 
-    bool success = await lm.deleteSpace(token, space.uuid);
+    DeleteSpaceResult success = await lm.deleteSpace(token, space.uuid);
     print('space deleted: $success');
   });
 
