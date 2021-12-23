@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lemon_markets_client/data/amount.dart';
+import 'package:lemon_markets_client/data/trading/regulatoryInformation.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsAmountConverter.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsResultConverter.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsTimeConverter.dart';
@@ -13,6 +14,12 @@ enum ExistingOrderSide { buy, sell, unknown }
 class ExistingOrder {
   @JsonKey(name: 'id')
   String uuid;
+
+  @JsonKey(name: 'key_creation_id')
+  String? creationKey;
+
+  @JsonKey(name: 'key_activation_id')
+  String? activationKey;
 
  @JsonKey(name: 'isin')
   String isin;
@@ -109,8 +116,12 @@ class ExistingOrder {
   @JsonKey(name: 'notes')
   String? notes;
 
+  //@JsonKey(name: 'regulatory_information')
+  //RegulatoryInformation? regulatoryInformation;
+
   ExistingOrder(
       this.uuid,
+      this.creationKey,
       this.isin,
       this.expiresAt,
       this.createdAt,
@@ -142,6 +153,8 @@ class ExistingOrder {
   String toString() {
     return 'ExistingOrder{\n'
         'uuid: $uuid,\n'
+        'key_creation_id: $creationKey,\n'
+        'key_activation_id: $activationKey,\n'
         'isin: $isin,\n'
         'title: $title,\n'
         'expiresAt: $expiresAt,\n'
@@ -163,6 +176,7 @@ class ExistingOrder {
         'charge: $chargePrice,\n'
         'chargableAtAt: $chargableAt,\n'
         'notes: $notes\n'
+       //'regulatoryInformation: $regulatoryInformation\n'
         '}';
   }
 

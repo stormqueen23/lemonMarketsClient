@@ -8,6 +8,9 @@ class CreatedOrder {
   @JsonKey(name: 'id')
   String uuid;
 
+  @JsonKey(name: 'key_creation_id')
+  String creationKey;
+
   @JsonKey(name: 'isin')
   String isin;
 
@@ -74,7 +77,7 @@ class CreatedOrder {
   @JsonKey(name: 'regulatory_information')
   RegulatoryInformation regulatoryInformation;
 
-  CreatedOrder(this.isin, this.validUntil, this.side, this.quantity, this.stopPrice, this.limitPrice, this.uuid,
+  CreatedOrder(this.isin, this.creationKey, this.validUntil, this.side, this.quantity, this.stopPrice, this.limitPrice, this.uuid,
       this.status, this.tradingVenueMic, this.estimatedPrice, this.notes, this.regulatoryInformation, this.spaceUuid,
       this.chargableAt, this.chargePrice, this.createdAt);
 
@@ -86,6 +89,7 @@ class CreatedOrder {
   String toString() {
     return 'CreatedOrder{\n'
         'uuid: $uuid,\n'
+        'key_creation_id: $creationKey,\n'
         'isin: $isin,\n'
         'validUntil: $validUntil,\n'
         'side: $side,\n'

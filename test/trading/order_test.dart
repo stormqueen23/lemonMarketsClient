@@ -80,7 +80,7 @@ void main() {
 */
   test('getAllOrders', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
-    TradingResultList<ExistingOrder> orders = await lm.getOrders(token, spaceUuid: 'sp_pyPjM88JJYhMtGDyt6fyPXpcFVW9S3G5yH');
+    TradingResultList<ExistingOrder> orders = await lm.getOrders(token);
     print('found ${orders.result.length} orders');
     for (ExistingOrder element in orders.result) {
       print(element);

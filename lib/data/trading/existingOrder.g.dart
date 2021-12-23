@@ -9,6 +9,7 @@ part of 'existingOrder.dart';
 ExistingOrder _$ExistingOrderFromJson(Map<String, dynamic> json) =>
     ExistingOrder(
       json['id'] as String,
+      json['key_creation_id'] as String?,
       json['isin'] as String,
       LemonMarketsTimeConverter.fromIsoTime(json['expires_at'] as String),
       LemonMarketsTimeConverter.fromIsoTime(json['created_at'] as String),
@@ -36,6 +37,7 @@ ExistingOrder _$ExistingOrderFromJson(Map<String, dynamic> json) =>
           json['chargeable_at'] as String?),
       LemonMarketsAmountConverter.fromAmount(json['charge'] as int),
     )
+      ..activationKey = json['key_activation_id'] as String?
       ..title = json['isin_title'] as String?
       ..activatedAt = LemonMarketsTimeConverter.fromIsoTimeNullable(
           json['activated_at'] as String?);
@@ -43,6 +45,8 @@ ExistingOrder _$ExistingOrderFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$ExistingOrderToJson(ExistingOrder instance) =>
     <String, dynamic>{
       'id': instance.uuid,
+      'key_creation_id': instance.creationKey,
+      'key_activation_id': instance.activationKey,
       'isin': instance.isin,
       'isin_title': instance.title,
       'expires_at': LemonMarketsTimeConverter.toIsoTime(instance.expiresAt),

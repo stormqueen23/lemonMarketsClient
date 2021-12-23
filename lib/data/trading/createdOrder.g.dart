@@ -8,6 +8,7 @@ part of 'createdOrder.dart';
 
 CreatedOrder _$CreatedOrderFromJson(Map<String, dynamic> json) => CreatedOrder(
       json['isin'] as String,
+      json['key_creation_id'] as String,
       LemonMarketsTimeConverter.fromIsoTime(json['expires_at'] as String),
       LemonMarketsResultConverter.fromOrderSide(json['side'] as String),
       json['quantity'] as int,
@@ -32,6 +33,7 @@ CreatedOrder _$CreatedOrderFromJson(Map<String, dynamic> json) => CreatedOrder(
 Map<String, dynamic> _$CreatedOrderToJson(CreatedOrder instance) =>
     <String, dynamic>{
       'id': instance.uuid,
+      'key_creation_id': instance.creationKey,
       'isin': instance.isin,
       'created_at': LemonMarketsTimeConverter.toIsoTime(instance.createdAt),
       'expires_at': LemonMarketsTimeConverter.toIsoTime(instance.validUntil),
