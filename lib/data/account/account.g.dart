@@ -7,6 +7,7 @@ part of 'account.dart';
 // **************************************************************************
 
 Account _$AccountFromJson(Map<String, dynamic> json) => Account(
+      LemonMarketsTimeConverter.fromIsoDay(json['created_at'] as String),
       json['firstname'] as String?,
       json['lastname'] as String?,
       json['email'] as String,
@@ -37,6 +38,7 @@ Account _$AccountFromJson(Map<String, dynamic> json) => Account(
 
 Map<String, dynamic> _$AccountToJson(Account instance) => <String, dynamic>{
       'account_id': instance.uuid,
+      'created_at': LemonMarketsTimeConverter.toIsoDay(instance.createdAt),
       'firstname': instance.firstname,
       'lastname': instance.lastname,
       'email': instance.email,

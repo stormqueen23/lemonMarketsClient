@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:lemon_markets_client/data/amount.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsAmountConverter.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsResultConverter.dart';
+import 'package:lemon_markets_client/helper/lemonMarketsTimeConverter.dart';
 import 'package:lemon_markets_client/src/lemonmarkets.dart';
 
 part 'account.g.dart';
@@ -10,6 +11,10 @@ part 'account.g.dart';
 class Account {
   @JsonKey(name: 'account_id')
   String? uuid;
+
+  @JsonKey(
+      name: 'created_at', fromJson: LemonMarketsTimeConverter.fromIsoDay, toJson: LemonMarketsTimeConverter.toIsoDay)
+  DateTime createdAt;
 
   @JsonKey(name: 'firstname')
   String? firstname;
@@ -100,6 +105,7 @@ class Account {
   String? taxAllowanceEnd;
 
   Account(
+      this.createdAt,
       this.firstname,
       this.lastname,
       this.email,
@@ -133,6 +139,7 @@ class Account {
   String toString() {
     return 'Account{\n'
         'uuid: $uuid,\n'
+        'createdAt: $createdAt,\n'
         'firstname: $firstname,\n'
         'lastname: $lastname,\n'
         'email: $email,\n'
