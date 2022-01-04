@@ -16,6 +16,10 @@ class Account {
       name: 'created_at', fromJson: LemonMarketsTimeConverter.fromIsoDay, toJson: LemonMarketsTimeConverter.toIsoDay)
   DateTime createdAt;
 
+  @JsonKey(
+      name: 'approved_at', fromJson: LemonMarketsTimeConverter.fromIsoDayNullable, toJson: LemonMarketsTimeConverter.toIsoDayNullable)
+  DateTime? approvedAt;
+
   @JsonKey(name: 'firstname')
   String? firstname;
 
@@ -95,8 +99,11 @@ class Account {
       toJson: LemonMarketsResultConverter.toAccountDataPlan)
   DataPlan dataPlan;
 
-  @JsonKey(name: 'tax_allowance')
-  double? taxAllowance;
+
+      @JsonKey(name: 'tax_allowance',
+      fromJson: LemonMarketsAmountConverter.fromNullableAmount,
+      toJson: LemonMarketsAmountConverter.toNullableAmount)
+  Amount? taxAllowance;
 
   @JsonKey(name: 'tax_allowance_start')
   String? taxAllowanceStart;
@@ -106,6 +113,7 @@ class Account {
 
   Account(
       this.createdAt,
+      this.approvedAt,
       this.firstname,
       this.lastname,
       this.email,

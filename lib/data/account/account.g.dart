@@ -8,6 +8,8 @@ part of 'account.dart';
 
 Account _$AccountFromJson(Map<String, dynamic> json) => Account(
       LemonMarketsTimeConverter.fromIsoDay(json['created_at'] as String),
+      LemonMarketsTimeConverter.fromIsoDayNullable(
+          json['approved_at'] as String?),
       json['firstname'] as String?,
       json['lastname'] as String?,
       json['email'] as String,
@@ -31,7 +33,8 @@ Account _$AccountFromJson(Map<String, dynamic> json) => Account(
           json['trading_plan'] as String),
       LemonMarketsResultConverter.fromAccountDataPlan(
           json['data_plan'] as String),
-      (json['tax_allowance'] as num?)?.toDouble(),
+      LemonMarketsAmountConverter.fromNullableAmount(
+          json['tax_allowance'] as int?),
       json['tax_allowance_start'] as String?,
       json['tax_allowance_end'] as String?,
     )..uuid = json['account_id'] as String?;
@@ -39,6 +42,8 @@ Account _$AccountFromJson(Map<String, dynamic> json) => Account(
 Map<String, dynamic> _$AccountToJson(Account instance) => <String, dynamic>{
       'account_id': instance.uuid,
       'created_at': LemonMarketsTimeConverter.toIsoDay(instance.createdAt),
+      'approved_at':
+          LemonMarketsTimeConverter.toIsoDayNullable(instance.approvedAt),
       'firstname': instance.firstname,
       'lastname': instance.lastname,
       'email': instance.email,
@@ -64,7 +69,8 @@ Map<String, dynamic> _$AccountToJson(Account instance) => <String, dynamic>{
           instance.tradingPlan),
       'data_plan':
           LemonMarketsResultConverter.toAccountDataPlan(instance.dataPlan),
-      'tax_allowance': instance.taxAllowance,
+      'tax_allowance':
+          LemonMarketsAmountConverter.toNullableAmount(instance.taxAllowance),
       'tax_allowance_start': instance.taxAllowanceStart,
       'tax_allowance_end': instance.taxAllowanceEnd,
     };

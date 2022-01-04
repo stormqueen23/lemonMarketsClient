@@ -89,10 +89,25 @@ class LemonMarketsTimeConverter {
     return result;
   }
 
+  static DateTime? fromIsoDayNullable(String? value) {
+    if (value == null) {
+      return null;
+    }
+    DateTime d =  dayFormatter.parse(value);
+    DateTime result = DateTime(d.year, d.month, d.day, 23, 59);
+    return result;
+  }
+
   static String toIsoDay(DateTime value) {
     String result = dayFormatter.format(value);
     return result;
   }
 
-
+  static String? toIsoDayNullable(DateTime? value) {
+    if (value == null) {
+      return null;
+    }
+    String result = dayFormatter.format(value);
+    return result;
+  }
 }
