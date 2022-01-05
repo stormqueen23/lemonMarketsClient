@@ -32,7 +32,7 @@ enum DataPlan { free, basic, pro }
 
 enum TransactionType { payIn, payOut, orderBuy, orderSell, dividend, tax, unknown }
 
-enum BankStatementType { payIn, payOut, orderBuy, orderSell, dividend, endOfDayBalance, unknown }
+enum BankStatementType { payIn, payOut, orderBuy, orderSell, dividend, endOfDayBalance, interestPaid, interestEarned, unknown }
 
 class LemonMarkets {
   final Logger log = Logger('LemonMarkets');

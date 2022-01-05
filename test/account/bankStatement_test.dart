@@ -65,4 +65,17 @@ void main() {
     });
   });
 
+  //Bank statements
+  test('getAllBankStatements', () async {
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
+    DateTime from = DateTime.now().add(Duration(days: -10));
+    DateTime to = DateTime.now();
+    TradingResultList<BankStatement> data = await lm.getBankStatements(token, from: from, to: to);
+    expect(data, isNotNull);
+    print('found bank statements: #${data.count}');
+    data.result.forEach((element) {
+      print(element);
+    });
+  });
+
 }

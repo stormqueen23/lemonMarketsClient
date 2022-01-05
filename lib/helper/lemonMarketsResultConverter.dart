@@ -49,6 +49,8 @@ class LemonMarketsResultConverter {
   static String bPayIn = 'pay_in';
   static String bPayOut = 'pay_out';
   static String bEndOfDayBalance = 'eod_balance';
+  static String bInterestPaid = 'interest_paid';
+  static String bInterestEarned = 'interest_earned';
 
 
   static String? toBankStatementType(BankStatementType value) {
@@ -64,6 +66,10 @@ class LemonMarketsResultConverter {
       return bPayOut;
     } else if (BankStatementType.endOfDayBalance == value) {
       return bEndOfDayBalance;
+    } else if (BankStatementType.interestPaid == value) {
+      return bInterestPaid;
+    } else if (BankStatementType.interestEarned == value) {
+      return bInterestEarned;
     }
     return null;
   }
@@ -81,8 +87,12 @@ class LemonMarketsResultConverter {
       return BankStatementType.orderBuy;
     } else if (bOrderSell == value) {
       return BankStatementType.orderSell;
+    } else if (bInterestPaid == value) {
+      return BankStatementType.interestPaid;
+    } else if (bInterestEarned == value) {
+      return BankStatementType.interestEarned;
     }
-    throw LemonMarketsException('', 'cannot map accountMode $value', null, value, null);
+    return BankStatementType.unknown;
   }
 
   static String aPaper = 'paper';
