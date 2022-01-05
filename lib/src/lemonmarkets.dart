@@ -8,6 +8,7 @@ import 'package:lemon_markets_client/clients/market/lemonMarketsMarketData.dart'
 import 'package:lemon_markets_client/clients/trading/lemonMarketsPortfolio.dart';
 import 'package:lemon_markets_client/clients/trading/lemonMarketsSpaces.dart';
 import 'package:lemon_markets_client/clients/trading/lemonMarketsOrder.dart';
+import 'package:lemon_markets_client/data/account/document.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 import 'package:logging/logging.dart';
 
@@ -78,6 +79,15 @@ class LemonMarkets {
   Future<TradingResultList<BankStatement>> getBankStatementsByUrl(AccessToken token, String url) async {
     return _accountClient.getBankStatementsByUrl(token, url);
   }
+
+  Future<TradingResultList<Document>> getDocuments(AccessToken token) async {
+    return _accountClient.getDocuments(token);
+  }
+
+  Future<TradingResultList<Document>> getDocumentByUrl(AccessToken token, String url) async {
+    return _accountClient.getDocumentsByUrl(token, url);
+  }
+
   // Trading -> Spaces
 
   Future<TradingResult<Space>> createSpace(AccessToken token, String name, SpaceType type, Amount riskLimit,

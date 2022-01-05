@@ -1,4 +1,5 @@
 import 'package:lemon_markets_client/clients/lemonMarketsHttpClient.dart';
+import 'package:lemon_markets_client/data/account/document.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsQueryConverter.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsURLs.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
@@ -64,4 +65,22 @@ class LemonMarketsAccount {
           url, e.toString(), response.statusCode, response.decodedBody.toString(), stackTrace);
     }
   }
+
+  Future<TradingResultList<Document>> getDocuments(AccessToken token) async {
+    String url = LemonMarketsURL.getTradingUrl(token) + '/account/documents/';
+    return getDocumentsByUrl(token, url);
+  }
+
+  Future<TradingResultList<Document>> getDocumentsByUrl(AccessToken token, String url) async {
+    LemonMarketsClientResponse response = await _client.sendGet(url, token);
+    try {
+      TradingResultList<Document> result = TradingResultList<Document>.fromJson(response.decodedBody);
+      return result;
+    } catch (e, stackTrace) {
+      log.warning(e.toString());
+      throw LemonMarketsConvertException(
+          url, e.toString(), response.statusCode, response.decodedBody.toString(), stackTrace);
+    }
+  }
+
 }

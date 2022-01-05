@@ -50,6 +50,8 @@ class TradingResultList<T> {
         return ExistingOrder.fromJson(json) as T;
       } else if (T == BankStatement) {
         return BankStatement.fromJson(json) as T;
+      } else if (T == Document) {
+        return Document.fromJson(json) as T;
       }
     }
     throw ArgumentError.value(

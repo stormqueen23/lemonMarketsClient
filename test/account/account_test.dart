@@ -27,4 +27,13 @@ void main() {
     print(data.toString());
   });
 
+  test('getDocumentsData', () async {
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
+    TradingResultList<Document> data = await lm.getDocuments(token);
+    data.result.forEach((element) {
+      print(element.toString());
+    });
+
+  });
+
 }

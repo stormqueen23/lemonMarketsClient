@@ -100,7 +100,7 @@ class Account {
   DataPlan dataPlan;
 
 
-      @JsonKey(name: 'tax_allowance',
+  @JsonKey(name: 'tax_allowance',
       fromJson: LemonMarketsAmountConverter.fromNullableAmount,
       toJson: LemonMarketsAmountConverter.toNullableAmount)
   Amount? taxAllowance;
