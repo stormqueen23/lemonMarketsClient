@@ -87,9 +87,7 @@ class SpacesInfoWidget extends StatelessWidget {
         Divider(),
         AttributeWidget(name: 'Name: ',value: space.name),
         Divider(),
-        AttributeWidget(name: 'Type: ',value: space.type.toString()),
-        Divider(),
-        AttributeWidget(name: 'Uuid: ',value: space.uuid),
+         AttributeWidget(name: 'Uuid: ',value: space.uuid),
 
       ],
     );

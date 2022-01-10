@@ -9,7 +9,6 @@ part of 'space.dart';
 Space _$SpaceFromJson(Map<String, dynamic> json) => Space(
       json['id'] as String,
       json['name'] as String,
-      LemonMarketsResultConverter.fromSpaceType(json['type'] as String),
       LemonMarketsAmountConverter.fromAmount(json['risk_limit'] as int),
       LemonMarketsAmountConverter.fromAmount(json['buying_power'] as int),
       LemonMarketsAmountConverter.fromAmount(json['earnings'] as int),
@@ -24,7 +23,6 @@ Map<String, dynamic> _$SpaceToJson(Space instance) => <String, dynamic>{
       'created_at': LemonMarketsTimeConverter.toIsoTime(instance.createdAt),
       'name': instance.name,
       'description': instance.description,
-      'type': LemonMarketsResultConverter.toSpaceType(instance.type),
       'risk_limit': LemonMarketsAmountConverter.toAmount(instance.riskLimit),
       'buying_power':
           LemonMarketsAmountConverter.toAmount(instance.buyingPower),

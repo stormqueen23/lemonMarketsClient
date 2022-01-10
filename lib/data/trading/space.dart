@@ -17,9 +17,6 @@ class Space {
   @JsonKey(name: 'description')
   String? description;
 
-  @JsonKey(name: 'type', fromJson: LemonMarketsResultConverter.fromSpaceType, toJson: LemonMarketsResultConverter.toSpaceType)
-  SpaceType type;
-
   @JsonKey(name: 'risk_limit',
       fromJson: LemonMarketsAmountConverter.fromAmount,
       toJson: LemonMarketsAmountConverter.toAmount)
@@ -44,7 +41,7 @@ class Space {
   String? linked;
 
 
-  Space(this.uuid, this.name, this.type, this.riskLimit, this.buyingPower, this.earnings, this.backfire, this.createdAt);
+  Space(this.uuid, this.name, this.riskLimit, this.buyingPower, this.earnings, this.backfire, this.createdAt);
 
   factory Space.fromJson(Map<String, dynamic> json) => _$SpaceFromJson(json);
 
@@ -57,7 +54,6 @@ class Space {
         'uuid: $uuid,\n'
         'name: $name,\n'
         'description: $description,\n'
-        'type: $type,\n'
         'riskLimit: $riskLimit,\n'
         'buyingPower: $buyingPower,\n'
         'earnings: $earnings,\n'
