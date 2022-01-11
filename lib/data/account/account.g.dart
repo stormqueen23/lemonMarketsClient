@@ -26,15 +26,15 @@ Account _$AccountFromJson(Map<String, dynamic> json) => Account(
       json['iban_brokerage'] as String?,
       json['iban_origin'] as String?,
       json['bank_name_origin'] as String?,
-      LemonMarketsAmountConverter.fromAmount(json['balance'] as int),
-      LemonMarketsAmountConverter.fromAmount(json['cash_to_invest'] as int),
-      LemonMarketsAmountConverter.fromAmount(json['cash_to_withdraw'] as int),
+      LemonMarketsAmountConverter.fromAmount(json['balance'] as num),
+      LemonMarketsAmountConverter.fromAmount(json['cash_to_invest'] as num),
+      LemonMarketsAmountConverter.fromAmount(json['cash_to_withdraw'] as num),
       LemonMarketsResultConverter.fromAccountTradingPlan(
           json['trading_plan'] as String),
       LemonMarketsResultConverter.fromAccountDataPlan(
           json['data_plan'] as String),
       LemonMarketsAmountConverter.fromNullableAmount(
-          json['tax_allowance'] as int?),
+          json['tax_allowance'] as num?),
       json['tax_allowance_start'] as String?,
       json['tax_allowance_end'] as String?,
     )..uuid = json['account_id'] as String?;

@@ -13,20 +13,20 @@ CreatedOrder _$CreatedOrderFromJson(Map<String, dynamic> json) => CreatedOrder(
       LemonMarketsResultConverter.fromOrderSide(json['side'] as String),
       json['quantity'] as int,
       LemonMarketsAmountConverter.fromNullableAmount(
-          json['stop_price'] as int?),
+          json['stop_price'] as num?),
       LemonMarketsAmountConverter.fromNullableAmount(
-          json['limit_price'] as int?),
+          json['limit_price'] as num?),
       json['id'] as String,
       LemonMarketsResultConverter.fromOrderStatus(json['status'] as String),
       json['venue'] as String?,
-      LemonMarketsAmountConverter.fromAmount(json['estimated_price'] as int),
+      LemonMarketsAmountConverter.fromAmount(json['estimated_price'] as num),
       json['notes'] as String?,
       RegulatoryInformation.fromJson(
           json['regulatory_information'] as Map<String, dynamic>),
       json['space_id'] as String,
       LemonMarketsTimeConverter.fromIsoTimeNullable(
           json['chargeable_at'] as String?),
-      LemonMarketsAmountConverter.fromAmount(json['charge'] as int),
+      LemonMarketsAmountConverter.fromAmount(json['charge'] as num),
       LemonMarketsTimeConverter.fromIsoTime(json['created_at'] as String),
     );
 

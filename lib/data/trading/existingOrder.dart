@@ -15,6 +15,9 @@ class ExistingOrder {
   @JsonKey(name: 'id')
   String uuid;
 
+  @JsonKey(name: 'idempotency')
+  String? idempotency;
+
   @JsonKey(name: 'key_creation_id')
   String? creationKey;
 
@@ -59,6 +62,11 @@ class ExistingOrder {
       toJson: LemonMarketsAmountConverter.toNullableAmount)
   Amount? estimatedPrice;
 
+  @JsonKey(name: 'estimated_price_total',
+      fromJson: LemonMarketsAmountConverter.fromNullableAmount,
+      toJson: LemonMarketsAmountConverter.toNullableAmount)
+  Amount? estimatedPriceTotal;
+
   @JsonKey(
       name: 'charge',
       fromJson: LemonMarketsAmountConverter.fromAmount,
@@ -95,6 +103,11 @@ class ExistingOrder {
       toJson: LemonMarketsAmountConverter.toNullableAmount)
   Amount? executedPrice;
 
+  @JsonKey(name: 'executed_price_total',
+      fromJson: LemonMarketsAmountConverter.fromNullableAmount,
+      toJson: LemonMarketsAmountConverter.toNullableAmount)
+  Amount? executedPriceTotal;
+
   @JsonKey(
       name: 'activated_at',
       fromJson: LemonMarketsTimeConverter.fromIsoTimeNullable,
@@ -116,8 +129,8 @@ class ExistingOrder {
   @JsonKey(name: 'notes')
   String? notes;
 
-  //@JsonKey(name: 'regulatory_information')
-  //RegulatoryInformation? regulatoryInformation;
+  @JsonKey(name: 'regulatory_information')
+  RegulatoryInformation? regulatoryInformation;
 
   ExistingOrder(
       this.uuid,
@@ -153,6 +166,7 @@ class ExistingOrder {
   String toString() {
     return 'ExistingOrder{\n'
         'uuid: $uuid,\n'
+        'idempotency: $idempotency,\n'
         'key_creation_id: $creationKey,\n'
         'key_activation_id: $activationKey,\n'
         'isin: $isin,\n'
@@ -164,19 +178,21 @@ class ExistingOrder {
         'stopPrice: $stopPrice,\n'
         'limitPrice: $limitPrice,\n'
         'estimatedPrice: $estimatedPrice,\n'
+        'estimatedPriceTotal: $estimatedPriceTotal,\n'
         'tradingVenueMic: $tradingVenueMic,\n'
         'status: $status,\n'
         'spaceUuid: $spaceUuid,\n'
         'type: $type,\n'
         'executedQuantity: $executedQuantity,\n'
         'executedPrice: $executedPrice,\n'
+        'executedPriceTotal: $executedPriceTotal,\n'
         'activatedAt: $activatedAt,\n'
         'executedAt: $executedAt,\n'
         'rejectedAt: $rejectedAt,\n'
         'charge: $chargePrice,\n'
         'chargableAtAt: $chargableAt,\n'
         'notes: $notes\n'
-       //'regulatoryInformation: $regulatoryInformation\n'
+        'regulatoryInformation: $regulatoryInformation\n'
         '}';
   }
 

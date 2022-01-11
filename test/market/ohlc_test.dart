@@ -19,7 +19,16 @@ void main() {
   );
 
   // Market data -> OHLC
-  
+
+  test('getSpecificOHLC', () async {
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
+
+    ResultList<OHLC> items = await lm.getOHLC(token, ['NO0011002511'], OHLCType.h1, from: DateTime.now().add(Duration(hours: -24)));
+    items.result.forEach((element) {
+      print(element);
+    });
+  });
+
   test('getOHLC', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
 

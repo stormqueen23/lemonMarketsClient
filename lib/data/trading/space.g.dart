@@ -9,10 +9,10 @@ part of 'space.dart';
 Space _$SpaceFromJson(Map<String, dynamic> json) => Space(
       json['id'] as String,
       json['name'] as String,
-      LemonMarketsAmountConverter.fromAmount(json['risk_limit'] as int),
-      LemonMarketsAmountConverter.fromAmount(json['buying_power'] as int),
-      LemonMarketsAmountConverter.fromAmount(json['earnings'] as int),
-      LemonMarketsAmountConverter.fromAmount(json['backfire'] as int),
+      LemonMarketsAmountConverter.fromAmount(json['risk_limit'] as num),
+      LemonMarketsAmountConverter.fromAmount(json['buying_power'] as num),
+      LemonMarketsAmountConverter.fromAmount(json['earnings'] as num),
+      LemonMarketsAmountConverter.fromAmount(json['backfire'] as num),
       LemonMarketsTimeConverter.fromIsoTime(json['created_at'] as String),
     )
       ..description = json['description'] as String?

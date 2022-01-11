@@ -10,28 +10,28 @@ RegulatoryInformation _$RegulatoryInformationFromJson(
         Map<String, dynamic> json) =>
     RegulatoryInformation(
       LemonMarketsAmountConverter.fromNullableAmount(
-          json['costs_entry'] as int?),
+          json['costs_entry'] as num?),
       json['costs_entry_pct'] as String?,
       LemonMarketsAmountConverter.fromNullableAmount(
-          json['costs_running'] as int?),
+          json['costs_running'] as num?),
       json['costs_running_pct'] as String?,
       LemonMarketsAmountConverter.fromNullableAmount(
-          json['costs_product'] as int?),
+          json['costs_product'] as num?),
       json['costs_product_pct'] as String?,
       LemonMarketsAmountConverter.fromNullableAmount(
-          json['costs_exit'] as int?),
+          json['costs_exit'] as num?),
       json['costs_exit_pct'] as String?,
       LemonMarketsAmountConverter.fromNullableAmount(
-          json['yield_reduction_year'] as int?),
+          json['yield_reduction_year'] as num?),
       json['yield_reduction_year_pct'] as String?,
       LemonMarketsAmountConverter.fromNullableAmount(
-          json['yield_reduction_year_following'] as int?),
+          json['yield_reduction_year_following'] as num?),
       json['yield_reduction_year_following_pct'] as String?,
       LemonMarketsAmountConverter.fromNullableAmount(
-          json['yield_reduction_year_exit'] as int?),
+          json['yield_reduction_year_exit'] as num?),
       json['yield_reduction_year_exit_pct'] as String?,
       LemonMarketsAmountConverter.fromNullableAmount(
-          json['estimated_yield_reduction_total'] as int?),
+          json['estimated_yield_reduction_total'] as num?),
       json['estimated_yield_reduction_total_pct'] as String?,
       json['estimated_holding_duration_years'] as String?,
       json['KIID'] as String?,

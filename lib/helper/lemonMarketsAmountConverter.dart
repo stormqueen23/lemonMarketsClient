@@ -6,8 +6,8 @@ class LemonMarketsAmountConverter {
     return amount.apiValue;
   }
   ///value = value from api
-  static Amount fromAmount(int value) {
-    return Amount(apiValue: value);
+  static Amount fromAmount(num value) {
+    return Amount(apiValue: value.toInt());
   }
 
   static int? toNullableAmount(Amount? amount) {
@@ -18,10 +18,10 @@ class LemonMarketsAmountConverter {
   }
 
   ///value = value from api
-  static Amount? fromNullableAmount(int? value) {
+  static Amount? fromNullableAmount(num? value) {
     if (value == null) {
       return null;
     }
-    return Amount(apiValue: value);
+    return Amount(apiValue: value.toInt());
   }
 }

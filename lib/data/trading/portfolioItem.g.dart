@@ -15,19 +15,19 @@ PortfolioItem _$PortfolioItemFromJson(Map<String, dynamic> json) =>
       json['buy_quantity'] as int,
       json['sell_quantity'] as int?,
       LemonMarketsAmountConverter.fromNullableAmount(
-          json['buy_price_avg'] as int?),
+          json['buy_price_avg'] as num?),
       LemonMarketsAmountConverter.fromNullableAmount(
-          json['buy_price_min'] as int?),
+          json['buy_price_min'] as num?),
       LemonMarketsAmountConverter.fromNullableAmount(
-          json['buy_price_max'] as int?),
+          json['buy_price_max'] as num?),
       LemonMarketsAmountConverter.fromNullableAmount(
-          json['buy_price_avg_historical'] as int?),
+          json['buy_price_avg_historical'] as num?),
       LemonMarketsAmountConverter.fromNullableAmount(
-          json['sell_price_min'] as int?),
+          json['sell_price_min'] as num?),
       LemonMarketsAmountConverter.fromNullableAmount(
-          json['sell_price_max'] as int?),
+          json['sell_price_max'] as num?),
       LemonMarketsAmountConverter.fromNullableAmount(
-          json['sell_price_avg_historical'] as int?),
+          json['sell_price_avg_historical'] as num?),
       json['orders_total'] as int,
       json['sell_orders_total'] as int?,
       json['buy_orders_total'] as int,

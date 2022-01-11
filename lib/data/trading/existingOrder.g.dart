@@ -16,18 +16,18 @@ ExistingOrder _$ExistingOrderFromJson(Map<String, dynamic> json) =>
       LemonMarketsResultConverter.fromOrderSide(json['side'] as String),
       json['quantity'] as int,
       LemonMarketsAmountConverter.fromNullableAmount(
-          json['stop_price'] as int?),
+          json['stop_price'] as num?),
       LemonMarketsAmountConverter.fromNullableAmount(
-          json['limit_price'] as int?),
+          json['limit_price'] as num?),
       LemonMarketsAmountConverter.fromNullableAmount(
-          json['estimated_price'] as int?),
+          json['estimated_price'] as num?),
       json['venue'] as String,
       LemonMarketsResultConverter.fromOrderStatus(json['status'] as String),
       json['space_id'] as String,
       LemonMarketsResultConverter.fromOrderType(json['type'] as String),
       json['executed_quantity'] as int?,
       LemonMarketsAmountConverter.fromNullableAmount(
-          json['executed_price'] as int?),
+          json['executed_price'] as num?),
       LemonMarketsTimeConverter.fromIsoTimeNullable(
           json['executed_at'] as String?),
       LemonMarketsTimeConverter.fromIsoTimeNullable(
@@ -35,16 +35,26 @@ ExistingOrder _$ExistingOrderFromJson(Map<String, dynamic> json) =>
       json['notes'] as String?,
       LemonMarketsTimeConverter.fromIsoTimeNullable(
           json['chargeable_at'] as String?),
-      LemonMarketsAmountConverter.fromAmount(json['charge'] as int),
+      LemonMarketsAmountConverter.fromAmount(json['charge'] as num),
     )
+      ..idempotency = json['idempotency'] as String?
       ..activationKey = json['key_activation_id'] as String?
       ..title = json['isin_title'] as String?
+      ..estimatedPriceTotal = LemonMarketsAmountConverter.fromNullableAmount(
+          json['estimated_price_total'] as num?)
+      ..executedPriceTotal = LemonMarketsAmountConverter.fromNullableAmount(
+          json['executed_price_total'] as num?)
       ..activatedAt = LemonMarketsTimeConverter.fromIsoTimeNullable(
-          json['activated_at'] as String?);
+          json['activated_at'] as String?)
+      ..regulatoryInformation = json['regulatory_information'] == null
+          ? null
+          : RegulatoryInformation.fromJson(
+              json['regulatory_information'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$ExistingOrderToJson(ExistingOrder instance) =>
     <String, dynamic>{
       'id': instance.uuid,
+      'idempotency': instance.idempotency,
       'key_creation_id': instance.creationKey,
       'key_activation_id': instance.activationKey,
       'isin': instance.isin,
@@ -59,6 +69,8 @@ Map<String, dynamic> _$ExistingOrderToJson(ExistingOrder instance) =>
           LemonMarketsAmountConverter.toNullableAmount(instance.limitPrice),
       'estimated_price':
           LemonMarketsAmountConverter.toNullableAmount(instance.estimatedPrice),
+      'estimated_price_total': LemonMarketsAmountConverter.toNullableAmount(
+          instance.estimatedPriceTotal),
       'charge': LemonMarketsAmountConverter.toAmount(instance.chargePrice),
       'chargeable_at':
           LemonMarketsTimeConverter.toIsoTimeNullable(instance.chargableAt),
@@ -69,6 +81,8 @@ Map<String, dynamic> _$ExistingOrderToJson(ExistingOrder instance) =>
       'executed_quantity': instance.executedQuantity,
       'executed_price':
           LemonMarketsAmountConverter.toNullableAmount(instance.executedPrice),
+      'executed_price_total': LemonMarketsAmountConverter.toNullableAmount(
+          instance.executedPriceTotal),
       'activated_at':
           LemonMarketsTimeConverter.toIsoTimeNullable(instance.activatedAt),
       'executed_at':
@@ -76,4 +90,5 @@ Map<String, dynamic> _$ExistingOrderToJson(ExistingOrder instance) =>
       'rejected_at':
           LemonMarketsTimeConverter.toIsoTimeNullable(instance.rejectedAt),
       'notes': instance.notes,
+      'regulatory_information': instance.regulatoryInformation,
     };

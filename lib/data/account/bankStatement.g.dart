@@ -12,7 +12,7 @@ BankStatement _$BankStatementFromJson(Map<String, dynamic> json) =>
       json['account_id'] as String,
       LemonMarketsResultConverter.fromBankStatement(json['type'] as String),
       LemonMarketsTimeConverter.fromIsoDay(json['date'] as String),
-      LemonMarketsAmountConverter.fromAmount(json['amount'] as int),
+      LemonMarketsAmountConverter.fromAmount(json['amount'] as num),
       json['isin'] as String?,
       json['isin_title'] as String?,
     );
