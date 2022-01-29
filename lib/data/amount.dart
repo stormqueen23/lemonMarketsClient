@@ -35,6 +35,10 @@ class Amount {
     return Amount(apiValue: (value*apiValue).round());
   }
 
+  Amount divide(num value) {
+    return Amount(apiValue: (apiValue/value).round());
+  }
+
   Amount addAmount(Amount value) {
     return Amount(apiValue: apiValue+value.apiValue);
   }
