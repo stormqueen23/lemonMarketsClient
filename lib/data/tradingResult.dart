@@ -19,6 +19,12 @@ class TradingResult<T> {
   @JsonKey(name: 'status')
   String status;
 
+  @JsonKey(name: 'error_code')
+  String? errorCode;
+
+  @JsonKey(name: 'error_message')
+  String? errorMessage;
+
   @JsonKey(name: 'results')
   T? result;
 

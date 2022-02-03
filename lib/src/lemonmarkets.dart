@@ -8,7 +8,6 @@ import 'package:lemon_markets_client/clients/market/lemonMarketsMarketData.dart'
 import 'package:lemon_markets_client/clients/trading/lemonMarketsPortfolio.dart';
 import 'package:lemon_markets_client/clients/trading/lemonMarketsSpaces.dart';
 import 'package:lemon_markets_client/clients/trading/lemonMarketsOrder.dart';
-import 'package:lemon_markets_client/data/account/document.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 import 'package:logging/logging.dart';
 

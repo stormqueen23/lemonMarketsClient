@@ -33,8 +33,9 @@ class DeleteSpaceResult {
   int statusCode;
   AccountMode mode;
   Map<String, dynamic> responseMap;
+  TradingResult resultObject;
 
-  DeleteSpaceResult(this.success, this.statusCode, this.mode, this.responseMap);
+  DeleteSpaceResult(this.success, this.statusCode, this.mode, this.responseMap, this.resultObject);
 
   @override
   String toString() {

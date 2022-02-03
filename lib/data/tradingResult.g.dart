@@ -16,6 +16,8 @@ TradingResult<T> _$TradingResultFromJson<T>(
     )
       ..time =
           LemonMarketsTimeConverter.fromIsoTimeNullable(json['time'] as String?)
+      ..errorCode = json['error_code'] as String?
+      ..errorMessage = json['error_message'] as String?
       ..result = _$nullableGenericFromJson(json['results'], fromJsonT);
 
 T? _$nullableGenericFromJson<T>(

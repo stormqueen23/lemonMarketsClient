@@ -90,16 +90,18 @@ class LemonMarketsSpaces {
     String url = LemonMarketsURL.getTradingUrl(token)+'/spaces/'+uuid+'/';
     LemonMarketsClientResponse response = await _client.sendDelete(url, token);
     try {
-      TradingResult<Space> result = TradingResult<Space>.fromJson(response.decodedBody);
-      String status = response.decodedBody['status'];
-      String modeString = response.decodedBody['mode'];
-      AccountMode mode = LemonMarketsResultConverter.fromAccountMode(modeString);
-      log.fine('response from delete order: ${response.decodedBody} - $status, mode: $modeString');
-      if (result.status == 'ok') {
-        return DeleteSpaceResult(true, response.statusCode, mode, response.decodedBody);
-      } else {
-        return DeleteSpaceResult(false, response.statusCode, mode, response.decodedBody);
-      }
+
+        TradingResult<Space> result = TradingResult<Space>.fromJson(response.decodedBody);
+        String status = response.decodedBody['status'];
+        String modeString = response.decodedBody['mode'];
+        AccountMode mode = LemonMarketsResultConverter.fromAccountMode(modeString);
+        log.fine('response from delete order: ${response.decodedBody} - $status, mode: $modeString');
+        if (result.status == 'ok') {
+          return DeleteSpaceResult(true, response.statusCode, mode, response.decodedBody, result);
+        } else {
+          return DeleteSpaceResult(false, response.statusCode, mode, response.decodedBody, result);
+        }
+
     } catch (e, stackTrace) {
       log.warning(e.toString());
       throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString(), stackTrace);
