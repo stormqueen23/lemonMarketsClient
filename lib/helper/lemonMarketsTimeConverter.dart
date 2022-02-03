@@ -110,4 +110,9 @@ class LemonMarketsTimeConverter {
     String result = dayFormatter.format(value);
     return result;
   }
+  static DateFormat queryDayFormatter = DateFormat('yyyy-MM-dd');
+
+  static String getOrderQueryTimeFormat(DateTime time) {
+    return queryDayFormatter.format(time);
+  }
 }

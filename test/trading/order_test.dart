@@ -78,6 +78,15 @@ void main() {
     }
   });
 */
+
+  test('getSinceAllOrders', () async {
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
+    TradingResultList<ExistingOrder> orders = await lm.getOrders(token, from: DateTime.now().add(Duration(days: -7)));
+    print('found ${orders.result.length} orders');
+    for (ExistingOrder element in orders.result) {
+      print(element);
+    }
+  });
   test('getAllOrders', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
     TradingResultList<ExistingOrder> orders = await lm.getOrders(token);

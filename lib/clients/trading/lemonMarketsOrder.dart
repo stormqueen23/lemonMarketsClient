@@ -147,10 +147,12 @@ class LemonMarketsOrder {
       result.add('space_id=' + spaceUuid);
     }
     if (createdAtUntil != null) {
-      result.add('to=' + LemonMarketsTimeConverter.toIsoTime(createdAtUntil));
+      String toTime = LemonMarketsTimeConverter.getOrderQueryTimeFormat(createdAtUntil);
+      result.add('to=' + toTime);
     }
     if (createdAtFrom != null) {
-      result.add('from=' + LemonMarketsTimeConverter.toIsoTime(createdAtFrom));
+      String fromTime = LemonMarketsTimeConverter.getOrderQueryTimeFormat(createdAtFrom);
+      result.add('from=' + fromTime);
     }
     if (isin != null) {
       result.add('isin=' + isin);
