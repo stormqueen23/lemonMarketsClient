@@ -19,7 +19,7 @@ class PortfolioItem {
   int quantity;
 
   @JsonKey(name: 'buy_quantity')
-  int quantityBuy;
+  int? quantityBuy;
 
   @JsonKey(name: 'sell_quantity')
   int? quantitySell;
@@ -70,13 +70,13 @@ class PortfolioItem {
   Amount? sellPriceAvgHistorical;
 
   @JsonKey(name: 'orders_total')
-  int ordersTotal;
+  int? ordersTotal;
 
   @JsonKey(name: 'sell_orders_total')
   int? sellOrdersTotal;
 
   @JsonKey(name: 'buy_orders_total')
-  int buyOrdersTotal;
+  int? buyOrdersTotal;
 
   PortfolioItem(
       this.isin,

@@ -12,7 +12,7 @@ PortfolioItem _$PortfolioItemFromJson(Map<String, dynamic> json) =>
       json['isin_title'] as String,
       json['space_id'] as String,
       json['quantity'] as int,
-      json['buy_quantity'] as int,
+      json['buy_quantity'] as int?,
       json['sell_quantity'] as int?,
       LemonMarketsAmountConverter.fromNullableAmount(
           json['buy_price_avg'] as num?),
@@ -28,9 +28,9 @@ PortfolioItem _$PortfolioItemFromJson(Map<String, dynamic> json) =>
           json['sell_price_max'] as num?),
       LemonMarketsAmountConverter.fromNullableAmount(
           json['sell_price_avg_historical'] as num?),
-      json['orders_total'] as int,
+      json['orders_total'] as int?,
       json['sell_orders_total'] as int?,
-      json['buy_orders_total'] as int,
+      json['buy_orders_total'] as int?,
     );
 
 Map<String, dynamic> _$PortfolioItemToJson(PortfolioItem instance) =>
