@@ -54,6 +54,15 @@ void main() {
     print(spaces);
   });
 
+  test('deleteSingleSpace', () async {
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
+
+    DeleteSpaceResult spaces = (await lm.deleteSpace(token, 'sp_pyPHTyyLL03WRlBjjpRss8FrgMP9gTDD9x'));
+    print('delete ${spaces.success}');
+    print(spaces);
+  });
+
+
   test('alterSpace', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
 

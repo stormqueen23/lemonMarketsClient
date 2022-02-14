@@ -169,8 +169,8 @@ class LemonMarkets {
   // Trading -> Portfolio
 
   Future<TradingResultList<PortfolioItem>> getPortfolioItems(AccessToken token,
-      {String? spaceUuid, String? isin}) async {
-    return _portfolioClient.getPortfolioItems(token, spaceUuid: spaceUuid, isin: isin);
+      {String? spaceUuid, String? isin, int? limit, int? page}) async {
+    return _portfolioClient.getPortfolioItems(token, spaceUuid: spaceUuid, isin: isin, limit: limit, page: page);
   }
 
   Future<TradingResultList<PortfolioItem>> getPortfolioItemsByUrl(AccessToken token, String url) async {
