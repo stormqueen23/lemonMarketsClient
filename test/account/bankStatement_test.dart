@@ -18,15 +18,6 @@ void main() {
   }
   );
 
-  //ACCOUNT
-  test('getAccountData', () async {
-    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
-    Account data = await lm.getAccountData(token);
-    expect(data, isNotNull);
-    print('found account data for ${data.email}');
-    print(data.toString());
-  });
-
   //Bank statements
   test('getBankStatements', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);

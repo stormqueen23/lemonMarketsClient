@@ -146,11 +146,15 @@ void main() {
   test('createAndActivateSellOrder', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
 
-    CreatedOrder order = (await lm.placeOrder(token, spaceUuid, 'DE0006048408', OrderSide.sell, 1)).result!;
-    print('SELL order ${order.uuid} created. Estimated price: ${order.estimatedPrice} (${order.side})');
+    TradingResult<CreatedOrder> result = (await lm.placeOrder(token, spaceUuid, 'DE0006048408', OrderSide.sell, 100));
+    print('${result.status} | ${result.errorCode} | ${result.errorMessage}');
+    if (result.result != null) {
+      CreatedOrder order = result.result!;
+      print('SELL order ${order.uuid} created. Estimated price: ${order.estimatedPrice} (${order.side})');
 
-    ActivateOrderResult response = await lm.activateOrder(token, order.uuid, null);
-    print('activate SELL order: ${response.success} (${response.responseMap.toString()})');
+      ActivateOrderResult response = await lm.activateOrder(token, order.uuid, null);
+      print('activate SELL order: ${response.success} (${response.responseMap.toString()})');
+    }
 
   });
 

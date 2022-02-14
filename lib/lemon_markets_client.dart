@@ -10,7 +10,6 @@ export 'package:lemon_markets_client/exception/lemonMarketsAuthException.dart';
 export 'package:lemon_markets_client/exception/lemonMarketsConvertException.dart';
 export 'package:lemon_markets_client/exception/lemonMarketsDecodeException.dart';
 export 'package:lemon_markets_client/exception/lemonMarketsException.dart';
-export 'package:lemon_markets_client/exception/lemonMarketsNoResultException.dart';
 export 'package:lemon_markets_client/exception/lemonMarketsServerException.dart';
 export 'package:lemon_markets_client/exception/lemonMarketsStatusCodeException.dart';
 

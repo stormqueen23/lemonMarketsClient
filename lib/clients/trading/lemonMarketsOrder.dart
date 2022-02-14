@@ -173,7 +173,7 @@ class LemonMarketsOrder {
       result.add('limit=' + limit.toString());
     }
     if (page != null) {
-      result.add('limit=' + page.toString());
+      result.add('page=' + page.toString());
     }
     return result;
   }

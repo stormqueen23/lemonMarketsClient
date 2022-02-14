@@ -66,7 +66,7 @@ class LemonMarkets {
 */
   // Account
 
-  Future<Account> getAccountData(AccessToken token) async {
+  Future<TradingResult<Account>> getAccountData(AccessToken token) async {
     return _accountClient.getAccountData(token);
   }
 

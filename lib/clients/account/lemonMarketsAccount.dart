@@ -10,18 +10,13 @@ class LemonMarketsAccount {
 
   LemonMarketsAccount(this._client);
 
-  Future<Account> getAccountData(AccessToken token) async {
+  Future<TradingResult<Account>> getAccountData(AccessToken token) async {
     String url = LemonMarketsURL.getTradingUrl(token) + '/account';
 
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
       TradingResult<Account> result = TradingResult<Account>.fromJson(response.decodedBody);
-      if (result.result != null) {
-        return result.result!;
-      } else {
-        throw LemonMarketsNoResultException(
-            url, 'status: ' + result.status, response.statusCode, response.decodedBody.toString());
-      }
+      return result;
     } catch (e, stackTrace) {
       log.warning(e.toString());
       throw LemonMarketsConvertException(
