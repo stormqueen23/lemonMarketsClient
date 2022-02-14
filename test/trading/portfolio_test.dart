@@ -21,7 +21,7 @@ void main() {
   test('getPortfolioItems', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
 
-    TradingResultList<PortfolioItem> items = await lm.getPortfolioItems(token, spaceUuid: spaceUuid);
+    TradingResultList<PortfolioItem> items = await lm.getPortfolioItems(token, spaceUuid: spaceUuid,);
     print('found ${items.count} portfolioItems');
     items.result.forEach((element) {
       print(element);

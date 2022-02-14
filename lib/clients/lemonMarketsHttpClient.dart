@@ -76,9 +76,11 @@ class LemonMarketsHttpClient {
     int statusCode = response.statusCode;
     String responseString = utf8.decode(response.bodyBytes);
     log.fine("response: ${responseString} with statusCode $statusCode (length: ${response.contentLength}, body is not empty: ${response.body.isNotEmpty})");
-    if (statusCode == 401) {
-      log.info("401 statusCode");
-      throw LemonMarketsAuthException(url, "401 Error", statusCode, response.body, null);
+    if (statusCode == 401 || statusCode == 403) {
+      //401 = token expired
+      //403 = token was deleted
+      log.info("$statusCode statusCode");
+      throw LemonMarketsAuthException(url, "$statusCode Error", statusCode, response.body, null);
     } else if (statusCode == 405) {
       log.info("405 statusCode");
       throw LemonMarketsException(url, response.body, statusCode, response.body, null);
