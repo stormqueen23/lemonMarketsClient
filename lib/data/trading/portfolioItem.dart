@@ -24,6 +24,18 @@ class PortfolioItem {
       toJson: LemonMarketsAmountConverter.toNullableAmount)
   Amount? buyPriceAvg;
 
+  @JsonKey(
+      name: 'estimated_price',
+      fromJson: LemonMarketsAmountConverter.fromNullableAmount,
+      toJson: LemonMarketsAmountConverter.toNullableAmount)
+  Amount? estimatedPrice;
+
+  @JsonKey(
+      name: 'estimated_price_total',
+      fromJson: LemonMarketsAmountConverter.fromNullableAmount,
+      toJson: LemonMarketsAmountConverter.toNullableAmount)
+  Amount? estimatedPriceTotal;
+
   PortfolioItem(
       this.isin,
       this.isinTitle,
@@ -37,6 +49,8 @@ class PortfolioItem {
 
   Amount get sumPrice => Amount(apiValue: quantity * (buyPriceAvg?.apiValue ?? 0));
 
+  Amount get currentDiff => (estimatedPriceTotal ?? Amount.zero()).subtractAmount(sumPrice);
+
   @override
   String toString() {
     return 'PortfolioItem{\n'
@@ -45,6 +59,9 @@ class PortfolioItem {
         'isin: $isin,\n'
         'title: $isinTitle,\n'
         'spaceUuid: $spaceUuid\n'
+        'estimatedPriceSingle: $estimatedPrice,\n'
+        'estimatedPriceTotal: $estimatedPriceTotal,\n'
+        'currentDiff: $currentDiff,\n'
         '}';
   }
 }

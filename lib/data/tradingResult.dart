@@ -60,4 +60,9 @@ class TradingResult<T> {
       'Unknown type $T: Add $T in tradingResult.dart',
     );
   }
+
+  @override
+  String toString() {
+    return 'TradingResult{time: $time, status: $status, errorCode: $errorCode, errorMessage: $errorMessage, mode: $mode, result: $result}';
+  }
 }

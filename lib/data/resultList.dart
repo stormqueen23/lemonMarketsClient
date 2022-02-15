@@ -17,6 +17,9 @@ class ResultList<T> {
   int? page;
   @JsonKey(name: 'pages')
   int? pages;
+  @JsonKey(
+      name: 'time', fromJson: LemonMarketsTimeConverter.fromIsoTimeNullable, toJson: LemonMarketsTimeConverter.toIsoTimeNullable)
+  DateTime? time;
 
   ResultList(this.next, this.previous, this.result, this.count);
 
@@ -43,5 +46,10 @@ class ResultList<T> {
       'json',
       'Unknown type $T: Add $T in resultList.dart',
     );
+  }
+
+  @override
+  String toString() {
+    return 'ResultList{time: $time, count: $count, page: $page, pages: $pages, next: $next, previous: $previous, result: $result, }';
   }
 }

@@ -53,6 +53,7 @@ void main() {
     expect(items.result.length, greaterThan(0));
     expect(items.result[0].isin, 'US88160R1014');
     print(items.result[0].time);
+    print(items);
   });
 
   test('getXOHLC', () async {

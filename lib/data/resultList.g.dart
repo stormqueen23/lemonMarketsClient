@@ -17,4 +17,6 @@ ResultList<T> _$ResultListFromJson<T>(
       json['total'] as int?,
     )
       ..page = json['page'] as int?
-      ..pages = json['pages'] as int?;
+      ..pages = json['pages'] as int?
+      ..time = LemonMarketsTimeConverter.fromIsoTimeNullable(
+          json['time'] as String?);

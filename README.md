@@ -42,22 +42,22 @@ Short example for BUY:
   final LemonMarkets lemonMarkets = LemonMarkets();
   AccessToken token = AccessToken(token: 'ADD_YOUR_TOKEN_HERE');
 
-  CreatedOrder result = await lemonMarkets.placeOrder(token, 'SPACE_UUID', 'US88160R1014', OrderSide.buy, 5);
-  String orderUuid = result.uuid;
-  bool success = lemonMarkets.activateOrder(token, 'SPACE_UUID', orderUuid);  
+  TradingResult<CreatedOrder> result = await lemonMarkets.placeOrder(token, 'SPACE_UUID', 'US88160R1014', OrderSide.buy, 5);
+  String orderUuid = result.result!.uuid;
+  ActivateOrderResult activateResult = lemonMarkets.activateOrder(token, 'SPACE_UUID', orderUuid);  
 ```
 Short example for SELL:
 ```dart
   final LemonMarkets lemonMarkets = LemonMarkets();
   AccessToken token = AccessToken(token: 'ADD_YOUR_TOKEN_HERE');
 
-  CreatedOrder result = await lemonMarkets.placeOrder(token, 'SPACE_UUID', 'US88160R1014', OrderSide.sell, 5);
+  TradingResult<CreatedOrder> result = await lemonMarkets.placeOrder(token, 'SPACE_UUID', 'US88160R1014', OrderSide.sell, 5);
   String orderUuid = result.uuid;
-  bool success =  lemonMarkets.activateOrder(token, 'SPACE_UUID', orderUuid);
+  ActivateOrderResult activateResult = lemonMarkets.activateOrder(token, 'SPACE_UUID', orderUuid);
 ```
 
 ## Building this plugin
-To generate the missing *.g.dart classes run:\
+To (re-)generate the missing *.g.dart classes run:\
 ```
 flutter packages pub run build_runner build --delete-conflicting-outputs
  ```
@@ -65,7 +65,9 @@ flutter packages pub run build_runner build --delete-conflicting-outputs
 ## Running the example app
 If you want to run the example app, you need to replace 'ADD_YOUR_TOKEN_HERE' in the LemonMarketsProvider with your token!
 
-## Open
+## Open Issuers
 Withdrawals
+
+
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Y8Y41V672)

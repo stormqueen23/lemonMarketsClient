@@ -14,7 +14,11 @@ PortfolioItem _$PortfolioItemFromJson(Map<String, dynamic> json) =>
       json['quantity'] as int,
       LemonMarketsAmountConverter.fromNullableAmount(
           json['buy_price_avg'] as num?),
-    );
+    )
+      ..estimatedPrice = LemonMarketsAmountConverter.fromNullableAmount(
+          json['estimated_price'] as num?)
+      ..estimatedPriceTotal = LemonMarketsAmountConverter.fromNullableAmount(
+          json['estimated_price_total'] as num?);
 
 Map<String, dynamic> _$PortfolioItemToJson(PortfolioItem instance) =>
     <String, dynamic>{
@@ -24,4 +28,8 @@ Map<String, dynamic> _$PortfolioItemToJson(PortfolioItem instance) =>
       'quantity': instance.quantity,
       'buy_price_avg':
           LemonMarketsAmountConverter.toNullableAmount(instance.buyPriceAvg),
+      'estimated_price':
+          LemonMarketsAmountConverter.toNullableAmount(instance.estimatedPrice),
+      'estimated_price_total': LemonMarketsAmountConverter.toNullableAmount(
+          instance.estimatedPriceTotal),
     };
