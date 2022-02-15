@@ -3,10 +3,8 @@ import 'package:lemon_markets_client/lemon_markets_client.dart';
 
 class LemonMarketsProvider with ChangeNotifier {
   final LemonMarkets lm = LemonMarkets();
-  AccessToken token = AccessToken(token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJsZW1vbi5tYXJrZXRzIiwiaXNzIjoibGVtb24ubWFya2V0cyIsInN1YiI6InVzcl9weVBGUlNTVlZYckJiVjZKZzVrcVY0bU10emdkMVdGZGpWIiwiZXhwIjoxNjY5OTc1MDg0LCJpYXQiOjE2Mzg0MzkwODQsImp0aSI6ImFwa19weVFETUtLR0dKWTVwN0MxazEyODJEU2tsZGtQMHBCbnFZIn0.WQgAfOIXhTzVBNGFUChzewouSCNsJTKzPgLjAVwvqVo');
-  String spaceIdForCreatingOrders = 'sp_pyPFRVVGGgwcKL63qmDFPcVTRwtdhmHrqD';
-  //AccessToken token = AccessToken(token: 'ADD_YOUR_TOKEN_HERE');
-  //String spaceIdForCreatingOrders = 'ADD_YOUR_SPACE_ID_HERE';
+  AccessToken token = AccessToken(token: 'ADD_YOUR_TOKEN_HERE');
+  String spaceIdForCreatingOrders = 'ADD_YOUR_SPACE_ID_HERE';
   bool showTokenData = false;
 
   TradingResultList<Space>? spaces;
