@@ -49,7 +49,9 @@ class PortfolioItem {
 
   Amount get sumPrice => Amount(apiValue: quantity * (buyPriceAvg?.apiValue ?? 0));
 
-  Amount get currentDiff => (estimatedPriceTotal ?? Amount.zero()).subtractAmount(sumPrice);
+  Amount get diffAmount => (estimatedPriceTotal ?? Amount.zero()).subtractAmount(sumPrice);
+
+  double get diffPercent => sumPrice.apiValue == 0 ? 0 : diffAmount.apiValue / sumPrice.apiValue * 100.0;
 
   @override
   String toString() {
@@ -61,7 +63,8 @@ class PortfolioItem {
         'spaceUuid: $spaceUuid\n'
         'estimatedPriceSingle: $estimatedPrice,\n'
         'estimatedPriceTotal: $estimatedPriceTotal,\n'
-        'currentDiff: $currentDiff,\n'
+        'diffAmount: $diffAmount,\n'
+        'diffPercent: $diffAmount,\n'
         '}';
   }
 }
