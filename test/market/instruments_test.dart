@@ -58,14 +58,14 @@ void main() {
 
   test('searchInstrumentsWithQueryAndLimit', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
-    ResultList<Instrument> all = await lm.searchInstruments(token, search: 'Tesla', limit: "2");
+    ResultList<Instrument> all = await lm.searchInstruments(token, search: 'Tesla', limit: 2);
     expect(all.result.length, 2, reason: "Expected result: 2, given result: ${all.result.length}");
   });
 
   test('searchInstrumentsWithQueryAndLimitAndOffset', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
-    ResultList<Instrument> prev = await lm.searchInstruments(token, search: 'Tesla', limit: "1", offset: 0);
-    ResultList<Instrument> all = await lm.searchInstruments(token, search: 'Tesla', limit: "1", offset: 1);
+    ResultList<Instrument> prev = await lm.searchInstruments(token, search: 'Tesla', limit: 1, page: 1);
+    ResultList<Instrument> all = await lm.searchInstruments(token, search: 'Tesla', limit: 1, page: 2);
     expect(prev.result.length, 1);
     expect(all.result.length, 1);
     expect(all.result.first.isin, isNot(prev.result.first.isin));

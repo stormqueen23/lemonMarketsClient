@@ -38,4 +38,10 @@ void main() {
     expect(tradingVenue.result.length, 2);
   });
 
+  test('getLimitMultipleTradingVenue', () async {
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
+    ResultList<TradingVenue> tradingVenue = await lm.getTradingVenues(token, mics: ['XMUN', 'LMBPX'], limit: 1);
+    expect(tradingVenue.result.length, 1);
+  });
+
 }

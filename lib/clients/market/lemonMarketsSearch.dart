@@ -15,10 +15,10 @@ class LemonMarketsSearch {
   LemonMarketsSearch(this._client);
 
   Future<ResultList<Instrument>> searchInstruments(AccessToken token,
-      {String? search, List<String>? mic, List<String>? isin, List<SearchType>? types, bool? tradable, String? currency, String? limit, int? offset}) async {
+      {String? search, List<String>? mic, List<String>? isin, List<SearchType>? types, bool? tradable, String? currency, int? limit, int? page}) async {
     String url = LemonMarketsURL.BASE_URL_MARKET + '/instruments/';
-    String appendSearch = _generateInstrumentParamString(isin: isin, mic: mic, offset: offset, limit: limit, types: types, currency: currency, search: search, tradable: tradable);
-    url = url += appendSearch;
+    String appendSearch = _generateInstrumentParamString(isin: isin, mic: mic, page: page, limit: limit, types: types, currency: currency, search: search, tradable: tradable);
+    url += appendSearch;
     return searchInstrumentsByUrl(token, url);
   }
 
@@ -39,7 +39,7 @@ class LemonMarketsSearch {
     return result;
   }
 
-  String _generateInstrumentParamString({List<String>? mic, List<String>? isin, String? search, List<SearchType>? types, bool? tradable, String? currency, String? limit, int? offset}) {
+  String _generateInstrumentParamString({List<String>? mic, List<String>? isin, String? search, List<SearchType>? types, bool? tradable, String? currency, int? limit, int? page}) {
     List<String> query = [];
     if (mic != null && mic.isNotEmpty) {
       query.add("mic="+mic.join(','));
@@ -65,8 +65,8 @@ class LemonMarketsSearch {
     if (limit != null) {
       query.add("limit="+limit.toString());
     }
-    if (offset != null) {
-      query.add("offset="+offset.toString());
+    if (page != null) {
+      query.add("page="+page.toString());
     }
     String result = LemonMarketsHttpClient.generateQueryParams(query);
     return result;

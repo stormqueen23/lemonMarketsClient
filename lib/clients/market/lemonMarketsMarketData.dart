@@ -21,7 +21,7 @@ class LemonMarketsMarketData {
 
   Future<ResultList<Trade>> getTrades(AccessToken token, List<String> isin,
       {List<String>? mics, bool? decimals, Sorting? sorting,
-        DateTime? from, DateTime? to, bool? latest}) async {
+        DateTime? from, DateTime? to, bool? latest, int? limit, int? page}) async {
     String url = LemonMarketsURL.BASE_URL_MARKET + '/trades/';
 
     List<String> query = [];
@@ -47,6 +47,12 @@ class LemonMarketsMarketData {
     if (sorting != null) {
       query.add("sorting=" + LemonMarketsQueryConverter.convertSorting(sorting));
     }
+    if (limit != null) {
+      query.add("limit=" + limit.toString());
+    }
+    if (page != null) {
+      query.add("page=" + page.toString());
+    }
     query.add("epoch=true");
 
     String queryString = LemonMarketsHttpClient.generateQueryParams(query);
@@ -70,7 +76,7 @@ class LemonMarketsMarketData {
 
   Future<ResultList<Quote>> getQuotes(AccessToken token, List<String> isin,
       {List<String>? mic, bool? decimals, Sorting? sorting,
-        DateTime? from, DateTime? to, bool? latest, int? limit}) async {
+        DateTime? from, DateTime? to, bool? latest, int? limit, int? page}) async {
     String url = LemonMarketsURL.BASE_URL_MARKET + '/quotes/';
 
     List<String> query = [];
@@ -82,6 +88,9 @@ class LemonMarketsMarketData {
     }
     if (limit != null) {
       query.add("limit=" + limit.toString());
+    }
+    if (page != null) {
+      query.add("page=" + page.toString());
     }
     if (latest != null && latest) {
       query.add("from=latest");
@@ -122,7 +131,7 @@ class LemonMarketsMarketData {
 
   Future<ResultList<OHLC>> getOHLC(AccessToken token, List<String> isin, OHLCType type,
       {List<String>? mics, bool? decimals,  Sorting? sorting,
-        DateTime? from, DateTime? to, bool? latest, int? limit}) async {
+        DateTime? from, DateTime? to, bool? latest, int? limit, int? page}) async {
 
     List<String> result = [];
     if (isin.isNotEmpty) {
@@ -130,6 +139,9 @@ class LemonMarketsMarketData {
     }
     if (limit != null) {
       result.add("limit="+limit.toString());
+    }
+    if (page != null) {
+      result.add("page="+page.toString());
     }
     if (mics != null && mics.isNotEmpty) {
       result.add("mic="+mics.join(','));

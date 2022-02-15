@@ -12,12 +12,10 @@ class LemonMarketsTradingVenue {
 
   LemonMarketsTradingVenue(this._client);
 
-  Future<ResultList<TradingVenue>> getTradingVenues(AccessToken token, {List<String>? mics}) async {
+  Future<ResultList<TradingVenue>> getTradingVenues(AccessToken token, {List<String>? mics, int? limit, int? page}) async {
     String url = LemonMarketsURL.BASE_URL_MARKET+'/venues/';
-    if (mics != null && mics.isNotEmpty) {
-      String values = mics.join(',');
-      url = url+'?mic='+values;
-    }
+    String appendSearch = _generateParamString(mic: mics, limit: limit, page: page);
+    url += appendSearch;
     return getTradingVenuesByUrl(token, url);
   }
 
@@ -32,4 +30,18 @@ class LemonMarketsTradingVenue {
     }
   }
 
+  String _generateParamString({List<String>? mic, int? limit, int? page}) {
+    List<String> query = [];
+    if (mic != null && mic.isNotEmpty) {
+      query.add("mic="+mic.join(','));
+    }
+    if (limit != null) {
+      query.add("limit="+limit.toString());
+    }
+    if (page != null) {
+      query.add("page="+page.toString());
+    }
+    String result = LemonMarketsHttpClient.generateQueryParams(query);
+    return result;
+  }
 }
