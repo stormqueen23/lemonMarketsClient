@@ -167,8 +167,8 @@ class LemonMarkets {
     return _tradingClient.getOrder(token, orderUuid);
   }
 
-  Future<ActivateOrderResult> activateOrder(AccessToken token, String orderUuid, Map<String, String>? body) async {
-    ActivateOrderResult result = await _tradingClient.activateOrder(token, orderUuid, body);
+  Future<ActivateOrderResult> activateOrder(AccessToken token, String orderUuid, String? pin) async {
+    ActivateOrderResult result = await _tradingClient.activateOrder(token, orderUuid, pin);
     return result;
   }
 

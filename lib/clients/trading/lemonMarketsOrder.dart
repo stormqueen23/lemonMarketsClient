@@ -52,8 +52,13 @@ class LemonMarketsOrder {
     }
   }
 
-  Future<ActivateOrderResult> activateOrder(AccessToken token, String orderUuid, Map<String, String>? body) async {
+  Future<ActivateOrderResult> activateOrder(AccessToken token, String orderUuid, String? pin) async {
     String url = LemonMarketsURL.getTradingUrl(token) + '/orders/' + orderUuid + '/activate/';
+    Map<String, String>? body;
+    if (pin != null) {
+      body = {};
+      body['pin'] = pin;
+    }
     LemonMarketsClientResponse response = await _client.sendPost(url, token, body, true);
     try {
       String status = response.decodedBody['status'];
