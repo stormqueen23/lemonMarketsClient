@@ -14,6 +14,7 @@ class Amount {
   /// Amount(apiValue: 2500) or <br/>
   /// Amount(value: 2.5)
   Amount({int? apiValue, double? value, this.currency = '€'}) {
+    assert(apiValue != null || value != null);
     if (apiValue != null) {
       this.apiValue = apiValue;
       this.value = apiValue / (max(1, pow(10, scale)));
