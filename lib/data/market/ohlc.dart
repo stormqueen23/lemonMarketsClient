@@ -35,6 +35,10 @@ class OHLC {
 
   Map<String, dynamic> toJson() => _$OHLCToJson(this);
 
+  double get difference => close - open;
+
+  double get differenceAsPercent => (difference / open)*100;
+
   @override
   String toString() {
     return 'OHLC {\nisin: $isin,\nopen: $open,\nhigh: $high,\nlow: $low,\nclose: $close,\nmic: $mic,\ntime: $time\n}';
