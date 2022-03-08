@@ -25,4 +25,9 @@ class Trade {
   factory Trade.fromJson(Map<String, dynamic> json) => _$TradeFromJson(json);
 
   Map<String, dynamic> toJson() => _$TradeToJson(this);
+
+  @override
+  String toString() {
+    return 'Trade{\nisin: $isin,\nprice: $price,\nvolume: $volume,\nmic: $mic,\ntime: $time\n}';
+  }
 }
