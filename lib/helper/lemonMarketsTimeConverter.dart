@@ -1,6 +1,17 @@
 import 'package:intl/intl.dart';
 
 class LemonMarketsTimeConverter {
+  static DateFormat openingDayFormatter = DateFormat('yyyy-MM-dd');
+  static DateFormat openingHourFormatter = DateFormat('HH:mm yyyy-MM-dd');
+
+  static DateTime getOpeningDay(String value) {
+    return openingDayFormatter.parse(value);
+  }
+
+  static DateTime getOpeningDayWithHour(String hour, String day) {
+    DateTime parsedTime = openingHourFormatter.parse((hour + ' ' + day));
+    return parsedTime;
+  }
 
   /// converts from milliseconds
   static DateTime? getDateTimeForLemonMarketNullable(int? time) {
