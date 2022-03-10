@@ -14,6 +14,8 @@ OHLC _$OHLCFromJson(Map<String, dynamic> json) => OHLC(
       (json['c'] as num).toDouble(),
       LemonMarketsTimeConverter.getDateTimeForLemonMarket(json['t'] as int),
       json['mic'] as String,
+      (json['v'] as num?)?.toDouble(),
+      (json['pbv'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$OHLCToJson(OHLC instance) => <String, dynamic>{
@@ -22,6 +24,8 @@ Map<String, dynamic> _$OHLCToJson(OHLC instance) => <String, dynamic>{
       'h': instance.high,
       'l': instance.low,
       'c': instance.close,
+      'v': instance.volume,
+      'pbv': instance.pbv,
       'mic': instance.mic,
       't': LemonMarketsTimeConverter.getDoubleTimeForDateTime(instance.time),
     };

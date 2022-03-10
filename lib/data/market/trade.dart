@@ -14,13 +14,16 @@ class Trade {
   @JsonKey(name: 'v')
   double volume;
 
+  @JsonKey(name: 'pbv')
+  double? pbv;
+
   @JsonKey(name: 'mic')
   String mic;
 
   @JsonKey(name: 't', fromJson: LemonMarketsTimeConverter.getDateTimeForLemonMarket, toJson: LemonMarketsTimeConverter.getDoubleTimeForDateTime)
   DateTime time;
 
-  Trade(this.isin, this.price, this.volume, this.time, this.mic);
+  Trade(this.isin, this.price, this.pbv, this.volume, this.time, this.mic);
 
   factory Trade.fromJson(Map<String, dynamic> json) => _$TradeFromJson(json);
 
@@ -28,6 +31,6 @@ class Trade {
 
   @override
   String toString() {
-    return 'Trade{\nisin: $isin,\nprice: $price,\nvolume: $volume,\nmic: $mic,\ntime: $time\n}';
+    return 'Trade{\nisin: $isin,\nprice: $price,\nvolume: $volume,\npbv: $pbv,\nmic: $mic,\ntime: $time\n}';
   }
 }

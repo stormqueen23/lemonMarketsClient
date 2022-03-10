@@ -20,6 +20,12 @@ class OHLC {
   @JsonKey(name: 'c')
   double close;
 
+  @JsonKey(name: 'v')
+  double? volume;
+
+  @JsonKey(name: 'pbv')
+  double? pbv;
+
   @JsonKey(name: 'mic')
   String mic;
 
@@ -29,7 +35,7 @@ class OHLC {
       toJson: LemonMarketsTimeConverter.getDoubleTimeForDateTime)
   DateTime time;
 
-  OHLC(this.isin, this.open, this.high, this.low, this.close, this.time, this.mic);
+  OHLC(this.isin, this.open, this.high, this.low, this.close, this.time, this.mic, this.volume, this.pbv);
 
   factory OHLC.fromJson(Map<String, dynamic> json) => _$OHLCFromJson(json);
 
@@ -41,6 +47,6 @@ class OHLC {
 
   @override
   String toString() {
-    return 'OHLC {\nisin: $isin,\nopen: $open,\nhigh: $high,\nlow: $low,\nclose: $close,\nmic: $mic,\ntime: $time\n}';
+    return 'OHLC {\nisin: $isin,\nopen: $open,\nhigh: $high,\nlow: $low,\nclose: $close,\nvolume: $volume,\npbv: $pbv,\nmic: $mic,\ntime: $time\n}';
   }
 }
