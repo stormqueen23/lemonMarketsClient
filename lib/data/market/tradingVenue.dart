@@ -42,8 +42,26 @@ class TradingVenue {
     return result;
   }
 
-  DateTime getPreviousOpeningDayEnd(DateTime time) {
-    DateTime result = time;
+  DateTime? getPreviousOpeningDayEnd(DateTime time) {
+   DateTime? result = _getPreviousOpeningDay(time);
+    if (result == null) {
+      return null;
+    }
+    result = DateTime(result.year, result.month, result.day, int.parse(hour.end.substring(0,2)));
+    return result;
+  }
+
+  DateTime? getPreviousOpeningDayStart(DateTime time) {
+   DateTime? result = _getPreviousOpeningDay(time);
+    if (result == null) {
+      return null;
+    }
+    result = DateTime(result.year, result.month, result.day, int.parse(hour.start.substring(0,2)));
+    return result;
+  }
+
+  DateTime? _getPreviousOpeningDay(DateTime time) {
+    DateTime? result;
     String timeString = LemonMarketsTimeConverter.openingDayFormatter.format(time);
     DateTime adjustedTime = LemonMarketsTimeConverter.openingDayFormatter.parse(timeString);
     List<DateTime> openingDaysAsDate = openingDays.map((e) => LemonMarketsTimeConverter.openingDayFormatter.parse(e)).toList();
@@ -56,12 +74,11 @@ class TradingVenue {
         break;
       }
     };
-    result = DateTime(result.year, result.month, result.day, int.parse(hour.end.substring(0,2)));
     return result;
   }
 
   DateTime getNextOpeningDayStart(DateTime time) {
-    DateTime result = time;
+   DateTime result = time;
     String timeString = LemonMarketsTimeConverter.openingDayFormatter.format(time);
     DateTime adjustedTime = LemonMarketsTimeConverter.openingDayFormatter.parse(timeString);
     List<DateTime> openingDaysAsDate = openingDays.map((e) => LemonMarketsTimeConverter.openingDayFormatter.parse(e)).toList();
@@ -74,6 +91,27 @@ class TradingVenue {
       }
     };
     result = DateTime(result.year, result.month, result.day, int.parse(hour.start.substring(0,2)));
+    return result;
+  }
+
+  bool isTradingVenueOpen(DateTime at) {
+    bool result = isInOpeningDays(at);
+
+    OpeningHour oh = hour;
+    String currentOpeningDay = LemonMarketsTimeConverter.openingDayFormatter.format(at);
+
+    if (result) {
+      //check if requested time is in opening hour
+      String start = oh.start;
+      DateTime startDate = LemonMarketsTimeConverter.getOpeningDayWithHour(start, currentOpeningDay);
+      String end = oh.end;
+      DateTime endDate = LemonMarketsTimeConverter.getOpeningDayWithHour(end, currentOpeningDay);
+
+      result = (at.isAfter(startDate) && at.isBefore(endDate)) ||
+          at.isAtSameMomentAs(startDate) ||
+          at.isAtSameMomentAs(endDate);
+    }
+
     return result;
   }
 }

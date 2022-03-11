@@ -30,21 +30,22 @@ void main() {
     });
   });
 
-  test('getOHLC', () async {
+  test('getXOHLC', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
-
-    ResultList<OHLC> items = await lm.getOHLC(token, ['IL0011582033'], OHLCType.h1, from: DateTime.now().add(Duration(hours: -9)));
-    expect(items.result.length, greaterThan(0));
-    expect(items.result[0].isin, 'IL0011582033');
-    expect(items.result[0].time.year, greaterThan(2020));
+    ResultList<OHLC> items = await lm.getOHLC(token, ['DE000KSAG888'], OHLCType.m1, from: DateTime.now().add(Duration(hours: -24)));
+    print("count: " + items.count.toString());
   });
 
   test('getOHLCByDate', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
-    DateTime from = DateTime.now().add(Duration(days: -3));
-    DateTime to = DateTime.now().add(Duration(days: -1));
-    ResultList<OHLC> items = await lm.getOHLC(token, ['US88160R1014'], OHLCType.h1, from: from, to: to, sorting: Sorting.newestFirst);
+    DateTime from = DateTime(2022, 3, 7);
+    DateTime to = DateTime(2022, 3, 8);
+    ResultList<OHLC> items = await lm.getOHLC(token, ['DE0007100000'], OHLCType.d1, from: from, sorting: Sorting.newestFirst);
+    print(items);
     expect(items.result, isNotEmpty);
+    ResultList<OHLC> itemsMinute = await lm.getOHLC(token, ['DE0007100000'], OHLCType.m1, from: from, to: to, sorting: Sorting.oldestFirst);
+    print(itemsMinute.result.first.time.toString()+': '+itemsMinute.result.first.open.toString());
+    print(itemsMinute.result.last.time.toString()+': '+itemsMinute.result.last.close.toString());
   });
 
   test('getLatestOHLC', () async {
