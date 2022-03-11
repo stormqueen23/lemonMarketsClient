@@ -4,10 +4,9 @@ import 'package:lemon_markets_client/lemon_markets_client.dart';
 class LemonMarketsProvider with ChangeNotifier {
   final LemonMarkets lm = LemonMarkets();
   AccessToken token = AccessToken(token: 'ADD_YOUR_TOKEN_HERE');
-  String spaceIdForCreatingOrders = 'ADD_YOUR_SPACE_ID_HERE';
+
   bool showTokenData = false;
 
-  TradingResultList<Space>? spaces;
   bool showSpaceData = false;
 
   String? errorMessage;
@@ -22,20 +21,6 @@ class LemonMarketsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> requestSpaceDetails() async {
-    try {
-      spaces = await lm.getSpaces(token);
-      notifyListeners();
-    } on LemonMarketsException catch (e) {
-      setErrorMessage(e.toString());
-    }
-  }
-
-  void switchShowSpaceData() {
-    showSpaceData = !showSpaceData;
-    notifyListeners();
-  }
-
   void setSearchString(String value) {
     this.searchString = value;
   }
@@ -46,8 +31,8 @@ class LemonMarketsProvider with ChangeNotifier {
         return lm.searchInstruments(token, search: searchString);
       } on LemonMarketsException catch (e) {
         setErrorMessage(e.toString());
+        return null;
       }
-
   }
 
   Future<void> createAndActivateOrder(String isin, bool sell) async {
@@ -55,7 +40,7 @@ class LemonMarketsProvider with ChangeNotifier {
     if (quantity != null && quantity! > 0) {
       try {
         debugPrint('create order for $isin');
-        CreatedOrder order = (await lm.placeOrder(token, spaceIdForCreatingOrders, isin, sell ? OrderSide.sell : OrderSide.buy, quantity!)).result!;
+        CreatedOrder order = (await lm.placeOrder(token, isin, sell ? OrderSide.sell : OrderSide.buy, quantity!)).result!;
         debugPrint('created order:  ${order.uuid}');
         this.quantity = null;
         orderCreated = true;

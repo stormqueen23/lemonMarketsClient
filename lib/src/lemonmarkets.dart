@@ -6,7 +6,6 @@ import 'package:lemon_markets_client/clients/market/lemonMarketsTradingVenue.dar
 import 'package:lemon_markets_client/clients/lemonMarketsHttpClient.dart';
 import 'package:lemon_markets_client/clients/market/lemonMarketsMarketData.dart';
 import 'package:lemon_markets_client/clients/trading/lemonMarketsPortfolio.dart';
-import 'package:lemon_markets_client/clients/trading/lemonMarketsSpaces.dart';
 import 'package:lemon_markets_client/clients/trading/lemonMarketsOrder.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 import 'package:logging/logging.dart';
@@ -21,8 +20,6 @@ enum OrderType { limit, market, stopLimit, stop, unknown }
 enum OHLCType { m1, h1, d1 }
 
 enum Sorting { newestFirst, oldestFirst }
-
-enum SpaceType { auto, manual, unknown }
 
 enum AccountMode { paper, money }
 
@@ -46,9 +43,7 @@ enum BankStatementType {
 class LemonMarkets {
   final Logger log = Logger('LemonMarkets');
 
-  late LemonMarketsSpaces _spacesClient;
   late LemonMarketsPortfolio _portfolioClient;
-  //late LemonMarketsAuth _authClient;
   late LemonMarketsOrder _tradingClient;
   late LemonMarketsMarketData _marketClient;
   late LemonMarketsSearch _searchClient;
@@ -57,8 +52,6 @@ class LemonMarkets {
 
   LemonMarkets() {
     LemonMarketsHttpClient client = LemonMarketsHttpClient();
-    _spacesClient = LemonMarketsSpaces(client);
-    //_authClient = LemonMarketsAuth(client);
     _tradingClient = LemonMarketsOrder(client);
     _marketClient = LemonMarketsMarketData(client);
     _portfolioClient = LemonMarketsPortfolio(client);
@@ -97,43 +90,15 @@ class LemonMarkets {
     return _accountClient.getDocumentsByUrl(token, url);
   }
 
-  // Trading -> Spaces
-
-  Future<TradingResult<Space>> createSpace(AccessToken token, String name, SpaceType type, Amount riskLimit,
-      {String? description}) async {
-    return _spacesClient.createSpace(token, name, type, riskLimit, description: description);
-  }
-
-  Future<TradingResultList<Space>> getSpaces(AccessToken token, {SpaceType? type}) async {
-    return _spacesClient.getSpaces(token, type: type);
-  }
-
-  Future<TradingResultList<Space>> getSpacesByUrl(AccessToken token, String url) async {
-    return _spacesClient.getSpacesByUrl(token, url);
-  }
-
-  Future<TradingResult<Space>> getSpace(AccessToken token, String spaceUuid) async {
-    return _spacesClient.getSpace(token, spaceUuid);
-  }
-
-  Future<TradingResult<Space>> alterSpace(AccessToken token, String uuid,
-      {String? name, Amount? riskLimit, String? description}) async {
-    return _spacesClient.alterSpace(token, uuid, name: name, description: description, riskLimit: riskLimit);
-  }
-
-  Future<DeleteSpaceResult> deleteSpace(AccessToken token, String spaceUuid) async {
-    return _spacesClient.deleteSpace(token, spaceUuid);
-  }
-
   // Trading -> Orders
 
   Future<TradingResult<CreatedOrder>> placeOrder(
-      AccessToken token, String spaceUuid, String isin, OrderSide side, int quantity,
+      AccessToken token, String isin, OrderSide side, int quantity,
       {DateTime? validUntil, Amount? stopPrice, Amount? limitPrice, String venue = 'XMUN', String? notes}) async {
     if (validUntil == null) {
       validUntil = DateTime.now().add(Duration(days: 29));
     }
-    return _tradingClient.placeOrder(token, spaceUuid, isin, validUntil, side, quantity, venue,
+    return _tradingClient.placeOrder(token, isin, validUntil, side, quantity, venue,
         stopPrice: stopPrice, limitPrice: limitPrice, notes: notes);
   }
 
@@ -145,11 +110,9 @@ class LemonMarkets {
       OrderStatus? status,
       int? limit,
       int? page,
-      String? spaceUuid,
       String? isin}) async {
     return _tradingClient.getOrders(token,
         type: type,
-        spaceUuid: spaceUuid,
         isin: isin,
         createdAtFrom: from,
         createdAtUntil: to,
@@ -180,8 +143,8 @@ class LemonMarkets {
   // Trading -> Portfolio
 
   Future<TradingResultList<PortfolioItem>> getPortfolioItems(AccessToken token,
-      {String? spaceUuid, String? isin, int? limit, int? page}) async {
-    return _portfolioClient.getPortfolioItems(token, spaceUuid: spaceUuid, isin: isin, limit: limit, page: page);
+      {String? isin, int? limit, int? page}) async {
+    return _portfolioClient.getPortfolioItems(token, isin: isin, limit: limit, page: page);
   }
 
   Future<TradingResultList<PortfolioItem>> getPortfolioItemsByUrl(AccessToken token, String url) async {

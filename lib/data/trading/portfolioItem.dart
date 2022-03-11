@@ -12,9 +12,6 @@ class PortfolioItem {
   @JsonKey(name: 'isin_title')
   String isinTitle;
 
-  @JsonKey(name: 'space_id')
-  String spaceUuid;
-
   @JsonKey(name: 'quantity')
   int quantity;
 
@@ -39,7 +36,6 @@ class PortfolioItem {
   PortfolioItem(
       this.isin,
       this.isinTitle,
-      this.spaceUuid,
       this.quantity,
       this.buyPriceAvg);
 
@@ -60,7 +56,6 @@ class PortfolioItem {
         'buyPriceAvg: $buyPriceAvg,\n'
         'isin: $isin,\n'
         'title: $isinTitle,\n'
-        'spaceUuid: $spaceUuid\n'
         'estimatedPriceSingle: $estimatedPrice,\n'
         'estimatedPriceTotal: $estimatedPriceTotal,\n'
         'diffAmount: $diffAmount,\n'

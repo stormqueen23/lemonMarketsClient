@@ -23,7 +23,6 @@ ExistingOrder _$ExistingOrderFromJson(Map<String, dynamic> json) =>
           json['estimated_price'] as num?),
       json['venue'] as String,
       LemonMarketsResultConverter.fromOrderStatus(json['status'] as String),
-      json['space_id'] as String,
       LemonMarketsResultConverter.fromOrderType(json['type'] as String),
       json['executed_quantity'] as int?,
       LemonMarketsAmountConverter.fromNullableAmount(
@@ -76,7 +75,6 @@ Map<String, dynamic> _$ExistingOrderToJson(ExistingOrder instance) =>
           LemonMarketsTimeConverter.toIsoTimeNullable(instance.chargableAt),
       'venue': instance.tradingVenueMic,
       'status': LemonMarketsResultConverter.toOrderStatus(instance.status),
-      'space_id': instance.spaceUuid,
       'type': LemonMarketsResultConverter.toOrderType(instance.type),
       'executed_quantity': instance.executedQuantity,
       'executed_price':

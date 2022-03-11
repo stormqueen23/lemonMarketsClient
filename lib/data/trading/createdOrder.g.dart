@@ -23,7 +23,6 @@ CreatedOrder _$CreatedOrderFromJson(Map<String, dynamic> json) => CreatedOrder(
       json['notes'] as String?,
       RegulatoryInformation.fromJson(
           json['regulatory_information'] as Map<String, dynamic>),
-      json['space_id'] as String,
       LemonMarketsTimeConverter.fromIsoTimeNullable(
           json['chargeable_at'] as String?),
       LemonMarketsAmountConverter.fromAmount(json['charge'] as num),
@@ -51,6 +50,5 @@ Map<String, dynamic> _$CreatedOrderToJson(CreatedOrder instance) =>
       'status': LemonMarketsResultConverter.toOrderStatus(instance.status),
       'venue': instance.tradingVenueMic,
       'notes': instance.notes,
-      'space_id': instance.spaceUuid,
       'regulatory_information': instance.regulatoryInformation,
     };

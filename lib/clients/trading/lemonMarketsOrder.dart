@@ -21,7 +21,7 @@ class LemonMarketsOrder {
   LemonMarketsOrder(this._client);
 
   Future<TradingResult<CreatedOrder>> placeOrder(
-      AccessToken token, String spaceUuid, String isin, DateTime expiresAt, OrderSide side, int quantity, String venue,
+      AccessToken token, String isin, DateTime expiresAt, OrderSide side, int quantity, String venue,
       {Amount? stopPrice, Amount? limitPrice, String? notes}) async {
     String url = LemonMarketsURL.getTradingUrl(token) + '/orders/';
     Map<String, dynamic> data = {};
@@ -30,7 +30,6 @@ class LemonMarketsOrder {
     data['expires_at'] = LemonMarketsTimeConverter.toIsoTime(expiresAt);
     data['quantity'] = quantity;
     data['venue'] = venue;
-    data['space_id'] = spaceUuid;
     if (limitPrice != null) {
       data['limit_price'] = limitPrice.apiValue;
     }
@@ -108,7 +107,7 @@ class LemonMarketsOrder {
     }
   }
 
-  Future<TradingResultList<ExistingOrder>> getOrders(AccessToken token, {String? spaceUuid, DateTime? createdAtUntil,
+  Future<TradingResultList<ExistingOrder>> getOrders(AccessToken token, {DateTime? createdAtUntil,
       DateTime? createdAtFrom, OrderSide? side, OrderType? type, OrderStatus? status, String? isin, int? limit, int? page}) async {
     List<String> params = _getOrderQueryParams(
         side: side,
@@ -116,7 +115,6 @@ class LemonMarketsOrder {
         createdAtFrom: createdAtFrom,
         createdAtUntil: createdAtUntil,
         isin: isin,
-        spaceUuid: spaceUuid,
         type: type,
         limit: limit,
         page: page);
@@ -143,14 +141,10 @@ class LemonMarketsOrder {
       OrderSide? side,
       OrderType? type,
       OrderStatus? status,
-      String? spaceUuid,
       String? isin,
       int? limit,
       int? page}) {
     List<String> result = [];
-    if (spaceUuid != null) {
-      result.add('space_id=' + spaceUuid);
-    }
     if (createdAtUntil != null) {
       String toTime = LemonMarketsTimeConverter.getOrderQueryTimeFormat(createdAtUntil);
       result.add('to=' + toTime);

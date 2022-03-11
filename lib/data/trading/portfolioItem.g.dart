@@ -10,7 +10,6 @@ PortfolioItem _$PortfolioItemFromJson(Map<String, dynamic> json) =>
     PortfolioItem(
       json['isin'] as String,
       json['isin_title'] as String,
-      json['space_id'] as String,
       json['quantity'] as int,
       LemonMarketsAmountConverter.fromNullableAmount(
           json['buy_price_avg'] as num?),
@@ -24,7 +23,6 @@ Map<String, dynamic> _$PortfolioItemToJson(PortfolioItem instance) =>
     <String, dynamic>{
       'isin': instance.isin,
       'isin_title': instance.isinTitle,
-      'space_id': instance.spaceUuid,
       'quantity': instance.quantity,
       'buy_price_avg':
           LemonMarketsAmountConverter.toNullableAmount(instance.buyPriceAvg),

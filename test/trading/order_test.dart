@@ -4,7 +4,6 @@ import 'package:test/test.dart';
 
 import '../credentials.dart';
 
-String spaceUuid = Credentials.spaceUuid;
 String mic = 'ALLDAY';
 String isin = 'DE000BASF111';
 
@@ -22,7 +21,7 @@ void main() {
 
   test('createOrder', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
-    CreatedOrder order = (await lm.placeOrder(token, spaceUuid, isin, OrderSide.buy, 1, venue: mic)).result!;
+    CreatedOrder order = (await lm.placeOrder(token, isin, OrderSide.buy, 1, venue: mic)).result!;
     print('order ${order.uuid} created. expires at ${order.validUntil} ${order.validUntil.toIso8601String()}');
     expect(order, isNotNull);
     print(order);
@@ -32,14 +31,14 @@ void main() {
   test('createAndDeleteOrder', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
 
-    TradingResultList<ExistingOrder> orders = await lm.getOrders(token, spaceUuid: spaceUuid);
+    TradingResultList<ExistingOrder> orders = await lm.getOrders(token);
     print('found ${orders.result.length} orders for space');
     int numberOfOrders = orders.count ?? 0;
 
-    CreatedOrder order = (await lm.placeOrder(token, spaceUuid, isin, OrderSide.buy, 2, limitPrice: Amount(value: 1))).result!;
+    CreatedOrder order = (await lm.placeOrder(token, isin, OrderSide.buy, 2, limitPrice: Amount(value: 1))).result!;
     print('order ${order.uuid} created. Estimated price: ${order.estimatedPrice.displayValue}');
     print(order);
-    orders = await lm.getOrders(token, spaceUuid: spaceUuid);
+    orders = await lm.getOrders(token);
     print('found ${orders.result.length} orders for space');
     int numberOfOrdersAfterCreation = orders.count ?? 0;
     expect(numberOfOrdersAfterCreation, equals(numberOfOrders+1));
@@ -47,7 +46,7 @@ void main() {
     DeleteOrderResult response = await lm.deleteOrder(token, order.uuid);
     print('delete order: ${response.success} (${response.responseMap.toString()})');
 
-    orders = await lm.getOrders(token, spaceUuid: spaceUuid);
+    orders = await lm.getOrders(token);
     //int numberOfOrdersAfterDeletion = orders.count ?? 0;
     //expect(numberOfOrdersAfterDeletion, equals(numberOfOrders));
     print('found ${orders.count} orders');
@@ -57,11 +56,11 @@ void main() {
   test('createAndDeleteStopOrder', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
 
-    CreatedOrder order = (await lm.placeOrder(token, spaceUuid, isin, OrderSide.buy, 1, stopPrice: Amount(value: 1.5))).result!;
+    CreatedOrder order = (await lm.placeOrder(token, isin, OrderSide.buy, 1, stopPrice: Amount(value: 1.5))).result!;
     print('order ${order.uuid} created. expires at ${order.validUntil} ${order.validUntil.toIso8601String()}, stopPrice: ${order.stopPrice?.displayValue} (${order.stopPrice?.apiValue})');
     await lm.deleteOrder(token, order.uuid);
 
-    order = (await lm.placeOrder(token, spaceUuid, isin, OrderSide.buy, 1, stopPrice: Amount(value: 1))).result!;
+    order = (await lm.placeOrder(token, isin, OrderSide.buy, 1, stopPrice: Amount(value: 1))).result!;
     print('order ${order.uuid} created. expires at ${order.validUntil} ${order.validUntil.toIso8601String()}, stopPrice: ${order.stopPrice?.displayValue} (${order.stopPrice?.apiValue})');
     await lm.deleteOrder(token, order.uuid);
   });
@@ -106,7 +105,7 @@ void main() {
   test('getFindOneOrder', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
 
-    CreatedOrder createdOrder = (await lm.placeOrder(token, spaceUuid, isin, OrderSide.buy, 1, stopPrice: Amount(value: 1.5))).result!;
+    CreatedOrder createdOrder = (await lm.placeOrder(token, isin, OrderSide.buy, 1, stopPrice: Amount(value: 1.5))).result!;
     ExistingOrder existingOrder = (await lm.getOrder(token, createdOrder.uuid)).result!;
     print('found ${existingOrder.isin}');
     print(existingOrder);
@@ -118,7 +117,7 @@ void main() {
   test('activateOrder', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
 
-    CreatedOrder order = (await lm.placeOrder(token, spaceUuid, isin, OrderSide.buy, 1, stopPrice: Amount(value: 1.5))).result!;
+    CreatedOrder order = (await lm.placeOrder(token, isin, OrderSide.buy, 1, stopPrice: Amount(value: 1.5))).result!;
     String orderToActivate = order.uuid;
     ActivateOrderResult response = await lm.activateOrder(token, orderToActivate, null);
     print('activate order: ${response.success} (${response.responseMap.toString()})');
@@ -131,7 +130,7 @@ void main() {
   test('createAndActivateBuyOrder', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
 
-    CreatedOrder order = (await lm.placeOrder(token, spaceUuid, 'DE0006048408', OrderSide.buy, 2)).result!;
+    CreatedOrder order = (await lm.placeOrder(token, 'DE0006048408', OrderSide.buy, 2)).result!;
     print('BUY order ${order.uuid} created. Estimated price: ${order.estimatedPrice} (${order.side})');
 
     ActivateOrderResult response = await lm.activateOrder(token, order.uuid, null);
@@ -146,7 +145,7 @@ void main() {
   test('createAndActivateSellOrder', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
 
-    TradingResult<CreatedOrder> result = (await lm.placeOrder(token, spaceUuid, 'DE0006048408', OrderSide.sell, 100));
+    TradingResult<CreatedOrder> result = (await lm.placeOrder(token, 'DE0006048408', OrderSide.sell, 100));
     print('${result.status} | ${result.errorCode} | ${result.errorMessage}');
     if (result.result != null) {
       CreatedOrder order = result.result!;
@@ -161,7 +160,7 @@ void main() {
   test('createActivateAndDeleteOrder', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
 
-    CreatedOrder order = (await lm.placeOrder(token, spaceUuid, 'DE000BASF111', OrderSide.buy, 1)).result!;
+    CreatedOrder order = (await lm.placeOrder(token, 'DE000BASF111', OrderSide.buy, 1)).result!;
     print('order ${order.uuid} created.');
 
     ActivateOrderResult response = await lm.activateOrder(token, order.uuid, null);

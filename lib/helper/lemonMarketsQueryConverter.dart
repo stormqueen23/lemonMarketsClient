@@ -10,6 +10,7 @@ class LemonMarketsQueryConverter {
     } else if (OHLCType.m1 == type) {
       return 'm1';
     }
+    return null;
   }
 
   static String? convertSideForSearch(OrderSide value) {

@@ -254,24 +254,6 @@ class LemonMarketsResultConverter {
     return OrderType.unknown;
   }
 
-  static String? toSpaceType(SpaceType type) {
-    if (SpaceType.auto == type) {
-      return 'auto';
-    } else if (SpaceType.manual == type) {
-      return 'manual';
-    }
-    return null;
-  }
-
-  static SpaceType fromSpaceType(String typeAsString) {
-    if ('auto' == typeAsString) {
-      return SpaceType.auto;
-    } else if ('manual' == typeAsString) {
-      return SpaceType.manual;
-    }
-    return SpaceType.unknown;
-  }
-
   static double? toDoubleNullable(String? value) {
     if (value == null) {
       return null;

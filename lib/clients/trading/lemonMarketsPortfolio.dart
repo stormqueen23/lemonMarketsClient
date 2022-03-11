@@ -12,9 +12,9 @@ class LemonMarketsPortfolio {
 
   LemonMarketsPortfolio(this._client);
 
-  Future<TradingResultList<PortfolioItem>> getPortfolioItems(AccessToken token, {String? spaceUuid, String? isin, int? limit, int? page}) async {
+  Future<TradingResultList<PortfolioItem>> getPortfolioItems(AccessToken token, {String? isin, int? limit, int? page}) async {
     String url = LemonMarketsURL.getTradingUrl(token) + '/portfolio/';
-    String params = _generateParamString(isin: isin, spaceUuid: spaceUuid, limit: limit, page: page);
+    String params = _generateParamString(isin: isin, limit: limit, page: page);
     url = url+params;
     return getPortfolioItemsByUrl(token, url);
   }
@@ -30,11 +30,8 @@ class LemonMarketsPortfolio {
     }
   }
 
-  String _generateParamString({String? spaceUuid, String? isin, int? limit, int? page}) {
+  String _generateParamString({String? isin, int? limit, int? page}) {
     List<String> query = [];
-    if (spaceUuid != null) {
-      query.add("space_id="+spaceUuid);
-    }
     if (isin != null) {
       query.add("isin="+isin);
     }

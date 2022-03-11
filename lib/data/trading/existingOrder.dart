@@ -86,9 +86,6 @@ class ExistingOrder {
       toJson: LemonMarketsResultConverter.toOrderStatus)
   OrderStatus status;
 
-  @JsonKey(name: 'space_id')
-  String spaceUuid;
-
   @JsonKey(
       name: 'type',
       fromJson: LemonMarketsResultConverter.fromOrderType,
@@ -145,7 +142,6 @@ class ExistingOrder {
       this.estimatedPrice,
       this.tradingVenueMic,
       this.status,
-      this.spaceUuid,
       this.type,
       this.executedQuantity,
       this.executedPrice,
@@ -181,7 +177,6 @@ class ExistingOrder {
         'estimatedPriceTotal: $estimatedPriceTotal,\n'
         'tradingVenueMic: $tradingVenueMic,\n'
         'status: $status,\n'
-        'spaceUuid: $spaceUuid,\n'
         'type: $type,\n'
         'executedQuantity: $executedQuantity,\n'
         'executedPrice: $executedPrice,\n'

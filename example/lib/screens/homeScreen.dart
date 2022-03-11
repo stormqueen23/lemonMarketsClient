@@ -1,10 +1,7 @@
-import 'package:example/provider/lemonMarketsProvider.dart';
 import 'package:example/widgets/accessTokenWidgets.dart';
 import 'package:example/widgets/commonWidgets.dart';
 import 'package:example/widgets/searchInstrumentsWidgets.dart';
-import 'package:example/widgets/spaceWidgets.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -39,12 +36,6 @@ class HomeScreen extends StatelessWidget {
                     LemonErrorWidget(),
                     DataReceivedWidget(hasData: true, description: 'Token:',),
                     AccessTokenArea(),
-                    Divider(
-                      thickness: 3,
-                    ),
-                    DataReceivedWidget(hasData: context.watch<LemonMarketsProvider>().spaces != null, description: 'Space:',),
-                    SpacesArea(),
-
                   ],
                 ),
               ),

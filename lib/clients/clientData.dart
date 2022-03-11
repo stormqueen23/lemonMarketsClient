@@ -27,18 +27,3 @@ class ActivateOrderResult {
     return 'ActivateOrderResult{success: $success, statusCode: $statusCode, mode: $mode, responseMap: $responseMap}';
   }
 }
-
-class DeleteSpaceResult {
-  bool success;
-  int statusCode;
-  AccountMode mode;
-  Map<String, dynamic> responseMap;
-  TradingResult resultObject;
-
-  DeleteSpaceResult(this.success, this.statusCode, this.mode, this.responseMap, this.resultObject);
-
-  @override
-  String toString() {
-    return 'DeleteSpaceResult{success: $success, statusCode: $statusCode, mode: $mode, responseMap: $responseMap}';
-  }
-}

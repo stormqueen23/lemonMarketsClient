@@ -59,7 +59,7 @@ class AccessTokenInfoWidget extends StatelessWidget {
         Divider(),
         AttributeWidget(name: 'Token: ', value: token.token),
         Divider(),
-        AttributeWidget(name: 'Reals Money: ', value: token.realMoneyAccess.toString()),
+        AttributeWidget(name: 'Real Money: ', value: token.realMoneyAccess.toString()),
       ],
     );
   }

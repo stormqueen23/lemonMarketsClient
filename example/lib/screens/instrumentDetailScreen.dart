@@ -12,8 +12,6 @@ class InstrumentDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool hasSpaceData = context.watch<LemonMarketsProvider>().spaces != null &&
-        context.watch<LemonMarketsProvider>().spaces!.result.isNotEmpty;
     return Scaffold(
       appBar: AppBar(
         title: Text(instrument.title),
@@ -30,12 +28,6 @@ class InstrumentDetailScreen extends StatelessWidget {
             Container(
               height: 16,
             ),
-            !hasSpaceData
-                ? Text(
-                    'You can only create an order if you have requested space details',
-                    textScaleFactor: 0.8,
-                  )
-                : Container(),
             TextButton(
                 onPressed: () {
                   context.read<LemonMarketsProvider>().orderCreated = false;

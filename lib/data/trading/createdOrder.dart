@@ -71,14 +71,11 @@ class CreatedOrder {
   @JsonKey(name: 'notes')
   String? notes;
 
-  @JsonKey(name: 'space_id')
-  String spaceUuid;
-
   @JsonKey(name: 'regulatory_information')
   RegulatoryInformation regulatoryInformation;
 
   CreatedOrder(this.isin, this.creationKey, this.validUntil, this.side, this.quantity, this.stopPrice, this.limitPrice, this.uuid,
-      this.status, this.tradingVenueMic, this.estimatedPrice, this.notes, this.regulatoryInformation, this.spaceUuid,
+      this.status, this.tradingVenueMic, this.estimatedPrice, this.notes, this.regulatoryInformation,
       this.chargableAt, this.chargePrice, this.createdAt);
 
   factory CreatedOrder.fromJson(Map<String, dynamic> json) => _$CreatedOrderFromJson(json);
@@ -100,7 +97,6 @@ class CreatedOrder {
         'status: $status,\n'
         'tradingVenueMic: $tradingVenueMic,\n'
         'notes: $notes,\n'
-        'spaceUuid: $spaceUuid,\n'
         'charge: $chargePrice,\n'
         'chargableAtAt: $chargableAt,\n'
         'regulatoryInformation: $regulatoryInformation\n'

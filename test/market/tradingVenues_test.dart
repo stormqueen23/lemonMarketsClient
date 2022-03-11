@@ -4,8 +4,6 @@ import 'package:test/test.dart';
 
 import '../credentials.dart';
 
-String spaceUuid = Credentials.spaceUuid;
-
 final LemonMarkets lm = LemonMarkets();
 
 void main() {

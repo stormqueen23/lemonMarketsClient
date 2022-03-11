@@ -40,9 +40,7 @@ class TradingResultList<T> {
     if (json != null && json is Map<String, dynamic>) {
       //example from plugin:
       //https://github.com/google/json_serializable.dart/blob/master/example/lib/generic_response_class_example.dart
-      if (T == Space) {
-       return Space.fromJson(json) as T;
-      } else if (T == PortfolioItem) {
+      if (T == PortfolioItem) {
         return PortfolioItem.fromJson(json) as T;
       } else if (T == Instrument) {
         return Instrument.fromJson(json) as T;
