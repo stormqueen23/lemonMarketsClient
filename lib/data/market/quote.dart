@@ -33,4 +33,9 @@ class Quote {
   Map<String, dynamic> toJson() => _$QuoteToJson(this);
 
   double get bidAskSpread => (ask-bit) / ask * 100;
+
+  @override
+  String toString() {
+    return 'Quote{\nisin: $isin,\nask: $ask,\naskVolume: $askVolume,\nbit: $bit,\nbitVolume: $bitVolume,\nmic: $mic,\ntime: $time\n}';
+  }
 }
