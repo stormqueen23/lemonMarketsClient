@@ -42,18 +42,18 @@ Short example for BUY:
   final LemonMarkets lemonMarkets = LemonMarkets();
   AccessToken token = AccessToken(token: 'ADD_YOUR_TOKEN_HERE');
 
-  TradingResult<CreatedOrder> result = await lemonMarkets.placeOrder(token, 'SPACE_UUID', 'US88160R1014', OrderSide.buy, 5);
+  TradingResult<CreatedOrder> result = await lemonMarkets.placeOrder(token, 'US88160R1014', OrderSide.buy, 5);
   String orderUuid = result.result!.uuid;
-  ActivateOrderResult activateResult = lemonMarkets.activateOrder(token, 'SPACE_UUID', orderUuid);  
+  ActivateOrderResult activateResult = lemonMarkets.activateOrder(token, orderUuid);  
 ```
 Short example for SELL:
 ```dart
   final LemonMarkets lemonMarkets = LemonMarkets();
   AccessToken token = AccessToken(token: 'ADD_YOUR_TOKEN_HERE');
 
-  TradingResult<CreatedOrder> result = await lemonMarkets.placeOrder(token, 'SPACE_UUID', 'US88160R1014', OrderSide.sell, 5);
+  TradingResult<CreatedOrder> result = await lemonMarkets.placeOrder(token, 'US88160R1014', OrderSide.sell, 5);
   String orderUuid = result.uuid;
-  ActivateOrderResult activateResult = lemonMarkets.activateOrder(token, 'SPACE_UUID', orderUuid);
+  ActivateOrderResult activateResult = lemonMarkets.activateOrder(token, orderUuid);
 ```
 
 ## Building this plugin
