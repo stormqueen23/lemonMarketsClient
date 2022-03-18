@@ -25,13 +25,22 @@ class LemonMarketsAccount {
   }
 
   Future<TradingResultList<BankStatement>> getBankStatements(AccessToken token,
-      {BankStatementType? type, DateTime? from, DateTime? to, int? limit, int? page}) async {
+      {BankStatementType? type, DateTime? from, DateTime? to, int? limit, int? page, Sorting? sorting, bool fromBeginning = false}) async {
     String url = LemonMarketsURL.getTradingUrl(token) + '/account/bankstatements/';
     List<String> result = [];
     if (type != null) {
       result.add('type='+LemonMarketsQueryConverter.convertBankStatementType(type));
     }
-    if (from != null) {
+    if (sorting != null) {
+      if (Sorting.newestFirst == sorting) {
+        result.add('sorting=desc');
+      } else {
+        result.add('sorting=asc');
+      }
+    }
+    if(fromBeginning) {
+      result.add('from=beginning');
+    } else if (from != null) {
       result.add('from='+LemonMarketsTimeConverter.toIsoDay(from));
     }
     if (to != null) {

@@ -2,47 +2,7 @@ import 'package:lemon_markets_client/lemon_markets_client.dart';
 
 class LemonMarketsResultConverter {
 
-  static String tDividend = 'dividend';
-  static String tOrderBuy = 'order_buy';
-  static String tOrderSell = 'order_sell';
-  static String tPayIn = 'pay_in';
-  static String tPayOut = 'pay_out';
-  static String tTax = 'tax';
-
-  static String? toTransactionType(TransactionType type) {
-    if (TransactionType.dividend == type) {
-      return tDividend;
-    } else if (TransactionType.orderBuy == type) {
-      return tOrderBuy;
-    } else if (TransactionType.orderSell == type) {
-      return tOrderSell;
-    } else if (TransactionType.payIn == type) {
-      return tPayIn;
-    } else if (TransactionType.payOut == type) {
-      return tPayOut;
-    } else if (TransactionType.tax == type) {
-      return tTax;
-    }
-    return null;
-  }
-
-  static TransactionType fromTransactionType(String typeAsString) {
-    if (tDividend == typeAsString) {
-      return TransactionType.dividend;
-    } else if (tOrderBuy == typeAsString) {
-      return TransactionType.orderBuy;
-    } else if (tOrderSell == typeAsString) {
-      return TransactionType.orderSell;
-    } else if (tPayIn == typeAsString) {
-      return TransactionType.payIn;
-    } else if (tPayOut == typeAsString) {
-      return TransactionType.payOut;
-    } else if (tTax == typeAsString) {
-      return TransactionType.tax;
-    }
-    return TransactionType.unknown;
-  }
-
+  static String bTax = 'tax';
   static String bDividend = 'dividend';
   static String bOrderBuy = 'order_buy';
   static String bOrderSell = 'order_sell';
@@ -70,6 +30,8 @@ class LemonMarketsResultConverter {
       return bInterestPaid;
     } else if (BankStatementType.interestEarned == value) {
       return bInterestEarned;
+    } else if (BankStatementType.tax == value) {
+      return bTax;
     }
     return null;
   }
@@ -91,6 +53,8 @@ class LemonMarketsResultConverter {
       return BankStatementType.interestPaid;
     } else if (bInterestEarned == value) {
       return BankStatementType.interestEarned;
+    } else if (bTax == value) {
+      return BankStatementType.tax;
     }
     return BankStatementType.unknown;
   }

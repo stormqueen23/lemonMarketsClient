@@ -37,6 +37,7 @@ enum BankStatementType {
   endOfDayBalance,
   interestPaid,
   interestEarned,
+  tax,
   unknown
 }
 
@@ -74,8 +75,8 @@ class LemonMarkets {
   }
 
   Future<TradingResultList<BankStatement>> getBankStatements(AccessToken token,
-      {BankStatementType? type, DateTime? from, DateTime? to, int? limit, int? page}) async {
-    return _accountClient.getBankStatements(token, type: type, from: from, to: to, limit: limit, page: page);
+      {BankStatementType? type, DateTime? from, DateTime? to, int? limit, int? page, Sorting? sorting, bool? fromBeginning}) async {
+    return _accountClient.getBankStatements(token, type: type, from: from, to: to, limit: limit, page: page, sorting: sorting, fromBeginning: fromBeginning ?? false);
   }
 
   Future<TradingResultList<BankStatement>> getBankStatementsByUrl(AccessToken token, String url) async {

@@ -30,9 +30,8 @@ void main() {
   //Bank statements
   test('getFromToBankStatements', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
-    DateTime from = DateTime.now().add(Duration(days: -10));
     DateTime to = DateTime.now();
-    TradingResultList<BankStatement> data = await lm.getBankStatements(token, from: from, to: to);
+    TradingResultList<BankStatement> data = await lm.getBankStatements(token, to: to, fromBeginning: true, sorting: Sorting.oldestFirst);
     expect(data, isNotNull);
     print('found bank statements: #${data.count}');
     data.result.forEach((element) {
