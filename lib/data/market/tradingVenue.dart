@@ -30,8 +30,9 @@ class TradingVenue {
 
   Map<String, dynamic> toJson() => _$TradingVenueToJson(this);
 
-  ///only compares the day! (yyyy-MM-dd)
+  ///compares the day (yyyy-MM-dd)
   bool isInOpeningDays(DateTime time) {
+    time = _getDateInTradingVenueTimeZone(time);
     bool result = false;
     List<DateTime> openingDaysAsDate = openingDays.map((e) => LemonMarketsTimeConverter.openingDayFormatter.parse(e)).toList();
     openingDaysAsDate.forEach((element) {
@@ -42,76 +43,123 @@ class TradingVenue {
     return result;
   }
 
-  DateTime? getPreviousOpeningDayEnd(DateTime time) {
-   DateTime? result = _getPreviousOpeningDay(time);
-    if (result == null) {
-      return null;
-    }
-    result = DateTime(result.year, result.month, result.day, int.parse(hour.end.substring(0,2)));
-    return result;
-  }
-
-  DateTime? getPreviousOpeningDayStart(DateTime time) {
-   DateTime? result = _getPreviousOpeningDay(time);
-    if (result == null) {
-      return null;
-    }
-    result = DateTime(result.year, result.month, result.day, int.parse(hour.start.substring(0,2)));
-    return result;
-  }
-
-  DateTime? _getPreviousOpeningDay(DateTime time) {
-    DateTime? result;
-    String timeString = LemonMarketsTimeConverter.openingDayFormatter.format(time);
-    DateTime adjustedTime = LemonMarketsTimeConverter.openingDayFormatter.parse(timeString);
-    List<DateTime> openingDaysAsDate = openingDays.map((e) => LemonMarketsTimeConverter.openingDayFormatter.parse(e)).toList();
-    //latest first!
-    openingDaysAsDate.sort((a, b) => a.compareTo(b));
-    for(DateTime element in openingDaysAsDate) {
-      if(element.isBefore(adjustedTime)) {
-        result = element;
-      } else {
-        break;
-      }
-    };
-    return result;
-  }
-
-  DateTime getNextOpeningDayStart(DateTime time) {
-   DateTime result = time;
-    String timeString = LemonMarketsTimeConverter.openingDayFormatter.format(time);
-    DateTime adjustedTime = LemonMarketsTimeConverter.openingDayFormatter.parse(timeString);
-    List<DateTime> openingDaysAsDate = openingDays.map((e) => LemonMarketsTimeConverter.openingDayFormatter.parse(e)).toList();
-    //latest first!
-    openingDaysAsDate.sort((a, b) => a.compareTo(b));
-    for(DateTime element in openingDaysAsDate) {
-      if(element.isAfter(adjustedTime)) {
-        result = element;
-        break;
-      }
-    };
-    result = DateTime(result.year, result.month, result.day, int.parse(hour.start.substring(0,2)));
-    return result;
-  }
-
   bool isTradingVenueOpen(DateTime at) {
+    //convert at to same timezone where this venue is
+    at = _getDateInTradingVenueTimeZone(at);
     bool result = isInOpeningDays(at);
-
-    OpeningHour oh = hour;
-    String currentOpeningDay = LemonMarketsTimeConverter.openingDayFormatter.format(at);
-
     if (result) {
       //check if requested time is in opening hour
-      String start = oh.start;
-      DateTime startDate = LemonMarketsTimeConverter.getOpeningDayWithHour(start, currentOpeningDay);
-      String end = oh.end;
-      DateTime endDate = LemonMarketsTimeConverter.getOpeningDayWithHour(end, currentOpeningDay);
+      int openingHour = getOpeningHour();
+      int closingHour = getClosingHour();
+      if (at.hour >= openingHour && at.hour < closingHour) {
+        result = true;
+      } else {
+        result = false;
+      }
+    }
+    return result;
+  }
 
-      result = (at.isAfter(startDate) && at.isBefore(endDate)) ||
-          at.isAtSameMomentAs(startDate) ||
-          at.isAtSameMomentAs(endDate);
+  Duration? getPreviousOpeningDayAsDuration(DateTime time) {
+
+  }
+  /// returns null if given date is before the dates in list,<br/> returns the same date if it is the first in list
+  String? getPreviousOpeningDay(DateTime time) {
+    time = _getDateInTradingVenueTimeZone(time);
+    String timeString = LemonMarketsTimeConverter.openingDayFormatter.format(time);
+
+    //oldest first
+    openingDays.sort((a,b) => a.compareTo(b));
+
+    String? result;
+
+    for (int i = 0; i < openingDays.length; i++) {
+      result = _checkPreviousDay(timeString);
+      if (result != null) {
+        break;
+      } else {
+        time = time.add(Duration(days: 1));
+        timeString = LemonMarketsTimeConverter.openingDayFormatter.format(time);
+      }
     }
 
     return result;
+  }
+
+  String? _checkPreviousDay(String toDay) {
+    int index = openingDays.indexOf(toDay);
+    String? result;
+    if (index == 0) {
+      result = toDay;
+    } else if (index > 0) {
+      result = openingDays[index-1];
+    }
+    return result;
+  }
+
+  /// returns null if given date is after the dates in list,<br/> returns the same date if it is the last day in list
+  String? getNextOpeningDay(DateTime time) {
+    time = _getDateInTradingVenueTimeZone(time);
+    String timeString = LemonMarketsTimeConverter.openingDayFormatter.format(time);
+
+    //oldest first
+    openingDays.sort((a,b) => a.compareTo(b));
+
+    String? result;
+
+    for (int i = 0; i < openingDays.length; i++) {
+      result = _checkNextDay(timeString);
+      if (result != null) {
+        break;
+      } else {
+        time = time.add(Duration(days: -1));
+        timeString = LemonMarketsTimeConverter.openingDayFormatter.format(time);
+      }
+    }
+
+    return result;
+  }
+
+  String? _checkNextDay(String toDay) {
+    int index = openingDays.indexOf(toDay);
+    String? result;
+    if (index == openingDays.length) {
+      result = toDay;
+    } else if (index >= 0) {
+      result = openingDays[index+1];
+    }
+    return result;
+  }
+
+  int getOpeningHour() {
+    return int.parse(hour.start.substring(0,2));
+  }
+
+  int getOpeningMinute() {
+    return int.parse(hour.start.substring(3,5));
+  }
+
+  int getClosingHour() {
+    return int.parse(hour.end.substring(0,2));
+  }
+
+  int getClosingMinute() {
+    return int.parse(hour.end.substring(3,5));
+  }
+
+  String getTimezone() {
+    return hour.timezone;
+  }
+
+  DateTime _getDateInTradingVenueTimeZone(DateTime at) {
+    at = at.toUtc();
+    Duration tradingVenueOffset = _getTradingVenueOffsetToUtc();
+    at = at.add(tradingVenueOffset);
+    return at;
+  }
+
+  Duration _getTradingVenueOffsetToUtc() {
+    Duration tradingVenueOffset = Duration(hours: 1); //TODO: summertime
+    return tradingVenueOffset;
   }
 }

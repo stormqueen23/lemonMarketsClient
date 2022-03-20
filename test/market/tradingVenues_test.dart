@@ -42,4 +42,32 @@ void main() {
     expect(tradingVenue.result.length, 1);
   });
 
+  test('tradingVenueIsOpen', () async {
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
+    ResultList<TradingVenue> tradingVenues = await lm.getTradingVenues(token);
+    TradingVenue tv = tradingVenues.result.first;
+    DateTime at = DateTime(2022,3,20,7,0);
+    bool isOpen = tv.isTradingVenueOpen(at);
+    print(at.timeZoneOffset);
+    print(at.timeZoneName);
+    print(isOpen);
+  });
+
+  test('previousOpeningDay', () async {
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
+    ResultList<TradingVenue> tradingVenues = await lm.getTradingVenues(token);
+    TradingVenue tv = tradingVenues.result.first;
+    DateTime at = DateTime(2022,3,29,9,0);
+    String? prev = tv.getPreviousOpeningDay(at);
+    print('previous day $prev (to date $at)');
+  });
+
+  test('nextOpeningDay', () async {
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
+    ResultList<TradingVenue> tradingVenues = await lm.getTradingVenues(token);
+    TradingVenue tv = tradingVenues.result.first;
+    DateTime at = DateTime(2022,3,26,9,0);
+    String? next = tv.getNextOpeningDay(at);
+    print('next day $next (to date $at)');
+  });
 }
