@@ -8,12 +8,14 @@ import 'package:logging/logging.dart';
 
 class LemonMarketsPortfolio {
   final log = Logger('LemonMarketsPortfolio');
+  final String ENDPOINT_NAME = '/positions/';
+
   LemonMarketsHttpClient _client;
 
   LemonMarketsPortfolio(this._client);
 
   Future<TradingResultList<PortfolioItem>> getPortfolioItems(AccessToken token, {String? isin, int? limit, int? page}) async {
-    String url = LemonMarketsURL.getTradingUrl(token) + '/portfolio/';
+    String url = LemonMarketsURL.getTradingUrl(token) + ENDPOINT_NAME;
     String params = _generateParamString(isin: isin, limit: limit, page: page);
     url = url+params;
     return getPortfolioItemsByUrl(token, url);
