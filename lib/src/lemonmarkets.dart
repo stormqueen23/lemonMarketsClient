@@ -196,8 +196,8 @@ class LemonMarkets {
   // type 'int' is not a subtype of type 'String' in type cast
   Future<ResultList<Quote>> getLatestQuote(AccessToken token, List<String> isin,
       {List<String>? mic, bool? decimals, Sorting? sorting, int? limit, int? page}) async {
-    return _marketClient.getQuotes(token, isin,
-        mic: mic, sorting: sorting, decimals: decimals, latest: true, page: page, limit: limit);
+    return _marketClient.getLatestQuote(token, isin,
+        mic: mic, sorting: sorting, decimals: decimals, page: page, limit: limit);
   }
 
   Future<ResultList<Quote>> getLatestQuoteByUrl(AccessToken token, String url) async {
@@ -212,8 +212,8 @@ class LemonMarkets {
       DateTime? to,
       int? limit,
       int? page}) async {
-    return _marketClient.getQuotes(token, isin,
-        mic: mic, sorting: sorting, decimals: decimals, from: from, to: to, limit: limit, page: page);
+    return _marketClient.getLatestQuote(token, isin,
+        mic: mic, sorting: sorting, decimals: decimals, limit: limit, page: page);
   }
 
   Future<ResultList<Quote>> getQuotesByUrl(AccessToken token, String url) async {
@@ -248,8 +248,8 @@ class LemonMarkets {
 
   Future<ResultList<Trade>> getLatestTrade(AccessToken token, List<String> isin,
       {List<String>? mics, bool? decimals, Sorting? sorting, int? limit, int? page}) async {
-    return _marketClient.getTrades(token, isin,
-        sorting: sorting, mics: mics, decimals: decimals, latest: true, page: page, limit: limit);
+    return _marketClient.getLatestTrade(token, isin,
+        sorting: sorting, mics: mics, decimals: decimals, page: page, limit: limit);
   }
 
   Future<ResultList<Trade>> getTrades(AccessToken token, List<String> isin,
@@ -260,8 +260,7 @@ class LemonMarkets {
       DateTime? to,
       int? limit,
       int? page}) async {
-    return _marketClient.getTrades(token, isin,
-        from: from, to: to, decimals: decimals, mics: mic, sorting: sorting, page: page, limit: limit);
+    return _marketClient.getLatestTrade(token, isin, decimals: decimals, mics: mic, sorting: sorting, page: page, limit: limit);
   }
 
   Future<ResultList<Trade>> getTradesByUrl(AccessToken token, String url) async {

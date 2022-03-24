@@ -19,10 +19,9 @@ class LemonMarketsMarketData {
 
   // Market Data -> Trade
 
-  Future<ResultList<Trade>> getTrades(AccessToken token, List<String> isin,
-      {List<String>? mics, bool? decimals, Sorting? sorting,
-        DateTime? from, DateTime? to, bool? latest, int? limit, int? page}) async {
-    String url = LemonMarketsURL.BASE_URL_MARKET + '/trades/';
+  Future<ResultList<Trade>> getLatestTrade(AccessToken token, List<String> isin,
+      {List<String>? mics, bool? decimals, bool epoch = true, Sorting? sorting, int? limit, int? page}) async {
+    String url = LemonMarketsURL.BASE_URL_MARKET + '/trades/latest';
 
     List<String> query = [];
     if (mics != null && mics.isNotEmpty) {
@@ -30,16 +29,6 @@ class LemonMarketsMarketData {
     }
     if (isin.isNotEmpty) {
       query.add("isin=" + isin.join(','));
-    }
-    if (latest != null && latest) {
-      query.add("from=latest");
-    } else {
-      if (from != null) {
-        query.add("from=" + LemonMarketsTimeConverter.getDoubleTimeForDateTime(from).toString());
-      }
-      if (to != null) {
-        query.add("to=" + LemonMarketsTimeConverter.getDoubleTimeForDateTime(to).toString());
-      }
     }
     if (decimals != null) {
       query.add("decimals=" + decimals.toString());
@@ -53,7 +42,7 @@ class LemonMarketsMarketData {
     if (page != null) {
       query.add("page=" + page.toString());
     }
-    query.add("epoch=true");
+    query.add("epoch=${epoch.toString()}");
 
     String queryString = LemonMarketsHttpClient.generateQueryParams(query);
     url += queryString;
@@ -74,10 +63,9 @@ class LemonMarketsMarketData {
 
   // Market Data -> Quote
 
-  Future<ResultList<Quote>> getQuotes(AccessToken token, List<String> isin,
-      {List<String>? mic, bool? decimals, Sorting? sorting,
-        DateTime? from, DateTime? to, bool? latest, int? limit, int? page}) async {
-    String url = LemonMarketsURL.BASE_URL_MARKET + '/quotes/';
+  Future<ResultList<Quote>> getLatestQuote(AccessToken token, List<String> isin,
+      {List<String>? mic, bool? decimals, bool epoch = true, Sorting? sorting, int? limit, int? page}) async {
+    String url = LemonMarketsURL.BASE_URL_MARKET + '/quotes/latest';
 
     List<String> query = [];
     if (mic != null && mic.isNotEmpty) {
@@ -92,23 +80,13 @@ class LemonMarketsMarketData {
     if (page != null) {
       query.add("page=" + page.toString());
     }
-    if (latest != null && latest) {
-      query.add("from=latest");
-    } else {
-      if (from != null) {
-        query.add("from=" + LemonMarketsTimeConverter.getDoubleTimeForDateTime(from).toString());
-      }
-      if (to != null) {
-        query.add("to=" + LemonMarketsTimeConverter.getDoubleTimeForDateTime(to).toString());
-      }
-    }
     if (decimals != null) {
       query.add("decimals=" + decimals.toString());
     }
     if (sorting != null) {
       query.add("sorting=" + LemonMarketsQueryConverter.convertSorting(sorting));
     }
-    query.add("epoch=true");
+    query.add("epoch=${epoch.toString()}");
 
     String queryString = LemonMarketsHttpClient.generateQueryParams(query);
     url += queryString;
