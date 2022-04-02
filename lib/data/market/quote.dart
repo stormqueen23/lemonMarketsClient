@@ -23,7 +23,8 @@ class Quote {
   @JsonKey(name: 'mic')
   String mic;
 
-  @JsonKey(name: 't', fromJson: LemonMarketsTimeConverter.getDateTimeForLemonMarket, toJson: LemonMarketsTimeConverter.getDoubleTimeForDateTime)
+  //@JsonKey(name: 't', fromJson: LemonMarketsTimeConverter.getDateTimeForLemonMarket, toJson: LemonMarketsTimeConverter.getDoubleTimeForDateTime)
+  @JsonKey(name: 't', fromJson: LemonMarketsTimeConverter.fromIsoTime, toJson: LemonMarketsTimeConverter.toIsoTime)
   DateTime time;
 
   Quote(this.isin, this.ask, this.askVolume, this.bit, this.bitVolume, this.time, this.mic);

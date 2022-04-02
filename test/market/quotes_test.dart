@@ -1,3 +1,11 @@
+@Timeout(Duration(seconds: 480))
+
+import 'dart:convert';
+
+import 'package:lemon_markets_client/clients/lemonMarketsHttpClient.dart';
+import 'package:lemon_markets_client/data/market/historicalUrlResult.dart';
+import 'package:lemon_markets_client/data/market/historicalUrlWrapper.dart';
+import 'package:lemon_markets_client/helper/lemonMarketsURLs.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 import 'package:logging/logging.dart';
 import 'package:test/test.dart';
@@ -30,21 +38,39 @@ void main() {
     expect(items.result.length, greaterThan(0));
     expect(items.result[0].time.year, greaterThan(2020));
     Quote item = items.result[0];
-    print('bid: ${item.bit}, ask: ${item.ask}, spread: ${item.bidAskSpread}');
+    print('bid: ${item.bit}, ask: ${item.ask}, spread: ${item.bidAskSpread}, time ${item.time}');
   });
 
-  test('getQByDate', () async {
+  test('getHistoricalQuotes', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
-    DateTime from = DateTime.now().add(Duration(days: -5));
-    DateTime to = DateTime.now().add(Duration(hours: -5));
-    ResultList<Quote> items = await lm.getQuotes(token, ['US88160R1014'], from: from, to: to, sorting: Sorting.newestFirst);
-    expect(items.result, isNotEmpty);
-  });
+    String isin = 'DE0007037129';
+    DateTime day = DateTime(2022,3,1);
 
-  test('getQuotes', () async {
-    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
-    ResultList<Quote> items = await lm.getQuotes(token, ['US88160R1014'],);
-    expect(items.result.length, greaterThan(0));
-  });
+    HistoricalUrlWrapper result = await lm.getQuotesForDate(token, isin, day);
+    while (result.result.url == null) {
+      await Future.delayed(Duration(seconds: 20));
+      result = await lm.getQuotesForDate(token, isin, day);
+    }
+    print(result.result.url);
+    String data = await lm.getHistoricalData(result.result.url!);
+    dynamic decoded = json.decode(data);
 
+    print(decoded.runtimeType);
+
+
+/*
+    String url = LemonMarketsURL.BASE_URL_MARKET + '/trades?isin=$isin&from=2022-03-30';
+    LemonMarketsHttpClient _client = LemonMarketsHttpClient();
+    LemonMarketsClientResponse response = await _client.sendGet(url, token);
+    print('response: code=${response.statusCode}, body=${response.decodedBody}');
+    bool ready = response.decodedBody['results']['url'] != null;
+    while (!ready) {
+      await Future.delayed(Duration(seconds: 20));
+      response = await _client.sendGet(url, token);
+      print('response: code=${response.statusCode}, body=${response.decodedBody}');
+      if (response.decodedBody['results']['url'] != null) {
+        ready = true;
+      }
+    }*/
+  });
 }

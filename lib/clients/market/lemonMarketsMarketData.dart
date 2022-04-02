@@ -1,5 +1,6 @@
 import 'package:lemon_markets_client/data/auth/accessToken.dart';
 import 'package:lemon_markets_client/data/market/quote.dart';
+import 'package:lemon_markets_client/data/market/historicalUrlWrapper.dart';
 import 'package:lemon_markets_client/data/market/trade.dart';
 import 'package:lemon_markets_client/data/market/ohlc.dart';
 import 'package:lemon_markets_client/data/resultList.dart';
@@ -19,8 +20,22 @@ class LemonMarketsMarketData {
 
   // Market Data -> Trade
 
+  // Market Data -> Quote
+  Future<HistoricalUrlWrapper> getTradesForDate(AccessToken token, String isin, DateTime day) async {
+    String dayString = LemonMarketsTimeConverter.historicalDayFormat.format(day);
+    String url = LemonMarketsURL.BASE_URL_MARKET + '/trades?isin=$isin&from=$dayString';
+    LemonMarketsClientResponse response = await _client.sendGet(url, token);
+    try {
+      HistoricalUrlWrapper result = HistoricalUrlWrapper.fromJson(response.decodedBody);
+      return result;
+    } catch (e, stackTrace) {
+      log.warning(e.toString());
+      throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString(), stackTrace);
+    }
+  }
+
   Future<ResultList<Trade>> getLatestTrade(AccessToken token, List<String> isin,
-      {List<String>? mics, bool? decimals, bool epoch = true, Sorting? sorting, int? limit, int? page}) async {
+      {List<String>? mics, bool? decimals, bool epoch = false, Sorting? sorting, int? limit, int? page}) async {
     String url = LemonMarketsURL.BASE_URL_MARKET + '/trades/latest';
 
     List<String> query = [];
@@ -62,9 +77,21 @@ class LemonMarketsMarketData {
   }
 
   // Market Data -> Quote
+  Future<HistoricalUrlWrapper> getQuotesForDate(AccessToken token, String isin, DateTime day) async {
+    String dayString = LemonMarketsTimeConverter.historicalDayFormat.format(day);
+    String url = LemonMarketsURL.BASE_URL_MARKET + '/quotes?isin=$isin&from=$dayString';
+    LemonMarketsClientResponse response = await _client.sendGet(url, token);
+    try {
+      HistoricalUrlWrapper result = HistoricalUrlWrapper.fromJson(response.decodedBody);
+      return result;
+    } catch (e, stackTrace) {
+      log.warning(e.toString());
+      throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString(), stackTrace);
+    }
+  }
 
   Future<ResultList<Quote>> getLatestQuote(AccessToken token, List<String> isin,
-      {List<String>? mic, bool? decimals, bool epoch = true, Sorting? sorting, int? limit, int? page}) async {
+      {List<String>? mic, bool? decimals, bool epoch = false, Sorting? sorting, int? limit, int? page}) async {
     String url = LemonMarketsURL.BASE_URL_MARKET + '/quotes/latest';
 
     List<String> query = [];
@@ -161,6 +188,13 @@ class LemonMarketsMarketData {
       log.warning(e.toString());
       throw LemonMarketsConvertException(url, e.toString(), response.statusCode, response.decodedBody.toString(), stackTrace);
     }
+  }
+
+  //common
+
+  Future<String> getHistoricalData(String url) async {
+    String response = await _client.sendGetWithoutHeader(url);
+    return response;
   }
 
 }

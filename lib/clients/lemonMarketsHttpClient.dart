@@ -44,6 +44,13 @@ class LemonMarketsHttpClient {
     return _decode(response, url);
   }
 
+  Future<String> sendGetWithoutHeader(String url) async {
+    log.fine("send get to url: $url");
+    Response response =  await _client.get(Uri.parse(url));
+    String responseString = utf8.decode(response.bodyBytes);
+    return responseString;
+  }
+
   Future<LemonMarketsClientResponse> sendPut(String url, AccessToken token, {Map<String, dynamic>? bodyMap, bool asJson = true}) async {
     log.fine("send put to url: $url");
     Map<String, String>? header =_getHeader(token, url, asJson);

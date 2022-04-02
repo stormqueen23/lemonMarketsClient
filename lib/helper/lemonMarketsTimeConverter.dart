@@ -2,6 +2,7 @@ import 'package:intl/intl.dart';
 
 class LemonMarketsTimeConverter {
   static DateFormat openingDayFormatter = DateFormat('yyyy-MM-dd');
+  static DateFormat historicalDayFormat = DateFormat('yyyy-MM-dd');
 
   static DateTime getOpeningDay(String value) {
     return openingDayFormatter.parse(value);

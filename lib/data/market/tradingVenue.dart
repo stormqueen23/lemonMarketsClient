@@ -159,7 +159,7 @@ class TradingVenue {
   }
 
   Duration _getTradingVenueOffsetToUtc() {
-    Duration tradingVenueOffset = Duration(hours: 1); //TODO: summertime
+    Duration tradingVenueOffset = Duration(hours: 2); //TODO: summertime
     return tradingVenueOffset;
   }
 }

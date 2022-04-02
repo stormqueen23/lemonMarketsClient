@@ -7,6 +7,8 @@ import 'package:lemon_markets_client/clients/lemonMarketsHttpClient.dart';
 import 'package:lemon_markets_client/clients/market/lemonMarketsMarketData.dart';
 import 'package:lemon_markets_client/clients/trading/lemonMarketsPortfolio.dart';
 import 'package:lemon_markets_client/clients/trading/lemonMarketsOrder.dart';
+import 'package:lemon_markets_client/data/market/historicalUrlResult.dart';
+import 'package:lemon_markets_client/data/market/historicalUrlWrapper.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 import 'package:logging/logging.dart';
 
@@ -192,8 +194,13 @@ class LemonMarkets {
 
   // Data -> Quotes
 
+  Future<HistoricalUrlWrapper> getQuotesForDate(AccessToken token, String isin, DateTime day) async {
+    return _marketClient.getQuotesForDate(token, isin, day);
+  }
+
   // Epoch parameter not supported yet. Its always true problem: epoch=true results in number and result=false results in string --> type cast problem!
   // type 'int' is not a subtype of type 'String' in type cast
+  // also there is no need for this parameter because the date is returned as DateTime
   Future<ResultList<Quote>> getLatestQuote(AccessToken token, List<String> isin,
       {List<String>? mic, bool? decimals, Sorting? sorting, int? limit, int? page}) async {
     return _marketClient.getLatestQuote(token, isin,
@@ -202,18 +209,6 @@ class LemonMarkets {
 
   Future<ResultList<Quote>> getLatestQuoteByUrl(AccessToken token, String url) async {
     return _marketClient.getQuotesByUrl(token, url);
-  }
-
-  Future<ResultList<Quote>> getQuotes(AccessToken token, List<String> isin,
-      {List<String>? mic,
-      bool? decimals,
-      Sorting? sorting,
-      DateTime? from,
-      DateTime? to,
-      int? limit,
-      int? page}) async {
-    return _marketClient.getLatestQuote(token, isin,
-        mic: mic, sorting: sorting, decimals: decimals, limit: limit, page: page);
   }
 
   Future<ResultList<Quote>> getQuotesByUrl(AccessToken token, String url) async {
@@ -252,18 +247,16 @@ class LemonMarkets {
         sorting: sorting, mics: mics, decimals: decimals, page: page, limit: limit);
   }
 
-  Future<ResultList<Trade>> getTrades(AccessToken token, List<String> isin,
-      {List<String>? mic,
-      bool? decimals,
-      Sorting? sorting,
-      DateTime? from,
-      DateTime? to,
-      int? limit,
-      int? page}) async {
-    return _marketClient.getLatestTrade(token, isin, decimals: decimals, mics: mic, sorting: sorting, page: page, limit: limit);
+  Future<HistoricalUrlWrapper> getTradesForDate(AccessToken token, String isin, DateTime day) async {
+    return _marketClient.getTradesForDate(token, isin, day);
   }
 
   Future<ResultList<Trade>> getTradesByUrl(AccessToken token, String url) async {
     return _marketClient.getTradesByUrl(token, url);
+  }
+
+  // Data -> historic
+  Future<String> getHistoricalData(String url) async {
+    return _marketClient.getHistoricalData(url);
   }
 }

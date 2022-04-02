@@ -12,7 +12,7 @@ Quote _$QuoteFromJson(Map<String, dynamic> json) => Quote(
       (json['a_v'] as num).toDouble(),
       (json['b'] as num).toDouble(),
       (json['b_v'] as num).toDouble(),
-      LemonMarketsTimeConverter.getDateTimeForLemonMarket(json['t'] as int),
+      LemonMarketsTimeConverter.fromIsoTime(json['t'] as String),
       json['mic'] as String,
     );
 
@@ -23,5 +23,5 @@ Map<String, dynamic> _$QuoteToJson(Quote instance) => <String, dynamic>{
       'b': instance.bit,
       'b_v': instance.bitVolume,
       'mic': instance.mic,
-      't': LemonMarketsTimeConverter.getDoubleTimeForDateTime(instance.time),
+      't': LemonMarketsTimeConverter.toIsoTime(instance.time),
     };

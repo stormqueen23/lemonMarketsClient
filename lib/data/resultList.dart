@@ -1,6 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 
+import 'market/historicalUrlResult.dart';
+
 part 'resultList.g.dart';
 
 @JsonSerializable(genericArgumentFactories: true, createToJson: false)
@@ -39,6 +41,8 @@ class ResultList<T> {
         return TradingVenue.fromJson(json) as T;
       } else if (T == Trade) {
         return Trade.fromJson(json) as T;
+      } else if (T == HistoricalUrlResult) {
+        return HistoricalUrlResult.fromJson(json) as T;
       }
     }
     throw ArgumentError.value(
