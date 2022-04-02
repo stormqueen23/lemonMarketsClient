@@ -111,6 +111,36 @@ class Account {
   @JsonKey(name: 'tax_allowance_end')
   String? taxAllowanceEnd;
 
+  @JsonKey(
+      name: 'amount_bought_intraday',
+      fromJson: LemonMarketsAmountConverter.fromAmount,
+      toJson: LemonMarketsAmountConverter.toAmount)
+  Amount amountBoughtIntraday;
+
+  @JsonKey(
+      name: 'amount_sold_intraday',
+      fromJson: LemonMarketsAmountConverter.fromAmount,
+      toJson: LemonMarketsAmountConverter.toAmount)
+  Amount amountSoldIntraday;
+
+  @JsonKey(
+      name: 'amount_open_orders',
+      fromJson: LemonMarketsAmountConverter.fromAmount,
+      toJson: LemonMarketsAmountConverter.toAmount)
+  Amount amountOpenOrders;
+
+  @JsonKey(
+      name: 'amount_open_withdrawals',
+      fromJson: LemonMarketsAmountConverter.fromAmount,
+      toJson: LemonMarketsAmountConverter.toAmount)
+  Amount amountOpenWithdrawals;
+
+  @JsonKey(
+      name: 'amount_estimate_taxes',
+      fromJson: LemonMarketsAmountConverter.fromAmount,
+      toJson: LemonMarketsAmountConverter.toAmount)
+  Amount amountEstimatedTaxes;
+
   Account(
       this.createdAt,
       this.approvedAt,
@@ -137,7 +167,12 @@ class Account {
       this.dataPlan,
       this.taxAllowance,
       this.taxAllowanceStart,
-      this.taxAllowanceEnd);
+      this.taxAllowanceEnd,
+      this.amountBoughtIntraday,
+      this.amountEstimatedTaxes,
+      this.amountOpenOrders,
+      this.amountOpenWithdrawals,
+      this.amountSoldIntraday);
 
   factory Account.fromJson(Map<String, dynamic> json) => _$AccountFromJson(json);
 
@@ -165,8 +200,13 @@ class Account {
         'ibanOrigin: $ibanOrigin,\n'
         'bankNameOrigin: $bankNameOrigin,\n'
         'balance: $balance,\nc'
-        'ashToInvest: $cashToInvest,\n'
+        'cashToInvest: $cashToInvest,\n'
         'cashToWithdraw: $cashToWithdraw,\n'
+        'amountBoughtIntraday: $amountBoughtIntraday,\n'
+        'amountSoldIntraday: $amountSoldIntraday,\n'
+        'amountOpenOrders: $amountOpenOrders,\n'
+        'amountOpenWithdrawals: $amountOpenWithdrawals,\n'
+        'amountEstimatedTaxes: $amountEstimatedTaxes,\n'
         'tradingPlan: $tradingPlan,\n'
         'dataPlan: $dataPlan,\n'
         'taxAllowance: $taxAllowance,\n'

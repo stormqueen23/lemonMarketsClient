@@ -37,6 +37,15 @@ Account _$AccountFromJson(Map<String, dynamic> json) => Account(
           json['tax_allowance'] as num?),
       json['tax_allowance_start'] as String?,
       json['tax_allowance_end'] as String?,
+      LemonMarketsAmountConverter.fromAmount(
+          json['amount_bought_intraday'] as num),
+      LemonMarketsAmountConverter.fromAmount(
+          json['amount_estimate_taxes'] as num),
+      LemonMarketsAmountConverter.fromAmount(json['amount_open_orders'] as num),
+      LemonMarketsAmountConverter.fromAmount(
+          json['amount_open_withdrawals'] as num),
+      LemonMarketsAmountConverter.fromAmount(
+          json['amount_sold_intraday'] as num),
     )..uuid = json['account_id'] as String?;
 
 Map<String, dynamic> _$AccountToJson(Account instance) => <String, dynamic>{
@@ -73,4 +82,14 @@ Map<String, dynamic> _$AccountToJson(Account instance) => <String, dynamic>{
           LemonMarketsAmountConverter.toNullableAmount(instance.taxAllowance),
       'tax_allowance_start': instance.taxAllowanceStart,
       'tax_allowance_end': instance.taxAllowanceEnd,
+      'amount_bought_intraday':
+          LemonMarketsAmountConverter.toAmount(instance.amountBoughtIntraday),
+      'amount_sold_intraday':
+          LemonMarketsAmountConverter.toAmount(instance.amountSoldIntraday),
+      'amount_open_orders':
+          LemonMarketsAmountConverter.toAmount(instance.amountOpenOrders),
+      'amount_open_withdrawals':
+          LemonMarketsAmountConverter.toAmount(instance.amountOpenWithdrawals),
+      'amount_estimate_taxes':
+          LemonMarketsAmountConverter.toAmount(instance.amountEstimatedTaxes),
     };
