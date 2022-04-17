@@ -153,13 +153,33 @@ class TradingVenue {
 
   DateTime _getDateInTradingVenueTimeZone(DateTime at) {
     at = at.toUtc();
-    Duration tradingVenueOffset = _getTradingVenueOffsetToUtc();
+    Duration tradingVenueOffset = getTradingVenueOffsetToUtc(at);
     at = at.add(tradingVenueOffset);
     return at;
   }
 
-  Duration _getTradingVenueOffsetToUtc() {
-    Duration tradingVenueOffset = Duration(hours: 2); //TODO: summertime
-    return tradingVenueOffset;
+  Duration getTradingVenueOffsetToUtc(DateTime at) {
+    if (hour.timezone == 'Europe/Berlin') {
+      if (at.isAfter(DateTime(at.year, 3, _getLastSundayInMonth(at.year, 3))) &&
+          at.isBefore(DateTime(at.year, 10, _getLastSundayInMonth(at.year, 10)))) {
+        Duration tradingVenueOffset = Duration(hours: 2);
+        return tradingVenueOffset;
+      }
+      Duration tradingVenueOffset = Duration(hours: 1);
+      return tradingVenueOffset;
+    }
+    return Duration(days: 0);
   }
+
+  int _getLastSundayInMonth(int year, int month) {
+    int result = 0;
+    for (int i = 1; i < 32; i++) {
+      DateTime test = DateTime(year, month, i);
+      if (test.day == DateTime.sunday) {
+        result = i;
+      }
+    }
+    return result;
+  }
+
 }
