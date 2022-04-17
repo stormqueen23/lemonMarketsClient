@@ -1,8 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 
-import 'market/historicalUrlResult.dart';
-
 part 'resultList.g.dart';
 
 @JsonSerializable(genericArgumentFactories: true, createToJson: false)
