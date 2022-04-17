@@ -2,7 +2,7 @@ import 'package:lemon_markets_client/lemon_markets_client.dart';
 
 class LemonMarketsResultConverter {
 
-  static String bTax = 'tax';
+  static String bTax = 'tax_earned';
   static String bDividend = 'dividend';
   static String bOrderBuy = 'order_buy';
   static String bOrderSell = 'order_sell';
@@ -53,7 +53,7 @@ class LemonMarketsResultConverter {
       return BankStatementType.interestPaid;
     } else if (bInterestEarned == value) {
       return BankStatementType.interestEarned;
-    } else if (bTax == value) {
+    } else if (bTax == value || 'tax' == value) {
       return BankStatementType.tax;
     }
     return BankStatementType.unknown;
