@@ -2,7 +2,7 @@ import 'package:lemon_markets_client/lemon_markets_client.dart';
 
 class LemonMarketsResultConverter {
 
-  static String bTax = 'tax_earned';
+  static String bTax = 'tax_refunded';
   static String bDividend = 'dividend';
   static String bOrderBuy = 'order_buy';
   static String bOrderSell = 'order_sell';
