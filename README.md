@@ -67,7 +67,6 @@ If you want to run the example app, you need to replace 'ADD_YOUR_TOKEN_HERE' in
 
 ## Open Issuers
 Withdrawals
-positions/statements
 
 ## Contribute
 Feel free to fork and add pull-requests
