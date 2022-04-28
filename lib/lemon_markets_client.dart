@@ -30,6 +30,8 @@ export 'package:lemon_markets_client/data/account/document.dart';
 export 'package:lemon_markets_client/data/trading/createdOrder.dart';
 export 'package:lemon_markets_client/data/trading/existingOrder.dart';
 export 'package:lemon_markets_client/data/trading/portfolioItem.dart';
+export 'package:lemon_markets_client/data/trading/positionStatement.dart';
+export 'package:lemon_markets_client/data/trading/positionPerformance.dart';
 export 'package:lemon_markets_client/data/trading/regulatoryInformation.dart';
 
 

@@ -1,6 +1,42 @@
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 
 class LemonMarketsResultConverter {
+  static String psBuy = 'order_buy';
+  static String psSell = 'order_sell';
+  static String psSplit = 'split';
+  static String psImport = 'import';
+  static String psSnx = 'snx';
+
+  static String? toPositionStatementType(PositionStatementType value) {
+    if (PositionStatementType.order_buy == value) {
+      return psBuy;
+    } else if (PositionStatementType.order_sell == value) {
+      return psSell;
+    } else if (PositionStatementType.split == value) {
+      return psSplit;
+    } else if (PositionStatementType.import == value) {
+      return psImport;
+    } else if (PositionStatementType.snx == value) {
+      return psSnx;
+    }
+    return null;
+  }
+
+  static PositionStatementType fromPositionStatementType(String asString) {
+    if (psBuy == asString) {
+      return PositionStatementType.order_buy;
+    } else if (psSell == asString) {
+      return PositionStatementType.order_sell;
+    } else if (psSplit == asString) {
+      return PositionStatementType.split;
+    } else if (psImport == asString) {
+      return PositionStatementType.import;
+    } else if (psSnx == asString) {
+      return PositionStatementType.snx;
+    }
+    throw LemonMarketsException('', 'cannot map PositionStatementType $asString', null, asString, null);
+  }
+
 
   static String bTax = 'tax_refunded';
   static String bDividend = 'dividend';

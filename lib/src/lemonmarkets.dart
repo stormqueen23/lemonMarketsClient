@@ -9,6 +9,8 @@ import 'package:lemon_markets_client/clients/trading/lemonMarketsPortfolio.dart'
 import 'package:lemon_markets_client/clients/trading/lemonMarketsOrder.dart';
 import 'package:lemon_markets_client/data/market/historicalUrlResult.dart';
 import 'package:lemon_markets_client/data/market/historicalUrlWrapper.dart';
+import 'package:lemon_markets_client/data/trading/positionPerformance.dart';
+import 'package:lemon_markets_client/data/trading/positionStatement.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 import 'package:logging/logging.dart';
 
@@ -29,6 +31,8 @@ enum TradingPlan { free, basic, pro }
 enum DataPlan { free, basic, pro }
 
 enum TransactionType { payIn, payOut, orderBuy, orderSell, dividend, tax, unknown }
+
+enum PositionStatementType {order_buy, order_sell, split, import, snx}
 
 enum BankStatementType {
   payIn,
@@ -143,15 +147,23 @@ class LemonMarkets {
     return result;
   }
 
-  // Trading -> Portfolio
-
-  Future<TradingResultList<PortfolioItem>> getPortfolioItems(AccessToken token,
-      {String? isin, int? limit, int? page}) async {
-    return _portfolioClient.getPortfolioItems(token, isin: isin, limit: limit, page: page);
+  // Trading -> Positions
+  Future<TradingResultList<PositionStatement>> getPositionStatements(AccessToken token, {int? limit, int? page}) async {
+    return _portfolioClient.getPositionStatements(token, limit: limit, page: page);
   }
 
-  Future<TradingResultList<PortfolioItem>> getPortfolioItemsByUrl(AccessToken token, String url) async {
-    return _portfolioClient.getPortfolioItemsByUrl(token, url);
+  Future<TradingResultList<PositionPerformance>> getPositionPerformance(AccessToken token,
+      {String? isin, DateTime? from, DateTime? to, int? limit, int? page}) async {
+    return _portfolioClient.getPositionPerformance(token, isin: isin, from: from, to: to, limit: limit, page: page);
+  }
+
+  Future<TradingResultList<PortfolioItem>> getPositions(AccessToken token,
+      {String? isin, int? limit, int? page}) async {
+    return _portfolioClient.getPositions(token, isin: isin, limit: limit, page: page);
+  }
+
+  Future<TradingResultList<PortfolioItem>> getPositionsByUrl(AccessToken token, String url) async {
+    return _portfolioClient.getPositionsByUrl(token, url);
   }
 
   // Instruments

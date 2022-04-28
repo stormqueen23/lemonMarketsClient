@@ -1,4 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:lemon_markets_client/data/trading/positionPerformance.dart';
+import 'package:lemon_markets_client/data/trading/positionStatement.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 
 part 'tradingResultList.g.dart';
@@ -50,6 +52,10 @@ class TradingResultList<T> {
         return BankStatement.fromJson(json) as T;
       } else if (T == Document) {
         return Document.fromJson(json) as T;
+      } else if (T == PositionPerformance) {
+        return PositionPerformance.fromJson(json) as T;
+      } else if (T == PositionStatement) {
+        return PositionStatement.fromJson(json) as T;
       }
     }
     throw ArgumentError.value(

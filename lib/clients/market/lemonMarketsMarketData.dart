@@ -20,7 +20,6 @@ class LemonMarketsMarketData {
 
   // Market Data -> Trade
 
-  // Market Data -> Quote
   Future<HistoricalUrlWrapper> getTradesForDate(AccessToken token, String isin, DateTime day) async {
     String dayString = LemonMarketsTimeConverter.historicalDayFormat.format(day);
     String url = LemonMarketsURL.BASE_URL_MARKET + '/trades?isin=$isin&from=$dayString';

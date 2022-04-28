@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 class LemonMarketsTimeConverter {
   static DateFormat openingDayFormatter = DateFormat('yyyy-MM-dd');
   static DateFormat historicalDayFormat = DateFormat('yyyy-MM-dd');
+  static DateFormat dayFormat = DateFormat('yyyy-MM-dd');
 
   static DateTime getOpeningDay(String value) {
     return openingDayFormatter.parse(value);
@@ -59,6 +60,15 @@ class LemonMarketsTimeConverter {
   /// converts from seconds
   static DateTime getUTXUnixDateTimeForLemonMarket(double time) {
     return DateTime.fromMillisecondsSinceEpoch((time * 1000).ceil());
+  }
+
+  static DateTime fromDay(String value) {
+    return dayFormatter.parse(value);
+  }
+
+  static String toDay(DateTime value) {
+    String result = dayFormatter.format(value.toUtc());
+    return result;
   }
 
   static DateTime fromIsoTime(String value) {
