@@ -1,6 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:lemon_markets_client/data/trading/positionPerformance.dart';
-import 'package:lemon_markets_client/data/trading/positionStatement.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 
 part 'tradingResultList.g.dart';

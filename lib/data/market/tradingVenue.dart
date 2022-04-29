@@ -60,9 +60,6 @@ class TradingVenue {
     return result;
   }
 
-  Duration? getPreviousOpeningDayAsDuration(DateTime time) {
-
-  }
   /// returns null if given date is before the dates in list,<br/> returns the same date if it is the first in list
   String? getPreviousOpeningDay(DateTime time) {
     time = _getDateInTradingVenueTimeZone(time);

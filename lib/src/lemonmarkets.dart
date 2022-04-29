@@ -7,10 +7,6 @@ import 'package:lemon_markets_client/clients/lemonMarketsHttpClient.dart';
 import 'package:lemon_markets_client/clients/market/lemonMarketsMarketData.dart';
 import 'package:lemon_markets_client/clients/trading/lemonMarketsPositions.dart';
 import 'package:lemon_markets_client/clients/trading/lemonMarketsOrder.dart';
-import 'package:lemon_markets_client/data/market/historicalUrlResult.dart';
-import 'package:lemon_markets_client/data/market/historicalUrlWrapper.dart';
-import 'package:lemon_markets_client/data/trading/positionPerformance.dart';
-import 'package:lemon_markets_client/data/trading/positionStatement.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 import 'package:logging/logging.dart';
 

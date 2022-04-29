@@ -1,11 +1,5 @@
 @Timeout(Duration(seconds: 480))
 
-import 'dart:convert';
-
-import 'package:lemon_markets_client/clients/lemonMarketsHttpClient.dart';
-import 'package:lemon_markets_client/data/market/historicalUrlResult.dart';
-import 'package:lemon_markets_client/data/market/historicalUrlWrapper.dart';
-import 'package:lemon_markets_client/helper/lemonMarketsURLs.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 import 'package:logging/logging.dart';
 import 'package:test/test.dart';

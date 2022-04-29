@@ -52,7 +52,7 @@ void main() {
   test('getLatestOHLC', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
     DateTime from = DateTime(2022, 4, 14, 2);
-    DateTime to = DateTime(2022, 4, 18);
+    //DateTime to = DateTime(2022, 4, 18);
     ResultList<OHLC> items = await lm.getOHLC(token, ['DE0007100000'], OHLCType.d1, from: from,  to: null, sorting: Sorting.newestFirst);
     print(items);
 

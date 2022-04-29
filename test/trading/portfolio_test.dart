@@ -1,5 +1,3 @@
-import 'package:lemon_markets_client/data/trading/positionPerformance.dart';
-import 'package:lemon_markets_client/data/trading/positionStatement.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 import 'package:logging/logging.dart';
 import 'package:test/test.dart';
