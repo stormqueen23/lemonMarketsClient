@@ -5,12 +5,6 @@ part 'positionStatement.g.dart';
 
 @JsonSerializable()
 class PositionStatement {
-/*
-  type*	PositionTypestring
-  title: PositionType
-  An enumeration.
-*/
-
   @JsonKey(name: 'id')
   String uuid;
 

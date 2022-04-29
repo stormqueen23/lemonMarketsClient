@@ -1,4 +1,4 @@
-import 'package:lemon_markets_client/src/lemonmarkets.dart';
+import 'package:lemon_markets_client/lemon_markets_client.dart';
 
 class LemonMarketsQueryConverter {
 
@@ -126,5 +126,27 @@ class LemonMarketsQueryConverter {
       return bEndOfDayBalance;
     }
     return bPayIn;
+  }
+
+  static String convertPositionStatementType(PositionStatementType type) {
+    String result = '';
+    switch (type) {
+      case PositionStatementType.snx:
+        result = LemonMarketsResultConverter.psSnx;
+        break;
+      case PositionStatementType.import:
+        result = LemonMarketsResultConverter.psImport;
+        break;
+      case PositionStatementType.split:
+        result = LemonMarketsResultConverter.psSplit;
+        break;
+      case PositionStatementType.order_sell:
+        result = LemonMarketsResultConverter.psSell;
+        break;
+      case PositionStatementType.order_buy:
+        result = LemonMarketsResultConverter.psBuy;
+        break;
+    }
+    return result;
   }
 }

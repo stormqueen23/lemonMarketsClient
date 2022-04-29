@@ -25,7 +25,7 @@ void main() {
 
   test('getStatements', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
-    TradingResultList<PositionStatement> result = await lm.getPositionStatements(token);
+    TradingResultList<PositionStatement> result = await lm.getPositionStatements(token, isin: 'DE000A2JNWZ9', types: [PositionStatementType.order_buy]);
     print(result);
 
   });

@@ -144,8 +144,8 @@ class LemonMarkets {
   }
 
   // Trading -> Positions
-  Future<TradingResultList<PositionStatement>> getPositionStatements(AccessToken token, {int? limit, int? page}) async {
-    return _portfolioClient.getPositionStatements(token, limit: limit, page: page);
+  Future<TradingResultList<PositionStatement>> getPositionStatements(AccessToken token, {String? isin, int? limit, int? page, List<PositionStatementType>? types}) async {
+    return _portfolioClient.getPositionStatements(token, limit: limit, page: page, isin: isin, types: types);
   }
 
   Future<TradingResultList<PositionPerformance>> getPositionPerformance(AccessToken token,
