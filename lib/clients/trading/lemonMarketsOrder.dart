@@ -2,7 +2,7 @@ import 'package:lemon_markets_client/clients/clientData.dart';
 import 'package:lemon_markets_client/data/amount.dart';
 import 'package:lemon_markets_client/data/auth/accessToken.dart';
 import 'package:lemon_markets_client/data/trading/createdOrder.dart';
-import 'package:lemon_markets_client/data/trading/existingOrder.dart';
+import 'package:lemon_markets_client/data/trading/order.dart';
 import 'package:lemon_markets_client/data/tradingResult.dart';
 import 'package:lemon_markets_client/data/tradingResultList.dart';
 import 'package:lemon_markets_client/exception/lemonMarketsConvertException.dart';
@@ -81,7 +81,7 @@ class LemonMarketsOrder {
       String modeString = response.decodedBody['mode'];
       AccountMode mode = LemonMarketsResultConverter.fromAccountMode(modeString);
       log.fine('response from delete order: ${response.decodedBody} - $status, mode: $modeString');
-      TradingResult<ExistingOrder> result = TradingResult<ExistingOrder>.fromJson(response.decodedBody);
+      TradingResult<Order> result = TradingResult<Order>.fromJson(response.decodedBody);
       if (result.status == 'ok') {
         return DeleteOrderResult(true, response.statusCode, mode, response.decodedBody);
       } else {
@@ -94,11 +94,11 @@ class LemonMarketsOrder {
     }
   }
 
-  Future<TradingResult<ExistingOrder>> getOrder(AccessToken token, String orderUuid) async {
+  Future<TradingResult<Order>> getOrder(AccessToken token, String orderUuid) async {
     String url = LemonMarketsURL.getTradingUrl(token)  + '/orders/' + orderUuid;
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
-      TradingResult<ExistingOrder> result = TradingResult<ExistingOrder>.fromJson(response.decodedBody);
+      TradingResult<Order> result = TradingResult<Order>.fromJson(response.decodedBody);
       return result;
     } catch (e, stackTrace) {
       log.warning(e.toString());
@@ -107,7 +107,7 @@ class LemonMarketsOrder {
     }
   }
 
-  Future<TradingResultList<ExistingOrder>> getOrders(AccessToken token, {DateTime? createdAtUntil,
+  Future<TradingResultList<Order>> getOrders(AccessToken token, {DateTime? createdAtUntil,
       DateTime? createdAtFrom, OrderSide? side, OrderType? type, OrderStatus? status, String? isin, int? limit, int? page}) async {
     List<String> params = _getOrderQueryParams(
         side: side,
@@ -123,10 +123,10 @@ class LemonMarketsOrder {
     return getOrdersByUrl(token, url);
   }
 
-  Future<TradingResultList<ExistingOrder>> getOrdersByUrl(AccessToken token, String url) async {
+  Future<TradingResultList<Order>> getOrdersByUrl(AccessToken token, String url) async {
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
-      TradingResultList<ExistingOrder> result = TradingResultList<ExistingOrder>.fromJson(response.decodedBody);
+      TradingResultList<Order> result = TradingResultList<Order>.fromJson(response.decodedBody);
       return result;
     } catch (e, stackTrace) {
       log.warning(e.toString());

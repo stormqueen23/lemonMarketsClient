@@ -6,12 +6,10 @@ import 'package:lemon_markets_client/helper/lemonMarketsResultConverter.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsTimeConverter.dart';
 import 'package:lemon_markets_client/src/lemonmarkets.dart';
 
-part 'existingOrder.g.dart';
-
-enum ExistingOrderSide { buy, sell, unknown }
+part 'order.g.dart';
 
 @JsonSerializable()
-class ExistingOrder {
+class Order {
   @JsonKey(name: 'id')
   String uuid;
 
@@ -129,7 +127,7 @@ class ExistingOrder {
   @JsonKey(name: 'regulatory_information')
   RegulatoryInformation? regulatoryInformation;
 
-  ExistingOrder(
+  Order(
       this.uuid,
       this.creationKey,
       this.isin,
@@ -152,15 +150,15 @@ class ExistingOrder {
       this.chargePrice
       );
 
-  factory ExistingOrder.fromJson(Map<String, dynamic> json) => _$ExistingOrderFromJson(json);
+  factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ExistingOrderToJson(this);
+  Map<String, dynamic> toJson() => _$OrderToJson(this);
 
   Amount get sumPrice => executedPrice?.multiply(executedQuantity?.toDouble() ?? 0) ?? Amount.zero();
 
   @override
   String toString() {
-    return 'ExistingOrder{\n'
+    return 'Order{\n'
         'uuid: $uuid,\n'
         'idempotency: $idempotency,\n'
         'key_creation_id: $creationKey,\n'

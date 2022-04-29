@@ -1,8 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lemon_markets_client/data/account/account.dart';
 import 'package:lemon_markets_client/data/trading/createdOrder.dart';
-import 'package:lemon_markets_client/data/trading/existingOrder.dart';
-import 'package:lemon_markets_client/data/trading/portfolioItem.dart';
+import 'package:lemon_markets_client/data/trading/order.dart';
+import 'package:lemon_markets_client/data/trading/position.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsResultConverter.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsTimeConverter.dart';
 import 'package:lemon_markets_client/src/lemonmarkets.dart';
@@ -41,10 +41,10 @@ class TradingResult<T> {
     if (json != null && json is Map<String, dynamic>) {
       //example from plugin:
       //https://github.com/google/json_serializable.dart/blob/master/example/lib/generic_response_class_example.dart
-      if (T == PortfolioItem) {
-        return PortfolioItem.fromJson(json) as T;
-      } else if (T == ExistingOrder) {
-        return ExistingOrder.fromJson(json) as T;
+      if (T == Position) {
+        return Position.fromJson(json) as T;
+      } else if (T == Order) {
+        return Order.fromJson(json) as T;
       }  else if (T == Account) {
         return Account.fromJson(json) as T;
       } else if (T == CreatedOrder) {

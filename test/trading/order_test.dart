@@ -36,7 +36,7 @@ void main() {
   test('createAndDeleteOrder', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
 
-    TradingResultList<ExistingOrder> orders = await lm.getOrders(token);
+    TradingResultList<Order> orders = await lm.getOrders(token);
     print('found ${orders.result.length} orders for space');
     int numberOfOrders = orders.count ?? 0;
 
@@ -85,24 +85,24 @@ void main() {
 
   test('getSinceAllOrders', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
-    TradingResultList<ExistingOrder> orders = await lm.getOrders(token, from: DateTime.now().add(Duration(days: -7)));
+    TradingResultList<Order> orders = await lm.getOrders(token, from: DateTime.now().add(Duration(days: -7)));
     print('found ${orders.result.length} orders');
-    for (ExistingOrder element in orders.result) {
+    for (Order element in orders.result) {
       print(element);
     }
   });
   test('getAllOrders', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
-    TradingResultList<ExistingOrder> orders = await lm.getOrders(token);
+    TradingResultList<Order> orders = await lm.getOrders(token);
     print('found ${orders.result.length} orders');
-    for (ExistingOrder element in orders.result) {
+    for (Order element in orders.result) {
       print(element);
     }
   });
 
   test('getByStatus', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
-    TradingResultList<ExistingOrder> order = await lm.getOrders(token, status: OrderStatus.activated);
+    TradingResultList<Order> order = await lm.getOrders(token, status: OrderStatus.activated);
     print('found ${order.result} orders');
     print(order);
   });
@@ -111,7 +111,7 @@ void main() {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
 
     CreatedOrder createdOrder = (await lm.placeOrder(token, isin, OrderSide.buy, 1, stopPrice: Amount(value: 1.5))).result!;
-    ExistingOrder existingOrder = (await lm.getOrder(token, createdOrder.uuid)).result!;
+    Order existingOrder = (await lm.getOrder(token, createdOrder.uuid)).result!;
     print('found ${existingOrder.isin}');
     print(existingOrder);
     expect(existingOrder, isNotNull);
@@ -127,7 +127,7 @@ void main() {
     ActivateOrderResult response = await lm.activateOrder(token, orderToActivate, null);
     print('activate order: ${response.success} (${response.responseMap.toString()})');
 
-    ExistingOrder existingOrder = (await lm.getOrder(token, orderToActivate)).result!;
+    Order existingOrder = (await lm.getOrder(token, orderToActivate)).result!;
     print('found ${existingOrder.isin}: status=${existingOrder.status}, estimated price=${existingOrder.estimatedPrice}');
     print(existingOrder);
   });
@@ -141,7 +141,7 @@ void main() {
     ActivateOrderResult response = await lm.activateOrder(token, order.uuid, null);
     print('activate BUY order: ${response.success} (${response.responseMap.toString()})');
 
-    ExistingOrder eorder = (await lm.getOrder(token, order.uuid)).result!;
+    Order eorder = (await lm.getOrder(token, order.uuid)).result!;
     print('found ${eorder.isin}');
     print(eorder);
 

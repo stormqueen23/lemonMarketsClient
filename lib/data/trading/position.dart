@@ -2,10 +2,10 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:lemon_markets_client/data/amount.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsAmountConverter.dart';
 
-part 'portfolioItem.g.dart';
+part 'position.g.dart';
 
 @JsonSerializable()
-class PortfolioItem {
+class Position {
   @JsonKey(name: 'isin')
   String isin;
 
@@ -33,15 +33,15 @@ class PortfolioItem {
       toJson: LemonMarketsAmountConverter.toNullableAmount)
   Amount? estimatedPriceTotal;
 
-  PortfolioItem(
+  Position(
       this.isin,
       this.isinTitle,
       this.quantity,
       this.buyPriceAvg);
 
-  factory PortfolioItem.fromJson(Map<String, dynamic> json) => _$PortfolioItemFromJson(json);
+  factory Position.fromJson(Map<String, dynamic> json) => _$PositionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PortfolioItemToJson(this);
+  Map<String, dynamic> toJson() => _$PositionToJson(this);
 
   Amount get sumPrice => Amount(apiValue: quantity * (buyPriceAvg?.apiValue ?? 0));
 
@@ -51,7 +51,7 @@ class PortfolioItem {
 
   @override
   String toString() {
-    return 'PortfolioItem{\n'
+    return 'Position{\n'
         'quantity: $quantity,\n'
         'buyPriceAvg: $buyPriceAvg,\n'
         'isin: $isin,\n'

@@ -32,33 +32,33 @@ void main() {
 
   });
 
-  test('getPortfolioItems', () async {
+  test('getPositions', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
-    TradingResultList<PortfolioItem> items = await lm.getPositions(token);
-    print('found ${items.count} portfolioItems');
+    TradingResultList<Position> items = await lm.getPositions(token);
+    print('found ${items.count} positions');
     items.result.forEach((element) {
       print(element);
     });
   });
 
-  test('getLimitPortfolioItems', () async {
+  test('getLimitPositions', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
-    TradingResultList<PortfolioItem> items = await lm.getPositions(token, limit: 2);
-    print('found ${items.result.length} portfolioItems');
+    TradingResultList<Position> items = await lm.getPositions(token, limit: 2);
+    print('found ${items.result.length} positions');
     expect(items.result.length, 2);
   });
 
-  test('getPageLimitPortfolioItems', () async {
+  test('getPageLimitPosition', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
-    TradingResultList<PortfolioItem> items = await lm.getPositions(token, limit: 3, page: 2);
-    print('found ${items.result.length} portfolioItems');
+    TradingResultList<Position> items = await lm.getPositions(token, limit: 3, page: 2);
+    print('found ${items.result.length} positions');
     expect(items.result.length, 1);
   });
 
-  test('getAllPortfolioItem', () async {
+  test('getAllPositions', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
-    TradingResultList<PortfolioItem> items = await lm.getPositions(token);
-    print('found ${items.count} portfolioItems');
+    TradingResultList<Position> items = await lm.getPositions(token);
+    print('found ${items.count} positions');
     items.result.forEach((element) {
       print(element);
     });

@@ -1,5 +1,5 @@
 import 'package:lemon_markets_client/data/auth/accessToken.dart';
-import 'package:lemon_markets_client/data/trading/portfolioItem.dart';
+import 'package:lemon_markets_client/data/trading/position.dart';
 import 'package:lemon_markets_client/clients/lemonMarketsHttpClient.dart';
 import 'package:lemon_markets_client/data/trading/positionPerformance.dart';
 import 'package:lemon_markets_client/data/trading/positionStatement.dart';
@@ -55,17 +55,17 @@ class LemonMarketsPortfolio {
     }
   }
 
-  Future<TradingResultList<PortfolioItem>> getPositions(AccessToken token, {String? isin, int? limit, int? page}) async {
+  Future<TradingResultList<Position>> getPositions(AccessToken token, {String? isin, int? limit, int? page}) async {
     String url = LemonMarketsURL.getTradingUrl(token) + ENDPOINT_NAME;
     String params = _generateParamString(isin: isin, limit: limit, page: page);
     url = url+params;
     return getPositionsByUrl(token, url);
   }
 
-  Future<TradingResultList<PortfolioItem>> getPositionsByUrl(AccessToken token, String url) async {
+  Future<TradingResultList<Position>> getPositionsByUrl(AccessToken token, String url) async {
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
-      TradingResultList<PortfolioItem> result = TradingResultList<PortfolioItem>.fromJson(response.decodedBody);
+      TradingResultList<Position> result = TradingResultList<Position>.fromJson(response.decodedBody);
       return result;
     } catch (e, stackTrace) {
       log.warning(e.toString());

@@ -1,13 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'portfolioItem.dart';
+part of 'position.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-PortfolioItem _$PortfolioItemFromJson(Map<String, dynamic> json) =>
-    PortfolioItem(
+Position _$PositionFromJson(Map<String, dynamic> json) => Position(
       json['isin'] as String,
       json['isin_title'] as String,
       json['quantity'] as int,
@@ -19,8 +18,7 @@ PortfolioItem _$PortfolioItemFromJson(Map<String, dynamic> json) =>
       ..estimatedPriceTotal = LemonMarketsAmountConverter.fromNullableAmount(
           json['estimated_price_total'] as num?);
 
-Map<String, dynamic> _$PortfolioItemToJson(PortfolioItem instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$PositionToJson(Position instance) => <String, dynamic>{
       'isin': instance.isin,
       'isin_title': instance.isinTitle,
       'quantity': instance.quantity,

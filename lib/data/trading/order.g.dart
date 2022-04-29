@@ -1,13 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'existingOrder.dart';
+part of 'order.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ExistingOrder _$ExistingOrderFromJson(Map<String, dynamic> json) =>
-    ExistingOrder(
+Order _$OrderFromJson(Map<String, dynamic> json) => Order(
       json['id'] as String,
       json['key_creation_id'] as String?,
       json['isin'] as String,
@@ -50,8 +49,7 @@ ExistingOrder _$ExistingOrderFromJson(Map<String, dynamic> json) =>
           : RegulatoryInformation.fromJson(
               json['regulatory_information'] as Map<String, dynamic>);
 
-Map<String, dynamic> _$ExistingOrderToJson(ExistingOrder instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$OrderToJson(Order instance) => <String, dynamic>{
       'id': instance.uuid,
       'idempotency': instance.idempotency,
       'key_creation_id': instance.creationKey,

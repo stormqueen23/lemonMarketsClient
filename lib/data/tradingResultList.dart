@@ -42,12 +42,12 @@ class TradingResultList<T> {
     if (json != null && json is Map<String, dynamic>) {
       //example from plugin:
       //https://github.com/google/json_serializable.dart/blob/master/example/lib/generic_response_class_example.dart
-      if (T == PortfolioItem) {
-        return PortfolioItem.fromJson(json) as T;
+      if (T == Position) {
+        return Position.fromJson(json) as T;
       } else if (T == Instrument) {
         return Instrument.fromJson(json) as T;
-      } else if (T == ExistingOrder) {
-        return ExistingOrder.fromJson(json) as T;
+      } else if (T == Order) {
+        return Order.fromJson(json) as T;
       } else if (T == BankStatement) {
         return BankStatement.fromJson(json) as T;
       } else if (T == Document) {
