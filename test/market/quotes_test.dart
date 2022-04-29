@@ -44,7 +44,7 @@ void main() {
   test('getHistoricalQuotes', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
     String isin = 'DE0007037129';
-    DateTime day = DateTime(2022,3,1);
+    DateTime day = DateTime(2022,4,14);
 
     HistoricalUrlWrapper result = await lm.getQuotesForDate(token, isin, day);
     while (result.result.url == null) {
@@ -53,24 +53,6 @@ void main() {
     }
     print(result.result.url);
     String data = await lm.getHistoricalData(result.result.url!);
-    dynamic decoded = json.decode(data);
-
-    print(decoded.runtimeType);
-
-
-/*
-    String url = LemonMarketsURL.BASE_URL_MARKET + '/trades?isin=$isin&from=2022-03-30';
-    LemonMarketsHttpClient _client = LemonMarketsHttpClient();
-    LemonMarketsClientResponse response = await _client.sendGet(url, token);
-    print('response: code=${response.statusCode}, body=${response.decodedBody}');
-    bool ready = response.decodedBody['results']['url'] != null;
-    while (!ready) {
-      await Future.delayed(Duration(seconds: 20));
-      response = await _client.sendGet(url, token);
-      print('response: code=${response.statusCode}, body=${response.decodedBody}');
-      if (response.decodedBody['results']['url'] != null) {
-        ready = true;
-      }
-    }*/
+    print(data);
   });
 }

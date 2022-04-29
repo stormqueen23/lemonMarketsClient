@@ -1,3 +1,5 @@
+@Timeout(Duration(minutes: 3))
+
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 import 'package:logging/logging.dart';
 import 'package:test/test.dart';
@@ -24,4 +26,19 @@ void main() {
     expect(items.result.length, greaterThan(0));
   });
 
+  test('getHistoricalTrades', () async {
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
+    String isin = 'DE0007037129';
+    DateTime day = DateTime(2022,3,1);
+
+    HistoricalUrlWrapper result = await lm.getTradesForDate(token, isin, day);
+    while (result.result.url == null) {
+      await Future.delayed(Duration(seconds: 20));
+      result = await lm.getTradesForDate(token, isin, day);
+    }
+    print(result.result.url);
+    String data = await lm.getHistoricalData(result.result.url!);
+
+    print(data);
+  });
 }

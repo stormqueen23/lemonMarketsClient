@@ -4,8 +4,8 @@ import 'package:test/test.dart';
 
 import '../credentials.dart';
 
-String mic = 'ALLDAY';
-String isin = 'DE000BASF111';
+String mic = 'XMUN';
+String isin = 'DE000HAG0005';
 
 final LemonMarkets lm = LemonMarkets();
 
@@ -21,8 +21,13 @@ void main() {
 
   test('createOrder', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
-    CreatedOrder order = (await lm.placeOrder(token, isin, OrderSide.buy, 1, venue: mic)).result!;
+    CreatedOrder order = (await lm.placeOrder(token, isin, OrderSide.sell, 153, venue: mic)).result!;
     print('order ${order.uuid} created. expires at ${order.validUntil} ${order.validUntil.toIso8601String()}');
+
+    String orderToActivate = order.uuid;
+    ActivateOrderResult response = await lm.activateOrder(token, orderToActivate, null);
+    print('activate order: ${response.success} (${response.responseMap.toString()})');
+
     expect(order, isNotNull);
     print(order);
   });
