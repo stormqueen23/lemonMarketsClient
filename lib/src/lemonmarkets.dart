@@ -28,7 +28,7 @@ enum DataPlan { free, basic, pro }
 
 enum TransactionType { payIn, payOut, orderBuy, orderSell, dividend, tax, unknown }
 
-enum PositionStatementType {order_buy, order_sell, split, import, snx}
+enum PositionStatementType { order_buy, order_sell, split, import, snx }
 
 enum BankStatementType {
   payIn,
@@ -37,9 +37,9 @@ enum BankStatementType {
   orderSell,
   dividend,
   endOfDayBalance,
+  tax,
   interestPaid,
   interestEarned,
-  tax,
   unknown
 }
 
@@ -77,8 +77,21 @@ class LemonMarkets {
   }
 
   Future<TradingResultList<BankStatement>> getBankStatements(AccessToken token,
-      {BankStatementType? type, DateTime? from, DateTime? to, int? limit, int? page, Sorting? sorting, bool? fromBeginning}) async {
-    return _accountClient.getBankStatements(token, type: type, from: from, to: to, limit: limit, page: page, sorting: sorting, fromBeginning: fromBeginning ?? false);
+      {BankStatementType? type,
+      DateTime? from,
+      DateTime? to,
+      int? limit,
+      int? page,
+      Sorting? sorting,
+      bool? fromBeginning}) async {
+    return _accountClient.getBankStatements(token,
+        type: type,
+        from: from,
+        to: to,
+        limit: limit,
+        page: page,
+        sorting: sorting,
+        fromBeginning: fromBeginning ?? false);
   }
 
   Future<TradingResultList<BankStatement>> getBankStatementsByUrl(AccessToken token, String url) async {
@@ -94,9 +107,7 @@ class LemonMarkets {
   }
 
   // Trading -> Orders
-
-  Future<TradingResult<CreatedOrder>> placeOrder(
-      AccessToken token, String isin, OrderSide side, int quantity,
+  Future<TradingResult<CreatedOrder>> placeOrder(AccessToken token, String isin, OrderSide side, int quantity,
       {DateTime? validUntil, Amount? stopPrice, Amount? limitPrice, String venue = 'XMUN', String? notes}) async {
     if (validUntil == null) {
       validUntil = DateTime.now().add(Duration(days: 29));
@@ -144,8 +155,13 @@ class LemonMarkets {
   }
 
   // Trading -> Positions
-  Future<TradingResultList<PositionStatement>> getPositionStatements(AccessToken token, {String? isin, int? limit, int? page, List<PositionStatementType>? types}) async {
+  Future<TradingResultList<PositionStatement>> getPositionStatements(AccessToken token,
+      {String? isin, int? limit, int? page, List<PositionStatementType>? types}) async {
     return _portfolioClient.getPositionStatements(token, limit: limit, page: page, isin: isin, types: types);
+  }
+
+  Future<TradingResultList<PositionStatement>> getPositionStatementsByUrl(AccessToken token, String url) async {
+    return _portfolioClient.getPositionStatementsByUrl(token, url);
   }
 
   Future<TradingResultList<PositionPerformance>> getPositionPerformance(AccessToken token,
@@ -153,8 +169,11 @@ class LemonMarkets {
     return _portfolioClient.getPositionPerformance(token, isin: isin, from: from, to: to, limit: limit, page: page);
   }
 
-  Future<TradingResultList<Position>> getPositions(AccessToken token,
-      {String? isin, int? limit, int? page}) async {
+  Future<TradingResultList<PositionPerformance>> getPositionPerformanceByUrl(AccessToken token, String url) async {
+    return _portfolioClient.getPositionPerformanceByUrl(token, url);
+  }
+
+  Future<TradingResultList<Position>> getPositions(AccessToken token, {String? isin, int? limit, int? page}) async {
     return _portfolioClient.getPositions(token, isin: isin, limit: limit, page: page);
   }
 

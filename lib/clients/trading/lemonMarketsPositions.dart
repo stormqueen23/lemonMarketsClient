@@ -71,7 +71,7 @@ class LemonMarketsPortfolio {
   String _generateParamString({String? isin, DateTime? from, DateTime? to, List<PositionStatementType>? types, int? limit, int? page}) {
     List<String> query = [];
     if (isin != null) {
-      query.add("isin="+isin);
+      query.add("isin=$isin");
     }
     if (from != null) {
       int value = LemonMarketsTimeConverter.getDoubleTimeForDateTime(from);

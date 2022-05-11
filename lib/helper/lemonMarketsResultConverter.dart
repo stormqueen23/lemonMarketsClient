@@ -38,15 +38,15 @@ class LemonMarketsResultConverter {
   }
 
 
-  static String bTax = 'tax_refunded';
+  static String bTax = 'tax_refund';
   static String bDividend = 'dividend';
   static String bOrderBuy = 'order_buy';
   static String bOrderSell = 'order_sell';
   static String bPayIn = 'pay_in';
   static String bPayOut = 'pay_out';
-  static String bEndOfDayBalance = 'eod_balance';
   static String bInterestPaid = 'interest_paid';
   static String bInterestEarned = 'interest_earned';
+  static String bEndOfDayBalance = 'eod_balance';
 
 
   static String? toBankStatementType(BankStatementType value) {
@@ -62,12 +62,12 @@ class LemonMarketsResultConverter {
       return bPayOut;
     } else if (BankStatementType.endOfDayBalance == value) {
       return bEndOfDayBalance;
+    } else if (BankStatementType.tax == value) {
+      return bTax;
     } else if (BankStatementType.interestPaid == value) {
       return bInterestPaid;
     } else if (BankStatementType.interestEarned == value) {
       return bInterestEarned;
-    } else if (BankStatementType.tax == value) {
-      return bTax;
     }
     return null;
   }
@@ -85,12 +85,12 @@ class LemonMarketsResultConverter {
       return BankStatementType.orderBuy;
     } else if (bOrderSell == value) {
       return BankStatementType.orderSell;
+    } else if (bTax == value || 'tax' == value) {
+      return BankStatementType.tax;
     } else if (bInterestPaid == value) {
       return BankStatementType.interestPaid;
     } else if (bInterestEarned == value) {
       return BankStatementType.interestEarned;
-    } else if (bTax == value || 'tax' == value) {
-      return BankStatementType.tax;
     }
     return BankStatementType.unknown;
   }

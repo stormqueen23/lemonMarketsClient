@@ -109,6 +109,9 @@ class LemonMarketsQueryConverter {
   static String bPayIn = 'pay_in';
   static String bPayOut = 'pay_out';
   static String bEndOfDayBalance = 'eod_balance';
+  static String bTax = 'tax_refund';
+  static String bInterestPaid = 'interest_paid';
+  static String bInterestEarned = 'interest_earned';
 
 
   static String convertBankStatementType(BankStatementType value) {
@@ -124,8 +127,14 @@ class LemonMarketsQueryConverter {
       return bPayOut;
     } else if (BankStatementType.endOfDayBalance == value) {
       return bEndOfDayBalance;
+    } else if (BankStatementType.tax == value) {
+      return bTax;
+    } else if (BankStatementType.interestPaid == value) {
+      return bInterestPaid;
+    } else if (BankStatementType.interestEarned == value) {
+      return bInterestEarned;
     }
-    return bPayIn;
+    return '';
   }
 
   static String convertPositionStatementType(PositionStatementType type) {
