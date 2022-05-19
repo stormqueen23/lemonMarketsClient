@@ -52,15 +52,64 @@ class LemonMarkets {
   late LemonMarketsSearch _searchClient;
   late LemonMarketsTradingVenue _tradingVenueClient;
   late LemonMarketsAccount _accountClient;
+  late LemonMarketsHttpClient _client;
 
   LemonMarkets() {
-    LemonMarketsHttpClient client = LemonMarketsHttpClient();
-    _tradingClient = LemonMarketsOrder(client);
-    _marketClient = LemonMarketsMarketData(client);
-    _portfolioClient = LemonMarketsPortfolio(client);
-    _searchClient = LemonMarketsSearch(client);
-    _tradingVenueClient = LemonMarketsTradingVenue(client);
-    _accountClient = LemonMarketsAccount(client);
+    _client = LemonMarketsHttpClient();
+    _tradingClient = LemonMarketsOrder(_client);
+    _marketClient = LemonMarketsMarketData(_client);
+    _portfolioClient = LemonMarketsPortfolio(_client);
+    _searchClient = LemonMarketsSearch(_client);
+    _tradingVenueClient = LemonMarketsTradingVenue(_client);
+    _accountClient = LemonMarketsAccount(_client);
+  }
+
+  void enableRequestLogging() {
+    _client.logRequests = true;
+  }
+
+  void disableRequestLogging() {
+    _client.logRequests = false;
+  }
+
+  void resetRequestLog() {
+    _client.requestLog.clear();
+  }
+
+  List<RequestLogEntry> getRequestLog() {
+    return _client.requestLog;
+  }
+
+  void enableRequestCount() {
+    _client.countRequests = true;
+  }
+
+  void disableRequestCount() {
+    _client.countRequests = false;
+  }
+
+  void resetMarketRequestCount() {
+    _client.requestCounterMarketData = 0;
+  }
+
+  int getMarketRequestCount() {
+    return _client.requestCounterMarketData;
+  }
+
+  void resetTradingRequestCount() {
+    _client.requestCounterTrading = 0;
+  }
+
+  int getTradingRequestCount() {
+    return _client.requestCounterTrading;
+  }
+
+  void resetPaperTradingRequestCount() {
+    _client.requestCounterTrading = 0;
+  }
+
+  int getPaperTradingRequestCount() {
+    return _client.requestCounterTrading;
   }
 
   // Authentication

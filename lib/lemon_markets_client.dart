@@ -49,3 +49,5 @@ export 'package:lemon_markets_client/data/tradingResult.dart';
 
 export 'package:lemon_markets_client/data/market/historicalUrlResult.dart';
 export 'package:lemon_markets_client/data/market/historicalUrlWrapper.dart';
+
+export 'package:lemon_markets_client/data/requestLogEntry.dart';

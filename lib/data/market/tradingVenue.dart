@@ -179,4 +179,8 @@ class TradingVenue {
     return result;
   }
 
+  @override
+  String toString() {
+    return 'TradingVenue{name: $name, title: $title, mic: $mic}';
+  }
 }

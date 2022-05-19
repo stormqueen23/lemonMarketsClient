@@ -28,9 +28,19 @@ void main() {
     });
   });
 
+  test('getFromOHLC', () async {
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
+//US72919P2020
+    ResultList<OHLC> items = await lm.getOHLC(token, ['US72919P2020'], OHLCType.h1, limit: 100, from: DateTime(2022, 5,4,11));
+    print(items.count);
+    items.result.forEach((element) {
+      print(element);
+    });
+  });
+
   test('getXOHLC', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
-    ResultList<OHLC> items = await lm.getOHLC(token, ['DE000A161408'], OHLCType.m1, from: DateTime.now().add(Duration(hours: -8)));
+    ResultList<OHLC> items = await lm.getOHLC(token, ['DE000CBK1001'], OHLCType.m1, from: DateTime.now().add(Duration(hours: -8)));
     print("count: " + items.count.toString());
     items.result.forEach((element) {
       print(element.time);

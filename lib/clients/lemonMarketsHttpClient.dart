@@ -2,10 +2,12 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 import 'package:lemon_markets_client/data/auth/accessToken.dart';
+import 'package:lemon_markets_client/data/requestLogEntry.dart';
 import 'package:lemon_markets_client/exception/lemonMarketsAuthException.dart';
 import 'package:lemon_markets_client/exception/lemonMarketsDecodeException.dart';
 import 'package:lemon_markets_client/exception/lemonMarketsException.dart';
 import 'package:lemon_markets_client/exception/lemonMarketsServerException.dart';
+import 'package:lemon_markets_client/helper/lemonMarketsURLs.dart';
 import 'package:logging/logging.dart';
 
 class LemonMarketsClientResponse {
@@ -17,8 +19,30 @@ class LemonMarketsClientResponse {
 
 class LemonMarketsHttpClient {
   final log = Logger('LemonMarketsHttpClient');
+  bool countRequests = false;
+  int requestCounterMarketData = 0;
+  int requestCounterTrading = 0;
+  int requestCounterPaperTrading = 0;
+
+  bool logRequests = false;
+  List<RequestLogEntry> requestLog = [];
 
   Client _client = Client();
+
+  void _updateRequestCounter(String url) {
+    if (countRequests) {
+      if (url.startsWith(LemonMarketsURL.BASE_URL_MARKET)) {
+        requestCounterMarketData++;
+      } else if (url.startsWith(LemonMarketsURL.BASE_URL_TRADING)) {
+        requestCounterTrading++;
+      } else if (url.startsWith(LemonMarketsURL.BASE_URL_TRADING_PAPER)) {
+        requestCounterPaperTrading++;
+      }
+    }
+    if (logRequests) {
+      requestLog.add(RequestLogEntry(DateTime.now(), url));
+    }
+  }
 
   Future<LemonMarketsClientResponse> sendPost(String url, AccessToken? token, Map<String, dynamic>? bodyMap, bool asJson) async {
     log.fine("send post to url: $url");
@@ -29,9 +53,11 @@ class LemonMarketsHttpClient {
       String jsonParams = json.encode(bodyMap);
       log.fine("post params as json: $jsonParams");
       response =  await _client.post(Uri.parse(url), headers: header, body: jsonParams,);
+      _updateRequestCounter(url);
     } else {
       log.fine("post params: $bodyMap");
       response =  await _client.post(Uri.parse(url), headers: header, body: bodyMap,);
+      _updateRequestCounter(url);
     }
     return _decode(response, url);
   }
@@ -41,12 +67,14 @@ class LemonMarketsHttpClient {
     Map<String, String>? header =_getHeader(token, url, false);
     log.fine("header: $header");
     Response response =  await _client.get(Uri.parse(url), headers: header,);
+    _updateRequestCounter(url);
     return _decode(response, url);
   }
 
   Future<String> sendGetWithoutHeader(String url) async {
     log.fine("send get to url: $url");
     Response response =  await _client.get(Uri.parse(url));
+    _updateRequestCounter(url);
     String responseString = utf8.decode(response.bodyBytes);
     return responseString;
   }
@@ -61,12 +89,15 @@ class LemonMarketsHttpClient {
         String jsonParams = json.encode(bodyMap);
         log.fine("post params as json: $jsonParams");
         response = await _client.put(Uri.parse(url), headers: header, body: jsonParams,);
+        _updateRequestCounter(url);
       } else {
         log.fine("post params: $bodyMap");
         response = await _client.put(Uri.parse(url), headers: header, body: bodyMap,);
+        _updateRequestCounter(url);
       }
     } else {
       response = await _client.put(Uri.parse(url), headers: header,);
+      _updateRequestCounter(url);
     }
     return _decode(response, url);
   }
@@ -76,6 +107,7 @@ class LemonMarketsHttpClient {
     Map<String, String>? header =_getHeader(token, url, true);
     log.fine("header: $header");
     Response response =  await _client.delete(Uri.parse(url), headers: header,);
+    _updateRequestCounter(url);
     return _decode(response, url);
   }
 
