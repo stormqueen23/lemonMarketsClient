@@ -16,6 +16,7 @@ class LemonMarketsAccount {
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
       TradingResult<Account> result = TradingResult<Account>.fromJson(response.decodedBody);
+      log.info(response.decodedBody);
       return result;
     } catch (e, stackTrace) {
       log.warning(e.toString());

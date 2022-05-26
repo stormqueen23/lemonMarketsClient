@@ -34,7 +34,7 @@ class LemonMarketsResultConverter {
     } else if (psSnx == asString) {
       return PositionStatementType.snx;
     }
-    throw LemonMarketsException('', 'cannot map PositionStatementType $asString', null, asString, null);
+    return PositionStatementType.unknown;
   }
 
 
@@ -117,13 +117,13 @@ class LemonMarketsResultConverter {
   }
 
   static String aTradingFree = 'free';
-  static String aTradingBasic = 'basic';
+  static String aTradingBasic = 'go';
   static String aTradingPro = 'pro';
 
   static String? toAccountTradingPlan(TradingPlan mode) {
     if (TradingPlan.free == mode) {
       return aTradingFree;
-    } else if (TradingPlan.basic == mode) {
+    } else if (TradingPlan.go == mode) {
       return aTradingBasic;
     } else if (TradingPlan.pro == mode) {
       return aTradingPro;
@@ -135,21 +135,21 @@ class LemonMarketsResultConverter {
     if (aTradingFree == modeAsString) {
       return TradingPlan.free;
     } else if (aTradingBasic == modeAsString) {
-      return TradingPlan.basic;
+      return TradingPlan.go;
     } else if (aTradingPro == modeAsString) {
       return TradingPlan.pro;
     }
-    throw LemonMarketsException('', 'cannot map tradingPlan $modeAsString', null, modeAsString, null);
+    return TradingPlan.unknown;
   }
 
   static String aDataFree = 'free';
-  static String aDataBasic = 'basic';
+  static String aDataBasic = 'go';
   static String aDataPro = 'pro';
 
   static String? toAccountDataPlan(DataPlan mode) {
     if (DataPlan.free == mode) {
       return aDataFree;
-    } else if (DataPlan.basic == mode) {
+    } else if (DataPlan.go == mode) {
       return aDataBasic;
     } else if (DataPlan.pro == mode) {
       return aDataPro;
@@ -161,11 +161,11 @@ class LemonMarketsResultConverter {
     if (aDataFree == modeAsString) {
       return DataPlan.free;
     } else if (aDataBasic == modeAsString) {
-      return DataPlan.basic;
+      return DataPlan.go;
     } else if (aDataPro == modeAsString) {
       return DataPlan.pro;
     }
-    throw LemonMarketsException('', 'cannot map tradingPlan $modeAsString', null, modeAsString, null);
+    return DataPlan.unknown;
   }
 
   static String? toOrderSide(OrderSide type) {

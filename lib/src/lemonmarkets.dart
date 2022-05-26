@@ -23,12 +23,12 @@ enum Sorting { newestFirst, oldestFirst }
 
 enum AccountMode { paper, money }
 
-enum TradingPlan { free, basic, pro }
-enum DataPlan { free, basic, pro }
+enum TradingPlan { free, go, pro, unknown }
+enum DataPlan { free, go, pro, unknown }
 
 enum TransactionType { payIn, payOut, orderBuy, orderSell, dividend, tax, unknown }
 
-enum PositionStatementType { order_buy, order_sell, split, import, snx }
+enum PositionStatementType { order_buy, order_sell, split, import, snx, unknown }
 
 enum BankStatementType {
   payIn,
