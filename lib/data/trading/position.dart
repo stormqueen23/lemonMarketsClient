@@ -49,6 +49,8 @@ class Position {
 
   double get diffPercent => sumPrice.apiValue == 0 ? 0 : diffAmount.apiValue / sumPrice.apiValue * 100.0;
 
+  bool get isPositive => diffPercent > 0;
+
   @override
   String toString() {
     return 'Position{\n'
