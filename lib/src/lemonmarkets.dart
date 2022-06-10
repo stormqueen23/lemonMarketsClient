@@ -105,11 +105,11 @@ class LemonMarkets {
   }
 
   void resetPaperTradingRequestCount() {
-    _client.requestCounterTrading = 0;
+    _client.requestCounterPaperTrading = 0;
   }
 
   int getPaperTradingRequestCount() {
-    return _client.requestCounterTrading;
+    return _client.requestCounterPaperTrading;
   }
 
   // Authentication
