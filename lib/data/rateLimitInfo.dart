@@ -14,4 +14,8 @@ class RateLimitInfo {
 
   Map<String, dynamic> toJson() => _$RateLimitInfoToJson(this);
 
+  @override
+  String toString() {
+    return 'RateLimitInfo{limitRateLimit: $limitRateLimit, remainingRateLimit: $remainingRateLimit, rateLimitReset: $rateLimitReset}';
+  }
 }

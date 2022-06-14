@@ -18,5 +18,9 @@ ResultList<T> _$ResultListFromJson<T>(
     )
       ..page = json['page'] as int?
       ..pages = json['pages'] as int?
-      ..time = LemonMarketsTimeConverter.fromIsoTimeNullable(
-          json['time'] as String?);
+      ..time =
+          LemonMarketsTimeConverter.fromIsoTimeNullable(json['time'] as String?)
+      ..rateLimitInfo = json['rateLimitInfo'] == null
+          ? null
+          : RateLimitInfo.fromJson(
+              json['rateLimitInfo'] as Map<String, dynamic>);

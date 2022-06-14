@@ -22,12 +22,15 @@ void main() {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
     ResultList<Instrument> all = await lm.searchInstruments(token);
     expect(all.result.length, greaterThan(0));
+    print(all);
   });
 
   test('searchInstrumentsByIsin', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
-    ResultList<Instrument> all = await lm.searchInstruments(token, isin: ['DE0005557508']);
-    expect(all.result.length, 1);
+    ResultList<Instrument> all = await lm.searchInstruments(token, isin: ['DE000A0D6554','DE000A2E4K43','DE000CBK1001','DE000A0TGJ55','DE000KSAG888','DE000ZAL1111','DE0005140008','US62914V1061','DE000A1ML7J1','DE0005557508']);
+    expect(all.result.length, 10);
+    print(all.count);
+
   });
 
   test('searchInstrumentsByMultipleIsin', () async {

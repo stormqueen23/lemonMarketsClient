@@ -26,6 +26,7 @@ class LemonMarketsSearch {
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
       ResultList<Instrument> result = ResultList<Instrument>.fromJson(response.decodedBody);
+      result.rateLimitInfo = response.getRateLimitInfo();
       return result;
     } catch (e, stackTrace) {
       log.warning(e.toString());

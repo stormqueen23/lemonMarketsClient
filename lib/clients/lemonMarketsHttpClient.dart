@@ -25,8 +25,12 @@ class LemonMarketsClientResponse {
 
   LemonMarketsClientResponse(this.decodedBody, {required this.limitRateLimit,required this.remainingRateLimit,required this.rateLimitReset,required this.statusCode});
 
-  RateLimitInfo getRateLimitInfo() {
-    return RateLimitInfo(remainingRateLimit: remainingRateLimit, rateLimitReset: rateLimitReset, limitRateLimit: limitRateLimit);
+  RateLimitInfo? getRateLimitInfo() {
+    if (remainingRateLimit != null || rateLimitReset != null || limitRateLimit != null) {
+      return RateLimitInfo(
+          remainingRateLimit: remainingRateLimit, rateLimitReset: rateLimitReset, limitRateLimit: limitRateLimit);
+    }
+    return null;
   }
 }
 
