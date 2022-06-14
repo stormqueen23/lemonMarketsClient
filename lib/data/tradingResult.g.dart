@@ -13,6 +13,10 @@ TradingResult<T> _$TradingResultFromJson<T>(
     TradingResult<T>(
       json['status'] as String,
       LemonMarketsResultConverter.fromAccountMode(json['mode'] as String),
+      json['rateLimitInfo'] == null
+          ? null
+          : RateLimitInfo.fromJson(
+              json['rateLimitInfo'] as Map<String, dynamic>),
     )
       ..time =
           LemonMarketsTimeConverter.fromIsoTimeNullable(json['time'] as String?)

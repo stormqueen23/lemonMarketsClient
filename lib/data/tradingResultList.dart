@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:lemon_markets_client/data/rateLimitInfo.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 
 part 'tradingResultList.g.dart';
@@ -8,6 +9,9 @@ class TradingResultList<T> {
   @JsonKey(
       name: 'time', fromJson: LemonMarketsTimeConverter.fromIsoTimeNullable, toJson: LemonMarketsTimeConverter.toIsoTimeNullable)
   DateTime? time;
+
+  @JsonKey(name: 'rateLimitInfo')
+  RateLimitInfo? rateLimitInfo;
 
   @JsonKey(name: 'status')
   String? status;
@@ -65,6 +69,7 @@ class TradingResultList<T> {
 
   @override
   String toString() {
-    return 'TradingResultList{time: $time, status: $status, next: $next, previous: $previous, count: $count, page: $page, pages: $pages, mode: $mode, result: $result}';
+    return 'TradingResultList{time: $time, status: $status, next: $next, previous: $previous, count: $count, page: $page, pages: $pages, mode: $mode, result: $result\n'
+        'rate limits: limit: ${rateLimitInfo?.limitRateLimit}, remaining: ${rateLimitInfo?.remainingRateLimit}, reset: ${rateLimitInfo?.rateLimitReset}';
   }
 }

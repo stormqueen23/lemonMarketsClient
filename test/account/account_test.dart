@@ -22,7 +22,7 @@ void main() {
     TradingResult<Account> data = await lm.getAccountData(token);
     expect(data.result, isNotNull);
     print('found account data for ${data.result!.email}');
-    print(data.result.toString());
+    print(data.toString());
   });
 
   test('getDocumentsData', () async {

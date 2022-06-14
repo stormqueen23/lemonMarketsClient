@@ -59,7 +59,7 @@ Short example for SELL:
 ## Building this plugin
 To (re-)generate the missing *.g.dart classes run:\
 ```
-flutter packages pub run build_runner build --delete-conflicting-outputs
+dart run build_runner build --delete-conflicting-outputs
  ```
 
 ## Running the example app

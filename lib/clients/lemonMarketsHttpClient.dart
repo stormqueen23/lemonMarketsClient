@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 import 'package:lemon_markets_client/data/auth/accessToken.dart';
+import 'package:lemon_markets_client/data/rateLimitInfo.dart';
 import 'package:lemon_markets_client/data/requestLogEntry.dart';
 import 'package:lemon_markets_client/exception/lemonMarketsAuthException.dart';
 import 'package:lemon_markets_client/exception/lemonMarketsDecodeException.dart';
@@ -10,11 +11,23 @@ import 'package:lemon_markets_client/exception/lemonMarketsServerException.dart'
 import 'package:lemon_markets_client/helper/lemonMarketsURLs.dart';
 import 'package:logging/logging.dart';
 
+String limitRateLimitHeader = 'ratelimit-limit';
+String remainingRateLimitHeader = 'ratelimit-remaining';
+String rateLimitReset = 'ratelimit-reset';
+
 class LemonMarketsClientResponse {
+  int? limitRateLimit;
+  int? remainingRateLimit;
+  int? rateLimitReset;
+
   int statusCode;
   Map<String, dynamic> decodedBody;
 
-  LemonMarketsClientResponse(this.statusCode, this.decodedBody);
+  LemonMarketsClientResponse(this.decodedBody, {required this.limitRateLimit,required this.remainingRateLimit,required this.rateLimitReset,required this.statusCode});
+
+  RateLimitInfo getRateLimitInfo() {
+    return RateLimitInfo(remainingRateLimit: remainingRateLimit, rateLimitReset: rateLimitReset, limitRateLimit: limitRateLimit);
+  }
 }
 
 class LemonMarketsHttpClient {
@@ -113,6 +126,17 @@ class LemonMarketsHttpClient {
 
   LemonMarketsClientResponse _decode(Response response, String url) {
     int statusCode = response.statusCode;
+    Map<String, String> headers = response.headers;
+
+    log.fine(headers);
+    String? limit = headers[limitRateLimitHeader];
+    String? remaining = headers[remainingRateLimitHeader];
+    String? reset = headers[rateLimitReset];
+
+    int? limitAsInt = limit != null ? int.parse(limit) : null;
+    int? remainingAsInt = remaining != null ? int.parse(remaining) : null;
+    int? resetAsInt = reset != null ? int.parse(reset) : null;
+
     String responseString = utf8.decode(response.bodyBytes);
     log.fine("response: ${responseString} with statusCode $statusCode (length: ${response.contentLength}, body is not empty: ${response.body.isNotEmpty})");
     if (statusCode == 401 || statusCode == 403) {
@@ -130,7 +154,7 @@ class LemonMarketsHttpClient {
 
     try {
       Map<String, dynamic> decoded = responseString.isNotEmpty ? json.decode(responseString) : {};
-      return LemonMarketsClientResponse(statusCode, decoded);
+      return LemonMarketsClientResponse(decoded, statusCode: statusCode, limitRateLimit: limitAsInt, rateLimitReset: resetAsInt, remainingRateLimit: remainingAsInt);
     } catch (e, stackTrace) {
       log.warning(e.toString());
       throw LemonMarketsDecodeException(url, e.toString(), statusCode, response.body, stackTrace);

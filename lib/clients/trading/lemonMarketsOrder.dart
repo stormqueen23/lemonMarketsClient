@@ -43,6 +43,7 @@ class LemonMarketsOrder {
     LemonMarketsClientResponse response = await _client.sendPost(url, token, data, true);
     try {
       TradingResult<CreatedOrder> result = TradingResult<CreatedOrder>.fromJson(response.decodedBody);
+      result.rateLimitInfo = response.getRateLimitInfo();
       return result;
     } catch (e, stackTrace) {
       log.warning(e.toString());
@@ -64,8 +65,10 @@ class LemonMarketsOrder {
       String modeString = response.decodedBody['mode'];
       AccountMode mode = LemonMarketsResultConverter.fromAccountMode(modeString);
       log.fine('status for orderActivation: $status in mode $modeString');
-      return ActivateOrderResult(
+      ActivateOrderResult result = ActivateOrderResult(
           'ok'.compareTo(status) == 0 && response.statusCode == 200, response.statusCode, mode, response.decodedBody);
+      result.rateLimitInfo = response.getRateLimitInfo();
+      return result;
     } catch (e, stackTrace) {
       log.warning(e.toString());
       throw LemonMarketsConvertException(
@@ -82,11 +85,14 @@ class LemonMarketsOrder {
       AccountMode mode = LemonMarketsResultConverter.fromAccountMode(modeString);
       log.fine('response from delete order: ${response.decodedBody} - $status, mode: $modeString');
       TradingResult<Order> result = TradingResult<Order>.fromJson(response.decodedBody);
+      DeleteOrderResult deleteResult;
       if (result.status == 'ok') {
-        return DeleteOrderResult(true, response.statusCode, mode, response.decodedBody);
+        deleteResult = DeleteOrderResult(true, response.statusCode, mode, response.decodedBody);
       } else {
-        return DeleteOrderResult(false, response.statusCode, mode, response.decodedBody);
+        deleteResult = DeleteOrderResult(false, response.statusCode, mode, response.decodedBody);
       }
+      deleteResult.rateLimitInfo = response.getRateLimitInfo();
+      return deleteResult;
     } catch (e, stackTrace) {
       log.warning(e.toString());
       throw LemonMarketsConvertException(
@@ -99,6 +105,7 @@ class LemonMarketsOrder {
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
       TradingResult<Order> result = TradingResult<Order>.fromJson(response.decodedBody);
+      result.rateLimitInfo = response.getRateLimitInfo();
       return result;
     } catch (e, stackTrace) {
       log.warning(e.toString());
@@ -127,6 +134,7 @@ class LemonMarketsOrder {
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
       TradingResultList<Order> result = TradingResultList<Order>.fromJson(response.decodedBody);
+      result.rateLimitInfo = response.getRateLimitInfo();
       return result;
     } catch (e, stackTrace) {
       log.warning(e.toString());

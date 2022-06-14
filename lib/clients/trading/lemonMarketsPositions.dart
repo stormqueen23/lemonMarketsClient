@@ -25,6 +25,7 @@ class LemonMarketsPortfolio {
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
       TradingResultList<PositionStatement> result = TradingResultList<PositionStatement>.fromJson(response.decodedBody);
+      result.rateLimitInfo = response.getRateLimitInfo();
       return result;
     } catch (e, stackTrace) {
       log.warning(e.toString());
@@ -43,6 +44,7 @@ class LemonMarketsPortfolio {
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
       TradingResultList<PositionPerformance> result = TradingResultList<PositionPerformance>.fromJson(response.decodedBody);
+      result.rateLimitInfo = response.getRateLimitInfo();
       return result;
     } catch (e, stackTrace) {
       log.warning(e.toString());
@@ -61,6 +63,7 @@ class LemonMarketsPortfolio {
     LemonMarketsClientResponse response = await _client.sendGet(url, token);
     try {
       TradingResultList<Position> result = TradingResultList<Position>.fromJson(response.decodedBody);
+      result.rateLimitInfo = response.getRateLimitInfo();
       return result;
     } catch (e, stackTrace) {
       log.warning(e.toString());

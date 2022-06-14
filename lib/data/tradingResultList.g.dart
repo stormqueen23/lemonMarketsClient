@@ -16,6 +16,10 @@ TradingResultList<T> _$TradingResultListFromJson<T>(
       LemonMarketsTimeConverter.fromIsoTimeNullable(json['time'] as String?),
       LemonMarketsResultConverter.fromAccountMode(json['mode'] as String),
     )
+      ..rateLimitInfo = json['rateLimitInfo'] == null
+          ? null
+          : RateLimitInfo.fromJson(
+              json['rateLimitInfo'] as Map<String, dynamic>)
       ..next = json['next'] as String?
       ..previous = json['previous'] as String?
       ..count = json['total'] as int?
