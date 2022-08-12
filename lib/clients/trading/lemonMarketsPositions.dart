@@ -33,9 +33,9 @@ class LemonMarketsPortfolio {
     }
   }
 
-  Future<TradingResultList<PositionPerformance>> getPositionPerformance(AccessToken token, {String? isin, DateTime? from, DateTime? to, int? limit, int? page}) async {
+  Future<TradingResultList<PositionPerformance>> getPositionPerformance(AccessToken token, {String? isin, DateTime? from, DateTime? to, Sorting? sorting, int? limit, int? page}) async {
     String url = LemonMarketsURL.getTradingUrl(token) + PERFORMANCE_ENDPOINT_NAME;
-    String params = _generateParamString(isin: isin, from: from, to: to, limit: limit, page: page);
+    String params = _generateParamString(isin: isin, from: from, to: to, limit: limit, page: page, sorting: sorting);
     url = url+params;
     return getPositionPerformanceByUrl(token, url);
   }
@@ -71,7 +71,7 @@ class LemonMarketsPortfolio {
     }
   }
 
-  String _generateParamString({String? isin, DateTime? from, DateTime? to, List<PositionStatementType>? types, int? limit, int? page}) {
+  String _generateParamString({String? isin, DateTime? from, DateTime? to, List<PositionStatementType>? types, int? limit, int? page, Sorting? sorting}) {
     List<String> query = [];
     if (isin != null) {
       query.add("isin=$isin");
@@ -83,6 +83,9 @@ class LemonMarketsPortfolio {
     if (to != null) {
       int value = LemonMarketsTimeConverter.getDoubleTimeForDateTime(to);
       query.add('to=' + value.toString());
+    }
+    if (sorting != null) {
+      query.add('sorting='+LemonMarketsQueryConverter.convertSorting(sorting)); // oldest -> newest
     }
     if (types != null) {
       List<String> all = [];

@@ -214,7 +214,7 @@ class LemonMarkets {
   }
 
   Future<TradingResultList<PositionPerformance>> getPositionPerformance(AccessToken token,
-      {String? isin, DateTime? from, DateTime? to, int? limit, int? page}) async {
+      {String? isin, DateTime? from, DateTime? to, Sorting? sorting, int? limit, int? page}) async {
     return _portfolioClient.getPositionPerformance(token, isin: isin, from: from, to: to, limit: limit, page: page);
   }
 
