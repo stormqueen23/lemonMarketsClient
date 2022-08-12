@@ -115,7 +115,7 @@ class LemonMarketsOrder {
   }
 
   Future<TradingResultList<Order>> getOrders(AccessToken token, {DateTime? createdAtUntil,
-      DateTime? createdAtFrom, OrderSide? side, OrderType? type, OrderStatus? status, String? isin, int? limit, int? page}) async {
+      DateTime? createdAtFrom, OrderSide? side, OrderType? type, List<OrderStatus>? status, String? isin, int? limit, int? page}) async {
     List<String> params = _getOrderQueryParams(
         side: side,
         status: status,
@@ -148,7 +148,7 @@ class LemonMarketsOrder {
       DateTime? createdAtFrom,
       OrderSide? side,
       OrderType? type,
-      OrderStatus? status,
+        List<OrderStatus>? status,
       String? isin,
       int? limit,
       int? page}) {
@@ -169,8 +169,13 @@ class LemonMarketsOrder {
       if (sideString != null) result.add('side=' + sideString);
     }
     if (status != null) {
-      String? statusString = LemonMarketsQueryConverter.convertOrderStatus(status);
-      if (statusString != null) result.add('status=' + statusString);
+      status.forEach((element) {
+        String? statusString = LemonMarketsQueryConverter.convertOrderStatus(element);
+        if (statusString != null) {
+          result.add('status=' + statusString);
+        }
+      });
+
     }
     if (type != null) {
       String? typeString = LemonMarketsQueryConverter.convertOrderType(type);

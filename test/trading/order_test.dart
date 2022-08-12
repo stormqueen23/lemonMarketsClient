@@ -102,7 +102,7 @@ void main() {
 
   test('getByStatus', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
-    TradingResultList<Order> order = await lm.getOrders(token, status: OrderStatus.activated);
+    TradingResultList<Order> order = await lm.getOrders(token, status: [OrderStatus.inactive, OrderStatus.expired]);
     print('found ${order.result} orders');
     print(order);
   });

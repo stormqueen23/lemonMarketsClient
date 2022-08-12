@@ -170,7 +170,7 @@ class LemonMarkets {
       DateTime? from,
       OrderSide? side,
       OrderType? type,
-      OrderStatus? status,
+      List<OrderStatus>? status,
       int? limit,
       int? page,
       String? isin}) async {

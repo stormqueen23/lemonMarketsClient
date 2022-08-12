@@ -58,9 +58,9 @@ class LemonMarketsQueryConverter {
     } else if (OrderStatus.open == value) {
       return 'open';
     } else if (OrderStatus.cancelled == value) {
-      return 'cancelled';
+      return 'canceled';
     } else if (OrderStatus.cancelling == value) {
-      return 'cancelling';
+      return 'canceling';
     }
     return null;
   }
