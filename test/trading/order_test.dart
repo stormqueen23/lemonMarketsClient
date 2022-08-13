@@ -91,13 +91,15 @@ void main() {
       print(element);
     }
   });
+
   test('getAllOrders', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
-    TradingResultList<Order> orders = await lm.getOrders(token);
-    print('found ${orders.result.length} orders');
-    for (Order element in orders.result) {
-      print(element);
-    }
+      TradingResultList<Order> orders = await lm.getOrders(token, limit: 100);
+      print('found ${orders.result.length} orders');
+      for (Order element in orders.result) {
+        print(element);
+      }
+
   });
 
   test('getByStatus', () async {

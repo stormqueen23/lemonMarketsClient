@@ -5,7 +5,7 @@ export 'package:lemon_markets_client/src/lemonmarkets.dart';
 export 'package:lemon_markets_client/clients/clientData.dart';
 
 //EXCEPTIONS
-
+export 'package:lemon_markets_client/exception/LemonMarketsRateLimitException.dart';
 export 'package:lemon_markets_client/exception/lemonMarketsAuthException.dart';
 export 'package:lemon_markets_client/exception/lemonMarketsConvertException.dart';
 export 'package:lemon_markets_client/exception/lemonMarketsDecodeException.dart';

@@ -4,16 +4,14 @@ import 'package:http/http.dart';
 import 'package:lemon_markets_client/data/auth/accessToken.dart';
 import 'package:lemon_markets_client/data/rateLimitInfo.dart';
 import 'package:lemon_markets_client/data/requestLogEntry.dart';
-import 'package:lemon_markets_client/exception/lemonMarketsAuthException.dart';
-import 'package:lemon_markets_client/exception/lemonMarketsDecodeException.dart';
-import 'package:lemon_markets_client/exception/lemonMarketsException.dart';
-import 'package:lemon_markets_client/exception/lemonMarketsServerException.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsURLs.dart';
+import 'package:lemon_markets_client/lemon_markets_client.dart';
 import 'package:logging/logging.dart';
 
-String limitRateLimitHeader = 'ratelimit-limit';
-String remainingRateLimitHeader = 'ratelimit-remaining';
-String rateLimitReset = 'ratelimit-reset';
+
+String limitRateLimitHeader = 'RateLimit-Limit';
+String remainingRateLimitHeader = 'RateLimit-Remaining';
+String rateLimitReset = 'RateLimit-Reset';
 
 class LemonMarketsClientResponse {
   int? limitRateLimit;
@@ -132,14 +130,25 @@ class LemonMarketsHttpClient {
     int statusCode = response.statusCode;
     Map<String, String> headers = response.headers;
 
-    log.fine(headers);
-    String? limit = headers[limitRateLimitHeader];
-    String? remaining = headers[remainingRateLimitHeader];
-    String? reset = headers[rateLimitReset];
+    log.fine("response headers: $headers");
+    String? limit;
+    String? remaining;
+    String? reset;
 
-    int? limitAsInt = limit != null ? int.parse(limit) : null;
-    int? remainingAsInt = remaining != null ? int.parse(remaining) : null;
-    int? resetAsInt = reset != null ? int.parse(reset) : null;
+    headers.forEach((key, value) {
+      log.fine('$key: $value');
+      if (key.toUpperCase().compareTo(limitRateLimitHeader.toUpperCase()) == 0) {
+        limit = value;
+      } else if (key.toUpperCase().compareTo(remainingRateLimitHeader.toUpperCase()) == 0) {
+        remaining = value;
+      } else if (key.toUpperCase().compareTo(rateLimitReset.toUpperCase()) == 0) {
+        reset = value;
+      }
+    });
+
+    int? limitAsInt = limit != null ? int.parse(limit!) : null;
+    int? remainingAsInt = remaining != null ? int.parse(remaining!) : null;
+    int? resetAsInt = reset != null ? int.parse(reset!) : null;
 
     String responseString = utf8.decode(response.bodyBytes);
     log.fine("response: ${responseString} with statusCode $statusCode (length: ${response.contentLength}, body is not empty: ${response.body.isNotEmpty})");
@@ -151,6 +160,9 @@ class LemonMarketsHttpClient {
     } else if (statusCode == 405) {
       log.info("405 statusCode");
       throw LemonMarketsException(url, response.body, statusCode, response.body, null);
+    } else if (statusCode == 429) {
+      log.info("429 statusCode: limit=$limitAsInt, remaining=$remainingAsInt, resetAsInt=$resetAsInt");
+      throw LemonMarketsRateLimitException(url, response.body, limit: limitAsInt,  remaining: remainingAsInt, reset: resetAsInt);
     } else if (statusCode == 500) {
       log.info("500 statusCode");
       throw LemonMarketsServerException(url, response.body, statusCode, response.body, null);
@@ -158,6 +170,7 @@ class LemonMarketsHttpClient {
 
     try {
       Map<String, dynamic> decoded = responseString.isNotEmpty ? json.decode(responseString) : {};
+      log.fine(decoded);
       return LemonMarketsClientResponse(decoded, statusCode: statusCode, limitRateLimit: limitAsInt, rateLimitReset: resetAsInt, remainingRateLimit: remainingAsInt);
     } catch (e, stackTrace) {
       log.warning(e.toString());

@@ -31,4 +31,21 @@ void main() {
   }
   );
 
+  test('getLemonMarketsRateLimitException', () async {
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
+
+    try {
+      for (int i = 0; i < 300; i++) {
+        await lm.getOrders(token, limit: 1);
+      }
+    } on LemonMarketsRateLimitException catch (e1) {
+      print('reset in '+e1.reset.toString()+'s -> '+e1.responseMap.toString());
+    } on LemonMarketsException catch (e) {
+      print('LemonMarketsException: '+e.responseCode.toString()+' '+e.responseMap.toString());
+
+    }
+    //throwsA(TypeMatcher<LemonMarketsInvalidQueryException>());
+  }
+  );
+
 }

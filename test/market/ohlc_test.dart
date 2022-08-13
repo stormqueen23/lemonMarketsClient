@@ -22,7 +22,7 @@ void main() {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
 
     ResultList<OHLC> items = await lm.getOHLC(token, ['DE0005775803', 'JP3249600002', 'DE0007100000', 'FR0000039109', 'US5745991068', 'NZTELE0001S4', 'US23331S1006', 'AT0000758305', 'SE0014855292', 'ES0130670112'], OHLCType.d1, limit: 100, from: DateTime.now().add(Duration(hours: -124)));
-    print(items.count);
+    print(items.rateLimitInfo);
     items.result.forEach((element) {
       print(element);
     });
@@ -31,7 +31,7 @@ void main() {
   test('getFromOHLC', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
 //US72919P2020
-    ResultList<OHLC> items = await lm.getOHLC(token, ['US72919P2020'], OHLCType.h1, limit: 100, from: DateTime(2022, 5,4,11));
+    ResultList<OHLC> items = await lm.getOHLC(token, ['US72919P2020'], OHLCType.h1, limit: 100, from: DateTime(2022, 5,2,15), to: DateTime(2022, 5,4,11));
     print(items.count);
     items.result.forEach((element) {
       print(element);

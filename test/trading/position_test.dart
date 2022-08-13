@@ -18,15 +18,18 @@ void main() {
 
   test('getPerformance', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
-    TradingResultList<PositionPerformance> result = await lm.getPositionPerformance(token, from: DateTime(2021, 10,1),  isin: 'DE000A2E4K43');
+    TradingResultList<PositionPerformance> result = await lm.getPositionPerformance(token, from: DateTime.now().add(Duration(days: -365)), to: DateTime.now()  );
     print(result);
 
   });
 
   test('getStatements', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
-    TradingResultList<PositionStatement> result = await lm.getPositionStatements(token, isin: 'DE000A2JNWZ9', types: [PositionStatementType.order_buy]);
-    print(result);
+    for(int i = 0; i < 400; i++) {
+      TradingResultList<PositionStatement> result = await lm.getPositionStatements(token, isin: 'DE000A2JNWZ9', types: [PositionStatementType.order_buy]);
+      print(result);
+    }
+
 
   });
 
