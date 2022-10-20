@@ -18,6 +18,15 @@ void main() {
 
   // Market data -> Tranding venues
 
+  test('getIsOpen', () async {
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
+    ResultList<TradingVenue> tradingVenue = await lm.getTradingVenues(token, mics: ['XMUN']);
+    TradingVenue tv = tradingVenue.result.first;
+    DateTime at = DateTime(DateTime.now().year, 10, 20, 8);
+    bool open = tv.isTradingVenueOpen(at);
+    print('isOpen at $at: $open');
+  });
+
   test('getTradingVenues', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
     ResultList<TradingVenue> tradingVenues = await lm.getTradingVenues(token);

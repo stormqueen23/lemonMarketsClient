@@ -1,9 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:lemon_markets_client/data/auth/accessToken.dart';
 import 'package:lemon_markets_client/data/rateLimitInfo.dart';
-import 'package:lemon_markets_client/data/requestLogEntry.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsURLs.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 import 'package:logging/logging.dart';
@@ -129,14 +127,13 @@ class LemonMarketsHttpClient {
   LemonMarketsClientResponse _decode(Response response, String url) {
     int statusCode = response.statusCode;
     Map<String, String> headers = response.headers;
-
-    log.fine("response headers: $headers");
+    //log.fine("client: ${_client.runtimeType}");
+    //log.fine("response headers: $headers");
     String? limit;
     String? remaining;
     String? reset;
 
     headers.forEach((key, value) {
-      log.fine('$key: $value');
       if (key.toUpperCase().compareTo(limitRateLimitHeader.toUpperCase()) == 0) {
         limit = value;
       } else if (key.toUpperCase().compareTo(remainingRateLimitHeader.toUpperCase()) == 0) {

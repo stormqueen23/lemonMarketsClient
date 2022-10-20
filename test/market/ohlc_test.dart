@@ -77,4 +77,14 @@ void main() {
     expect(items.result[0].isin, 'US88160R1014');
   });
 
+  test('getD1FromOHLC', () async {
+    AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
+//US72919P2020
+    ResultList<OHLC> items = await lm.getOHLC(token, ['US72919P2020'], OHLCType.d1, limit: 100, from: DateTime.now().add(Duration(days: -1)), to: DateTime.now());
+    print(items.count);
+    items.result.forEach((element) {
+      print(element);
+    });
+  });;
+
 }

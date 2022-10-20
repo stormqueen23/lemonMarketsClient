@@ -172,7 +172,7 @@ class TradingVenue {
     int result = 0;
     for (int i = 1; i < 32; i++) {
       DateTime test = DateTime(year, month, i);
-      if (test.day == DateTime.sunday) {
+      if (test.weekday == DateTime.sunday) {
         result = i;
       }
     }

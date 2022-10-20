@@ -23,6 +23,8 @@ export 'package:lemon_markets_client/data/amount.dart';
 
 export 'package:lemon_markets_client/data/auth/accessToken.dart';
 
+export 'package:lemon_markets_client/data/rateLimitInfo.dart';
+
 export 'package:lemon_markets_client/data/account/account.dart';
 export 'package:lemon_markets_client/data/account/bankStatement.dart';
 export 'package:lemon_markets_client/data/account/document.dart';
