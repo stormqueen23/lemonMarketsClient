@@ -155,6 +155,8 @@ class LemonMarketsQueryConverter {
       case PositionStatementType.order_buy:
         result = LemonMarketsResultConverter.psBuy;
         break;
+      case PositionStatementType.unknown:
+        break;
     }
     return result;
   }

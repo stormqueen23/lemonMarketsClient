@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:lemon_markets_client/data/rateLimitInfo.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 
 part 'resultList.g.dart';

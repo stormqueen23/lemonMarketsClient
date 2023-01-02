@@ -15,7 +15,6 @@ class LemonMarketsRateLimitException  extends LemonMarketsException {
   @override
   String toString() => "${this.runtimeType} ${responseMap} [limit=$limit, remaining=$remaining, reset=$reset]";
 
-  @override
   // TODO: implement stackTrace
   StackTrace? get stackTrace => null;
 }

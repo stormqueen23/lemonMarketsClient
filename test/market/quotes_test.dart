@@ -35,18 +35,13 @@ void main() {
     print('bid: ${item.bit}, ask: ${item.ask}, spread: ${item.bidAskSpread}, time ${item.time}');
   });
 
-  test('getHistoricalQuotes', () async {
+  test('getQuotes', () async {
     AccessToken token = AccessToken(token: Credentials.JWT_TOKEN);
-    String isin = 'DE0007037129';
-    DateTime day = DateTime(2022,4,14);
+    DateTime from = DateTime(2022, 11, 16, 21, 45);
+    DateTime to =   DateTime(2022, 11, 16, 21, 50);
 
-    HistoricalUrlWrapper result = await lm.getQuotesForDate(token, isin, day);
-    while (result.result.url == null) {
-      await Future.delayed(Duration(seconds: 20));
-      result = await lm.getQuotesForDate(token, isin, day);
-    }
-    print(result.result.url);
-    String data = await lm.getHistoricalData(result.result.url!);
-    print(data);
+    ResultList<Quote> items = await lm.getQuotes(token, ['US88160R1014'], from: from, to: to);
+    print(items.count);
+    print(items);
   });
 }

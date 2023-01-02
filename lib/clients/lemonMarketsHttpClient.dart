@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:lemon_markets_client/data/rateLimitInfo.dart';
 import 'package:lemon_markets_client/helper/lemonMarketsURLs.dart';
 import 'package:lemon_markets_client/lemon_markets_client.dart';
 import 'package:logging/logging.dart';

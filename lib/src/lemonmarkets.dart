@@ -270,8 +270,9 @@ class LemonMarkets {
 
   // Data -> Quotes
 
-  Future<HistoricalUrlWrapper> getQuotesForDate(AccessToken token, String isin, DateTime day) async {
-    return _marketClient.getQuotesForDate(token, isin, day);
+  Future<ResultList<Quote>> getQuotes(AccessToken token, List<String> isin,
+      {DateTime? from, DateTime? to, String? mic, bool? decimals, bool epoch = false, Sorting? sorting, int? limit, int? page}) async {
+    return _marketClient.getQuotes(token, isin, from: from, to: to, page: page, limit: limit, sorting: sorting, decimals: decimals, epoch: epoch, mic: mic);
   }
 
   // Epoch parameter not supported yet. Its always true problem: epoch=true results in number and result=false results in string --> type cast problem!
@@ -281,10 +282,6 @@ class LemonMarkets {
       {List<String>? mic, bool? decimals, Sorting? sorting, int? limit, int? page}) async {
     return _marketClient.getLatestQuote(token, isin,
         mic: mic, sorting: sorting, decimals: decimals, page: page, limit: limit);
-  }
-
-  Future<ResultList<Quote>> getLatestQuoteByUrl(AccessToken token, String url) async {
-    return _marketClient.getQuotesByUrl(token, url);
   }
 
   Future<ResultList<Quote>> getQuotesByUrl(AccessToken token, String url) async {
@@ -323,16 +320,14 @@ class LemonMarkets {
         sorting: sorting, mics: mics, decimals: decimals, page: page, limit: limit);
   }
 
-  Future<HistoricalUrlWrapper> getTradesForDate(AccessToken token, String isin, DateTime day) async {
-    return _marketClient.getTradesForDate(token, isin, day);
+
+  Future<ResultList<Trade>> getTrades(AccessToken token, List<String> isin,
+      {DateTime? from, DateTime? to, String? mic, bool? decimals, bool epoch = false, Sorting? sorting, int? limit, int? page}) async {
+    return _marketClient.getTrades(token, isin, from: from, to: to, page: page, limit: limit, sorting: sorting, decimals: decimals, epoch: epoch, mic: mic);
   }
 
   Future<ResultList<Trade>> getTradesByUrl(AccessToken token, String url) async {
     return _marketClient.getTradesByUrl(token, url);
   }
 
-  // Data -> historic
-  Future<String> getHistoricalData(String url) async {
-    return _marketClient.getHistoricalData(url);
-  }
 }
